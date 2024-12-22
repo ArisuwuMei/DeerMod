@@ -8,9 +8,10 @@
 		"ArisuwuMei"
 	],
 	"contact": {
-		"sources": ""
+		"sources": "https://github.com/ArisuwuMei/DeerMod"
 	},
 	"license": "GPL-3.0-or-later",
+	"icon": "assets/deermod/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -18,9 +19,6 @@
 		],
 		"client": [
 			"mei.arisuwu.deermod.ModClient"
-		],
-		"fabric-datagen": [
-			"mei.arisuwu.deermod.datagen.ModDataGenerator"
 		]
 	},
 	"mixins": [
