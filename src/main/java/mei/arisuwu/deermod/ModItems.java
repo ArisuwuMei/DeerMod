@@ -20,7 +20,7 @@ public class ModItems
 
     public static final Item DEER_SPAWN_EGG = registerItem(
             "deer_spawn_egg",
-            settings -> new SpawnEggItem(ModEntities.DEER, settings)
+            settings -> new SpawnEggItem(ModEntities.DEER,0xB87439,0xFAE6C8, settings)
     );
 
     public static void addItemsToGroups()
