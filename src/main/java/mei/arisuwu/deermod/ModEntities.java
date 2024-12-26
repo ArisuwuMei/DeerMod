@@ -1,6 +1,7 @@
 package mei.arisuwu.deermod;
 
 import mei.arisuwu.deermod.entity.DeerEntity;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -8,6 +9,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+
+import javax.swing.*;
 
 public class ModEntities
 {
@@ -20,5 +23,10 @@ public class ModEntities
                 ModIdentifier.of(path),
                 entityBuilder.build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, ModIdentifier.of(path)))
         );
+    }
+
+    public static class ModelLayers
+    {
+        public static final EntityModelLayer DEER = new EntityModelLayer(ModIdentifier.of("deer"), "main");
     }
 }

@@ -1,39 +1,52 @@
 package mei.arisuwu.deermod.entity;
 
-import net.minecraft.client.render.VertexConsumer;
+import mei.arisuwu.deermod.ModEntities;
+import mei.arisuwu.deermod.ModIdentifier;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import net.minecraft.util.Identifier;
 
-public class DeerEntityRenderer extends GeoEntityRenderer<DeerEntity>
+public class DeerEntityRenderer extends MobEntityRenderer<DeerEntity, DeerEntityRenderState, DeerEntityModel>
 {
     private final static float BASE_SHADOW_RADIUS = 0.75f;
     private final static float BABY_MULTIPLIER = 0.6f;
 
     public DeerEntityRenderer(EntityRendererFactory.Context context)
     {
-        super(context, new DeerEntityModel());
+        super(context, new DeerEntityModel(context.getPart(ModEntities.ModelLayers.DEER)), BASE_SHADOW_RADIUS);
     }
 
     @Override
-    public void preRender(MatrixStack poseStack, DeerEntity entity, BakedGeoModel model, @Nullable VertexConsumerProvider bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int renderColor)
+    public Identifier getTexture(DeerEntityRenderState state)
     {
-        if (entity.isBaby())
-        {
-            poseStack.scale(BABY_MULTIPLIER, BABY_MULTIPLIER, BABY_MULTIPLIER);
-            model.getBone("antlers").ifPresent(geoBone -> geoBone.setHidden(true));
-            shadowRadius = BASE_SHADOW_RADIUS * BABY_MULTIPLIER;
-        }
-        else
-        {
-            poseStack.scale(1f, 1f, 1f);
-            model.getBone("antlers").ifPresent(geoBone -> geoBone.setHidden(entity.isSheared()));
-            shadowRadius = BASE_SHADOW_RADIUS;
-        }
+        return ModIdentifier.of("textures/entity/deer/deer.png");
+    }
 
-        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, renderColor);
+    @Override
+    public DeerEntityRenderState createRenderState()
+    {
+        return new DeerEntityRenderState();
+    }
+
+    @Override
+    public void updateRenderState(DeerEntity deerEntity, DeerEntityRenderState deerEntityRenderState, float delta)
+    {
+        super.updateRenderState(deerEntity, deerEntityRenderState, delta);
+        deerEntityRenderState.sheared = deerEntity.isSheared();
+        deerEntityRenderState.saddled = deerEntity.isSaddled();
+        deerEntityRenderState.eatGrassAnimationState.copyFrom(deerEntity.eatGrassAnimationState);
+    }
+
+    @Override
+    public void render(DeerEntityRenderState livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
+    {
+        if(livingEntityRenderState.baby)
+            matrixStack.scale(BABY_MULTIPLIER, BABY_MULTIPLIER, BABY_MULTIPLIER);
+        else
+            matrixStack.scale(1, 1, 1);
+
+        super.render(livingEntityRenderState, matrixStack, vertexConsumerProvider, i);
     }
 }

@@ -2,6 +2,7 @@
   "values": [
     "minecraft:wheat",
     "minecraft:sweet_berries",
-    "minecraft:carrot"
+    "minecraft:carrot",
+    "deermod:deer_crackers"
   ]
 }
