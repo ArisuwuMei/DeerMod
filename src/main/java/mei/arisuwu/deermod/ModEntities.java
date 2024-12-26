@@ -10,8 +10,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 
-import javax.swing.*;
-
 public class ModEntities
 {
     public static final EntityType<DeerEntity> DEER = registerEntity("deer", EntityType.Builder.create(DeerEntity::new, SpawnGroup.CREATURE));
