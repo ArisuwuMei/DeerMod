@@ -253,9 +253,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     // SADDLE MECHANICS
 
     private static final TrackedData<Integer> BOOST_TIME = DataTracker.registerData(DeerEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private final DeerSaddledComponent saddledComponent = new DeerSaddledComponent(dataTracker, BOOST_TIME);
-
-
+    private final DeerEntitySaddledComponent saddledComponent = new DeerEntitySaddledComponent(dataTracker, BOOST_TIME);
 
     @Override
     public boolean canBeSaddled()

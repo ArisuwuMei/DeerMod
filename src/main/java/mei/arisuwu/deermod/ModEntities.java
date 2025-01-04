@@ -12,7 +12,8 @@ import net.minecraft.registry.RegistryKeys;
 
 public class ModEntities
 {
-    public static final EntityType<DeerEntity> DEER = registerEntity("deer", EntityType.Builder.create(DeerEntity::new, SpawnGroup.CREATURE));
+    public static final EntityType<DeerEntity> DEER =
+        registerEntity("deer", EntityType.Builder.create(DeerEntity::new, SpawnGroup.CREATURE));
 
     private static <T extends Entity> EntityType<T> registerEntity(String path, EntityType.Builder<T> entityBuilder)
     {
