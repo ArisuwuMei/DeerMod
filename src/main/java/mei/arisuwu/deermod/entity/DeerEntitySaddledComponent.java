@@ -5,14 +5,14 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 
-public class DeerSaddledComponent
+public class DeerEntitySaddledComponent
 {
     private final DataTracker dataTracker;
     private final TrackedData<Integer> boostTime;
     private boolean boosted;
     private int boostedTime;
 
-    public DeerSaddledComponent(DataTracker dataTracker, TrackedData<Integer> boostTime)
+    public DeerEntitySaddledComponent(DataTracker dataTracker, TrackedData<Integer> boostTime)
     {
         this.dataTracker = dataTracker;
         this.boostTime = boostTime;
@@ -24,14 +24,14 @@ public class DeerSaddledComponent
         boostedTime = 0;
     }
 
-    public boolean boost(Random random) {
+    public boolean boost(Random random)
+    {
         if (boosted) return false;
 
         boosted = true;
         boostedTime = 0;
         dataTracker.set(boostTime, random.nextInt(841) + 140);
         return true;
-
     }
 
     public void tickBoost()
@@ -46,7 +46,7 @@ public class DeerSaddledComponent
             1 + 1.15f * MathHelper.sin((float)boostedTime / (float)getBoostTime() * (float)Math.PI) : 1;
     }
 
-    private int getBoostTime()
+    public int getBoostTime()
     {
         return dataTracker.get(boostTime);
     }
