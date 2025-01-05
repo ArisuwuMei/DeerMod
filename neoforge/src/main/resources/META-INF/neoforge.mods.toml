@@ -1,0 +1,26 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+issueTrackerURL = "https://github.com/ArisuwuMei/DeerMod/issues"
+license = "GPL-3.0-or-later"
+
+[[mods]]
+modId = "deermod"
+version = "${version}"
+displayName = "Deer Mod"
+authors = "ArisuwuMei"
+description = "This mod adds deers to the game!"
+logoFile = "assets/deermod/icon.png"
+
+[[dependencies.deermod]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.4,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.deermod]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.4,)"
+ordering = "NONE"
+side = "BOTH"
