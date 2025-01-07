@@ -22,12 +22,18 @@ public abstract class ModItems
 
     public ModItems()
     {
+        DEER_SPAWN_EGG =
+            registerItem("deer_spawn_egg", settings -> new SpawnEggItem(ModEntities.DEER.get(), settings));
+
+        ANTLERS = registerItem("antlers");
         VENISON = registerItem("venison", new Item.Settings().food(ModFoodComponents.VENISON));
         COOKED_VENISON = registerItem("cooked_venison", new Item.Settings().food(ModFoodComponents.COOKED_VENISON));
-        ANTLERS = registerItem("antlers");
-        DEER_SPAWN_EGG = registerItem("deer_spawn_egg", settings -> new SpawnEggItem(ModEntities.DEER.get(), settings.maxDamage(100)));
         DEER_CRACKERS = registerItem("deer_crackers", new Item.Settings().food(ModFoodComponents.DEER_CRACKERS));
-        DEER_CRACKERS_ON_A_STICK = registerItem("deer_crackers_on_a_stick",settings -> new OnAStickItem<>(ModEntities.DEER.get(), 4, settings));
+
+        DEER_CRACKERS_ON_A_STICK = registerItem(
+            "deer_crackers_on_a_stick",
+            settings -> new OnAStickItem<>(ModEntities.DEER.get(), 4, settings.maxDamage(100))
+        );
 
         MOD_ITEM_GROUP_ENTRIES.put(
             getItemGroup("food_and_drinks"),
