@@ -2,15 +2,15 @@ package mei.arisuwu.deermod.neoforge;
 
 import mei.arisuwu.deermod.ModIdentifier;
 import mei.arisuwu.deermod.ModItems;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -25,38 +25,29 @@ public class NeoforgeModItems extends ModItems
     {
         super();
         ITEMS.register(eventBus);
+        eventBus.addListener(this::addItemsToGroups);
     }
 
     public void addItemsToGroups(BuildCreativeModeTabContentsEvent event)
     {
-//        MOD_ITEMS_GROUPS.forEach((group, items) -> {
-//            if (event.getTabKey() == group)
-//                items.forEach(itemSupplier -> event.add(itemSupplier.get()));
-//        });
-
-
-        if (event.getTabKey() == ItemGroups.FOOD_AND_DRINK)
-        {
-            insertAfter(event, Items.COOKED_MUTTON, ModItems.VENISON.get());
-            insertAfter(event, ModItems.VENISON.get(), ModItems.COOKED_VENISON.get());
-            insertAfter(event, Items.BREAD, ModItems.DEER_CRACKERS.get());
-        }
-
-        if (event.getTabKey() == ItemGroups.INGREDIENTS)
-        {
-            insertBefore(event, Items.BONE, ModItems.ANTLERS.get());
-        }
-
-        if (event.getTabKey() == ItemGroups.TOOLS)
-        {
-            insertAfter(event, Items.CARROT_ON_A_STICK, ModItems.DEER_CRACKERS_ON_A_STICK.get());
-        }
-
-        if (event.getTabKey() == ItemGroups.SPAWN_EGGS)
-        {
-            insertBefore(event, Items.DOLPHIN_SPAWN_EGG, ModItems.DEER_SPAWN_EGG.get());
-        }
-
+        MOD_ITEM_GROUP_ENTRIES.forEach((group, newEntries) -> {
+            if (group == event.getTabKey())
+            {
+                newEntries.forEach(newEntry -> {
+                    switch (newEntry.position)
+                    {
+                        case HEAD -> throw new NotImplementedException();
+                        case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> event.insertBefore(
+                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+                        );
+                        case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
+                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+                        );
+                        case TAIL -> event.addAll(newEntry.getNewItemStacks());
+                    }
+                });
+            }
+        });
     }
 
     private void insertAfter(BuildCreativeModeTabContentsEvent event, Item existing, Item next)

@@ -1,11 +1,11 @@
 package mei.arisuwu.deermod;
 
 import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -18,7 +18,7 @@ public abstract class ModItems
     public static Supplier<Item> DEER_CRACKERS;
     public static Supplier<Item> DEER_CRACKERS_ON_A_STICK;
 
-//    public static Map<RegistryKey<ItemGroup>, Set<Supplier<Item>>> MOD_ITEMS_GROUPS = new HashMap<>();
+    public static Map<RegistryKey<ItemGroup>, Set<ItemGroupEntry>> MOD_ITEM_GROUP_ENTRIES = new HashMap<>();
 
     public ModItems()
     {
@@ -29,10 +29,28 @@ public abstract class ModItems
         DEER_CRACKERS = registerItem("deer_crackers", new Item.Settings().food(ModFoodComponents.DEER_CRACKERS));
         DEER_CRACKERS_ON_A_STICK = registerItem("deer_crackers_on_a_stick",settings -> new OnAStickItem<>(ModEntities.DEER.get(), 4, settings));
 
-//        MOD_ITEMS_GROUPS.put(ItemGroups.FOOD_AND_DRINK, Set.of(VENISON, COOKED_VENISON, DEER_CRACKERS));
-//        MOD_ITEMS_GROUPS.put(ItemGroups.SPAWN_EGGS, Set.of(DEER_SPAWN_EGG));
-//        MOD_ITEMS_GROUPS.put(ItemGroups.INGREDIENTS, Set.of(ANTLERS));
-//        MOD_ITEMS_GROUPS.put(ItemGroups.TOOLS, Set.of(DEER_CRACKERS_ON_A_STICK));
+        MOD_ITEM_GROUP_ENTRIES.put(
+            getItemGroup("food_and_drinks"),
+            Set.of(
+                ItemGroupEntry.after(Items.COOKED_MUTTON, ModItems.VENISON, ModItems.COOKED_VENISON),
+                ItemGroupEntry.after(Items.BREAD, ModItems.DEER_CRACKERS)
+            )
+        );
+
+        MOD_ITEM_GROUP_ENTRIES.put(
+            getItemGroup("ingredients"),
+            Set.of(ItemGroupEntry.before(Items.BONE, ModItems.ANTLERS))
+        );
+
+        MOD_ITEM_GROUP_ENTRIES.put(
+            getItemGroup("tools_and_utilities"),
+            Set.of(ItemGroupEntry.after(Items.CARROT_ON_A_STICK, ModItems.DEER_CRACKERS_ON_A_STICK))
+        );
+
+        MOD_ITEM_GROUP_ENTRIES.put(
+            getItemGroup("spawn_eggs"),
+            Set.of(ItemGroupEntry.before(Items.DOLPHIN_SPAWN_EGG, ModItems.DEER_SPAWN_EGG))
+        );
     }
 
     protected abstract Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory, Item.Settings settings);
@@ -47,8 +65,17 @@ public abstract class ModItems
         return registerItem(name, Item::new, settings);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private Supplier<Item> registerItem(String name)
     {
         return registerItem(name, Item::new, new Item.Settings());
+    }
+
+    protected RegistryKey<ItemGroup> getItemGroup(String name)
+    {
+        return Registries.ITEM_GROUP.getKeys().stream()
+            .filter(key -> key.getValue().equals(Identifier.ofVanilla(name)))
+            .findAny()
+            .orElseThrow(() -> new NoSuchElementException("No item group present with id: " + name));
     }
 }

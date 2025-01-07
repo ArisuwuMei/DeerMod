@@ -29,8 +29,7 @@ public final class NeoforgeMod
         mei.arisuwu.deermod.Mod.init();
 
         new NeoforgeModEntities(modBus);
-        var modItems = new NeoforgeModItems(modBus);
-        modBus.addListener(modItems::addItemsToGroups);
+        new NeoforgeModItems(modBus);
     }
 
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
