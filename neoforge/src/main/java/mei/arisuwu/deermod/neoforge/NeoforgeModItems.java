@@ -50,16 +50,6 @@ public class NeoforgeModItems extends ModItems
         });
     }
 
-    private void insertAfter(BuildCreativeModeTabContentsEvent event, Item existing, Item next)
-    {
-        event.insertAfter(existing.getDefaultStack(), next.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
-    }
-
-    private void insertBefore(BuildCreativeModeTabContentsEvent event, Item existing, Item previous)
-    {
-        event.insertBefore(existing.getDefaultStack(), previous.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
-    }
-
     @Override
     protected Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory, Item.Settings settings)
     {
