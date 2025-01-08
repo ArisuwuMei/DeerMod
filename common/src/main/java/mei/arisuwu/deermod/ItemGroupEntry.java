@@ -40,6 +40,12 @@ public class ItemGroupEntry
     }
 
     @SafeVarargs
+    static ItemGroupEntry head(Supplier<? extends ItemConvertible>... newItems)
+    {
+        return new ItemGroupEntry(Position.HEAD, null, List.of(newItems));
+    }
+
+    @SafeVarargs
     static ItemGroupEntry before(ItemConvertible existingItem, Supplier<? extends ItemConvertible>... newItems)
     {
         return new ItemGroupEntry(Position.BEFORE, existingItem, List.of(newItems));
@@ -49,5 +55,11 @@ public class ItemGroupEntry
     static ItemGroupEntry after(ItemConvertible existingItem, Supplier<? extends ItemConvertible>... newItems)
     {
         return new ItemGroupEntry(Position.AFTER, existingItem, List.of(newItems));
+    }
+
+    @SafeVarargs
+    static ItemGroupEntry tail(Supplier<? extends ItemConvertible>... newItems)
+    {
+        return new ItemGroupEntry(Position.TAIL, null, List.of(newItems));
     }
 }

@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -26,7 +25,7 @@ public class FabricModItems extends mei.arisuwu.deermod.ModItems
                 newEntries.forEach(newEntry -> {
                     switch (newEntry.position)
                     {
-                        case HEAD -> throw new NotImplementedException();
+                        case HEAD -> newEntry.newItems.reversed().forEach(newItem -> entries.prepend(newItem.get()));
                         case BEFORE -> entries.addBefore(newEntry.existingItem, newEntry.getNewItemStacks());
                         case AFTER -> entries.addAfter(newEntry.existingItem, newEntry.getNewItemStacks());
                         case TAIL -> entries.addAll(newEntry.getNewItemStacks());

@@ -2,15 +2,13 @@ package mei.arisuwu.deermod.neoforge;
 
 import mei.arisuwu.deermod.ModIdentifier;
 import mei.arisuwu.deermod.ModItems;
-import net.minecraft.item.*;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.registry.Registries;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -36,13 +34,15 @@ public class NeoforgeModItems extends ModItems
                 newEntries.forEach(newEntry -> {
                     switch (newEntry.position)
                     {
-                        case HEAD -> throw new NotImplementedException();
+                        case HEAD -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertFirst(
+                            itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                        ));
                         case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> event.insertBefore(
-                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
-                        );
+                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                        ));
                         case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
-                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
-                        );
+                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                        ));
                         case TAIL -> event.addAll(newEntry.getNewItemStacks());
                     }
                 });
