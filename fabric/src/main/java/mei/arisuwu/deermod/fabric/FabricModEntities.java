@@ -2,10 +2,8 @@ package mei.arisuwu.deermod.fabric;
 
 import mei.arisuwu.deermod.ModEntities;
 import mei.arisuwu.deermod.ModIdentifier;
-import mei.arisuwu.deermod.entity.deer.DeerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
