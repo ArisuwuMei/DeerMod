@@ -27,13 +27,6 @@ public class NeoforgeModEntities extends ModEntities
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, EntityType.Builder<T> builder)
     {
-        var e = ENTITY_TYPES.register(
-            name,
-            () -> EntityType.Builder
-                .create(DeerEntity::new, SpawnGroup.CREATURE)
-                .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, ModIdentifier.of(name)))
-        );
-
-        return () -> (EntityType<T>) e.get();
+        return ENTITY_TYPES.register(name, () -> builder.build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, ModIdentifier.of(name))));
     }
 }
