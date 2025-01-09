@@ -1,5 +1,6 @@
 package mei.arisuwu.deermod;
 
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
@@ -26,13 +27,15 @@ public abstract class ModItems
             registerItem("deer_spawn_egg", settings -> new SpawnEggItem(ModEntities.DEER.get(), settings));
 
         ANTLERS = registerItem("antlers");
-        VENISON = registerItem("venison", new Item.Settings().food(ModFoodComponents.VENISON));
-        COOKED_VENISON = registerItem("cooked_venison", new Item.Settings().food(ModFoodComponents.COOKED_VENISON));
-        DEER_CRACKERS = registerItem("deer_crackers", new Item.Settings().food(ModFoodComponents.DEER_CRACKERS));
+        VENISON = registerFoodItem("venison", ModFoodComponents.VENISON);
+        COOKED_VENISON = registerFoodItem("cooked_venison", ModFoodComponents.COOKED_VENISON);
+        DEER_CRACKERS = registerFoodItem("deer_crackers", ModFoodComponents.DEER_CRACKERS);
 
         DEER_CRACKERS_ON_A_STICK = registerItem(
             "deer_crackers_on_a_stick",
-            settings -> new OnAStickItem<>(ModEntities.DEER.get(), 4, settings.maxDamage(100))
+            settings -> new OnAStickItem<>(ModEntities.DEER.get(), 4, settings),
+            new Item.Settings().maxDamage(100)
+        );
         );
 
         MOD_ITEM_GROUP_ENTRIES.put(
@@ -60,6 +63,12 @@ public abstract class ModItems
     }
 
     protected abstract Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory, Item.Settings settings);
+
+
+    private Supplier<Item> registerFoodItem(String name, FoodComponent foodComponent)
+    {
+        return registerItem(name, new Item.Settings().food(foodComponent));
+    }
 
     private Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory)
     {
