@@ -12,7 +12,6 @@ import net.minecraft.world.Heightmap;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -24,7 +23,7 @@ import static mei.arisuwu.deermod.Mod.MOD_ID;
 @net.neoforged.fml.common.Mod(MOD_ID)
 public final class NeoforgeMod
 {
-    public NeoforgeMod(IEventBus modBus, ModContainer container)
+    public NeoforgeMod(IEventBus modBus)
     {
         mei.arisuwu.deermod.Mod.init();
 

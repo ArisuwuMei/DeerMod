@@ -3,10 +3,8 @@ package mei.arisuwu.deermod.neoforge;
 import mei.arisuwu.deermod.Mod;
 import mei.arisuwu.deermod.ModEntities;
 import mei.arisuwu.deermod.ModIdentifier;
-import mei.arisuwu.deermod.entity.deer.DeerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.neoforged.bus.api.IEventBus;
@@ -16,8 +14,7 @@ import java.util.function.Supplier;
 
 public class NeoforgeModEntities extends ModEntities
 {
-    private static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
-        DeferredRegister.create(RegistryKeys.ENTITY_TYPE, Mod.MOD_ID);
+    private static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(RegistryKeys.ENTITY_TYPE, Mod.MOD_ID);
 
     public NeoforgeModEntities(IEventBus eventBus)
     {
