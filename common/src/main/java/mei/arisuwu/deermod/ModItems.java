@@ -18,6 +18,7 @@ public abstract class ModItems
     public static Supplier<Item> DEER_SPAWN_EGG;
     public static Supplier<Item> DEER_CRACKERS;
     public static Supplier<Item> DEER_CRACKERS_ON_A_STICK;
+    public static Supplier<Item> DEER_BANNER_PATTERN;
 
     public static Map<RegistryKey<ItemGroup>, Set<ItemGroupEntry>> MOD_ITEM_GROUP_ENTRIES = new HashMap<>();
 
@@ -36,6 +37,11 @@ public abstract class ModItems
             settings -> new OnAStickItem<>(ModEntities.DEER.get(), 4, settings),
             new Item.Settings().maxDamage(100)
         );
+
+        DEER_BANNER_PATTERN = registerItem(
+            "deer_banner_pattern",
+            settings -> new BannerPatternItem(ModTags.DEER_PATTERN_ITEM, settings),
+            new Item.Settings().maxCount(1)
         );
 
         MOD_ITEM_GROUP_ENTRIES.put(
@@ -48,7 +54,10 @@ public abstract class ModItems
 
         MOD_ITEM_GROUP_ENTRIES.put(
             getItemGroup("ingredients"),
-            Set.of(ItemGroupEntry.before(Items.BONE, ModItems.ANTLERS))
+            Set.of(
+                ItemGroupEntry.before(Items.BONE, ModItems.ANTLERS),
+                ItemGroupEntry.after(Items.FLOWER_BANNER_PATTERN, ModItems.DEER_BANNER_PATTERN)
+            )
         );
 
         MOD_ITEM_GROUP_ENTRIES.put(
