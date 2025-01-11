@@ -79,7 +79,7 @@ public abstract class ModItems
         return registerItem(name, new Item.Settings().food(foodComponent));
     }
 
-    private Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory)
+    private Supplier<Item> registerItem(@SuppressWarnings("SameParameterValue") String name, Function<Item.Settings, Item> factory)
     {
         return registerItem(name, factory, new Item.Settings());
     }

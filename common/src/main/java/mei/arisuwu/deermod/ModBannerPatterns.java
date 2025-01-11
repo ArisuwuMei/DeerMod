@@ -4,6 +4,7 @@ import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 
+@SuppressWarnings("unused")
 public class ModBannerPatterns
 {
     public static final RegistryKey<BannerPattern> DEER = RegistryKey.of(RegistryKeys.BANNER_PATTERN, ModIdentifier.of("deer"));
