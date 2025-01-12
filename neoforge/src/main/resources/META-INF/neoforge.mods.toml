@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
 issueTrackerURL = "https://github.com/ArisuwuMei/DeerMod/issues"
-license = "LGPL-3.0-or-later"
+license = "GPL-3.0-or-later"
 
 [[mods]]
 modId = "deermod"
