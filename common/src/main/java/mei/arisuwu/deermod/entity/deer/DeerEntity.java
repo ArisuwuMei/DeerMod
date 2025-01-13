@@ -281,7 +281,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     {
         super.tickControlled(controllingPlayer, movementInput);
         setRotation(controllingPlayer.getYaw(), controllingPlayer.getPitch() * 0.5F);
-        prevYaw = bodyYaw = headYaw = getYaw();
+        lastYaw = bodyYaw = headYaw = getYaw();
         saddledComponent.tickBoost();
     }
 
