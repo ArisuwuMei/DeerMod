@@ -35,10 +35,15 @@ dependencies {
 }
 
 processResources {
-    inputs.property 'version', project.version
+    replaceProperties.compute('authors', (key, val) ->
+        (val as String).split(',').collect(str -> '"' + str.trim() + '"'))
+
+    replaceProperties['fabric_loader_version'] = fabric_loader_version
+
+    inputs.properties replaceProperties
 
     filesMatching('fabric.mod.json') {
-        expand version: project.version
+        expand replaceProperties
     }
 }
 

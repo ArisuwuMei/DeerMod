@@ -1,16 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "deermod",
-  "version": "${version}",
-  "name": "Deer Mod",
-  "description": "This mod adds deers to the game!",
-  "authors": [
-    "ArisuwuMei"
-  ],
+  "id": "$id",
+  "version": "$version",
+  "name": "$name",
+  "description": "$description",
+  "authors": $authors,
   "contact": {
     "sources": "https://github.com/ArisuwuMei/DeerMod"
   },
-  "license": "GPL-3.0-or-later",
+  "license": "$license",
   "icon": "assets/deermod/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -22,8 +20,8 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=0.16.9",
-    "minecraft": "~1.21.3",
+    "fabricloader": ">=$fabric_loader_version",
+    "minecraft": "~$minecraft_version",
     "java": ">=21",
     "fabric-api": "*"
   }
