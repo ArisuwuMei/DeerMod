@@ -9,7 +9,7 @@
     "sources": "https://github.com/ArisuwuMei/DeerMod"
   },
   "license": "$license",
-  "icon": "assets/deermod/icon.png",
+  "icon": "$icon",
   "environment": "*",
   "entrypoints": {
     "main": [

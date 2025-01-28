@@ -9,7 +9,7 @@ version = "$version"
 displayName = "$name"
 authors = "$authors"
 description = "$description"
-logoFile = "assets/deermod/icon.png"
+logoFile = "$icon"
 
 [[dependencies.$id]]
 modId = "neoforge"
