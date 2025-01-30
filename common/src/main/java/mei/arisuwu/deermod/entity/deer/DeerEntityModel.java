@@ -1,15 +1,24 @@
 package mei.arisuwu.deermod.entity.deer;
 
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.client.render.entity.animation.Keyframe;
 import net.minecraft.client.render.entity.animation.Transformation;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.model.QuadrupedEntityModel;
+import net.minecraft.client.render.entity.model.SinglePartEntityModel;
+import net.minecraft.client.render.entity.model.SinglePartEntityModelWithChildTransform;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.AnimationState;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
+public class DeerEntityModel extends SinglePartEntityModelWithChildTransform<DeerEntity>
 {
+    private final ModelPart root;
     private final ModelPart neck;
     private final ModelPart head;
     private final ModelPart antlers;
@@ -19,10 +28,12 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
     private final ModelPart rightHindLeg;
     private final ModelPart leftHindLeg;
     private final ModelPart saddle;
+    private float neckAngle;
 
     public DeerEntityModel(ModelPart root)
     {
-        super(root);
+        super(0.6f, 16f);
+        this.root = root;
         this.neck = root.getChild("neck");
         this.head = this.neck.getChild("head");
         this.antlers = this.head.getChild("antlers");
@@ -81,13 +92,9 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
             .uv(0, 0).cuboid(-4.0F, -19.0F, -13.0F, 8.0F, 9.0F, 22.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
         ModelPartData right_front_leg = body.addChild("right_front_leg", ModelPartBuilder.create().uv(48, 43).cuboid(-0.5F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-3.5F, -10.0F, -10.0F));
-
         ModelPartData left_front_leg = body.addChild("left_front_leg", ModelPartBuilder.create().uv(48, 43).mirrored().cuboid(-1.5F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(3.5F, -10.0F, -10.0F));
-
         ModelPartData right_hind_leg = body.addChild("right_hind_leg", ModelPartBuilder.create().uv(48, 43).cuboid(-0.5F, 0.0F, -2.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-3.5F, -10.0F, 8.0F));
-
         ModelPartData left_hind_leg = body.addChild("left_hind_leg", ModelPartBuilder.create().uv(48, 43).mirrored().cuboid(-1.5F, 0.0F, -2.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(3.5F, -10.0F, 8.0F));
-
         ModelPartData saddle = modelPartData.addChild("saddle", ModelPartBuilder.create().uv(0, 31).cuboid(-4.0F, -5.0F, -5.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.22F)), ModelTransform.pivot(0.0F, 10.0F, 0.0F));
 
         return TexturedModelData.of(modelData, 64, 64);
@@ -105,20 +112,37 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
             new Keyframe(2.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)
         )).build();
 
+
     @Override
-    public void setAngles(DeerEntityRenderState livingEntityRenderState)
+    public void animateModel(DeerEntity entity, float limbAngle, float limbDistance, float tickDelta)
     {
-        super.setAngles(livingEntityRenderState);
-        this.saddle.visible = livingEntityRenderState.saddled;
-        this.head.pitch = livingEntityRenderState.pitch * (float) (Math.PI / 180.0);
-        this.head.yaw = livingEntityRenderState.yawDegrees * (float) (Math.PI / 180.0);
-        float f = livingEntityRenderState.limbFrequency;
-        float g = livingEntityRenderState.limbAmplitudeMultiplier;
-        this.rightHindLeg.pitch = MathHelper.cos(f * 0.6662F) * 1.4F * g;
-        this.leftHindLeg.pitch = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.rightFrontLeg.pitch = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.leftFrontLeg.pitch = MathHelper.cos(f * 0.6662F) * 1.4F * g;
-        this.antlers.visible = !livingEntityRenderState.sheared && !livingEntityRenderState.baby;
-        this.animate(livingEntityRenderState.eatGrassAnimationState, EAT_GRASS, livingEntityRenderState.age);
+        super.animateModel(entity, limbAngle, limbDistance, tickDelta);
+        this.neckAngle = entity.getNeckAngle(tickDelta);
+    }
+
+    @Override
+    public void setAngles(DeerEntity deerEntity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+    {
+        //this.neck.resetTransform();
+
+        this.head.pitch = headPitch * (float) (Math.PI / 180.0);
+        this.head.yaw = headYaw * (float) (Math.PI / 180.0);
+        this.rightHindLeg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+        this.leftHindLeg.pitch = MathHelper.cos(limbAngle * 0.6662F + (float) Math.PI) * 1.4F * limbDistance;
+        this.rightFrontLeg.pitch = MathHelper.cos(limbAngle * 0.6662F + (float) Math.PI) * 1.4F * limbDistance;
+        this.leftFrontLeg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+
+        this.antlers.visible = !deerEntity.isSheared() && !deerEntity.isBaby();
+        this.saddle.visible = deerEntity.isSaddled();
+
+        //this.updateAnimation(deerEntity.eatGrassAnimationState, EAT_GRASS, animationProgress, 0.1f);
+        //this.animate(EAT_GRASS);
+        this.neck.setAngles(neckAngle, 0, 0);
+    }
+
+    @Override
+    public ModelPart getPart()
+    {
+        return this.root;
     }
 }

@@ -53,7 +53,6 @@ public class NeoforgeModItems extends ModItems
     @Override
     protected Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory, Item.Settings settings)
     {
-        var registryKey = RegistryKey.of(RegistryKeys.ITEM, ModIdentifier.of(name));
-        return ITEMS.registerItem(name, factory, settings.registryKey(registryKey));
+        return ITEMS.registerItem(name, factory, settings);
     }
 }

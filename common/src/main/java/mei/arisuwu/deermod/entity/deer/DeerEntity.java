@@ -11,6 +11,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -20,10 +21,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -32,9 +30,9 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
 {
     public static DefaultAttributeContainer.Builder createAttributes()
     {
-        return AnimalEntity.createAnimalAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 8.0)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.25f);
+        return AnimalEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 8.0)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f);
     }
 
     public static final TrackedData<Byte> DEER_FLAGS = DataTracker.registerData(DeerEntity.class, TrackedDataHandlerRegistry.BYTE);
@@ -125,14 +123,15 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     public ActionResult interactMob(PlayerEntity player, Hand hand)
     {
         ItemStack itemStack = player.getStackInHand(hand);
+
         if (itemStack.isOf(Items.SHEARS))
         {
-            if (getWorld() instanceof ServerWorld serverWorld && isShearable())
+            if (getWorld() instanceof ServerWorld && isShearable())
             {
-                sheared(serverWorld, SoundCategory.PLAYERS, itemStack);
+                sheared(SoundCategory.PLAYERS);
                 emitGameEvent(GameEvent.SHEAR, player);
                 itemStack.damage(1, player, getSlotForHand(hand));
-                return ActionResult.SUCCESS_SERVER;
+                return ActionResult.SUCCESS;
             }
             return ActionResult.CONSUME;
         }
@@ -156,29 +155,22 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     // SHEARING
 
     @Override
-    public void sheared(ServerWorld world, SoundCategory shearedSoundCategory, ItemStack shears)
+    public void sheared(SoundCategory shearedSoundCategory)
     {
-        world.playSoundFromEntity(null, this, SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0f, 1.0f);
-        forEachShearedItem(
-                world,
-                ModLootTables.DEER_SHEARING,
-                shears,
-                (serverWorld, itemStack) -> {
-                    for (int i = 0; i < itemStack.getCount(); i++)
-                    {
-                        ItemEntity itemEntity = dropStack(serverWorld, itemStack.copyWithCount(1), 1.0f);
-                        if (itemEntity == null) continue;
+        this.getWorld().playSoundFromEntity(null, this, SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
 
-                        itemEntity.setVelocity(itemEntity.getVelocity().add(
-                                    (random.nextFloat() - random.nextFloat()) * 0.1f,
-                                    random.nextFloat() * 0.5f,
-                                    (random.nextFloat() - random.nextFloat()) * 0.1f
-                                )
-                        );
-                    }
-                }
-        );
-        setSheared(true);
+        ItemEntity itementity = this.dropItem(ModItems.ANTLERS.get(), 1);
+        if (itementity != null) {
+            itementity.setVelocity(
+                itementity.getVelocity()
+                    .add(
+                        (this.random.nextFloat() - this.random.nextFloat()) * 0.1F,
+                        this.random.nextFloat() * 0.05F,
+                        (this.random.nextFloat() - this.random.nextFloat()) * 0.1F
+                    )
+            );
+        }
+        this.setSheared(true);
     }
 
     @Override
@@ -197,6 +189,23 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
         setDeerFlag(SHEARED_FLAG, sheared);
     }
 
+    public float getNeckAngle(float tickDelta)
+    {
+        if (this.eatGrassTimer <= 0)
+            return 0.0F;
+        else
+        {
+            float x = MathHelper.PI * (40f - eatGrassTimer + tickDelta) / 40f;
+            final float amplitude = 2;
+            return amplitude * 4 * (
+                    MathHelper.sin(x) +
+                    MathHelper.sin(3 * x) / 3.2f +
+                    MathHelper.sin(5 * x) / 5.84f +
+                    MathHelper.sin(7 * x) / 9.5f +
+                    MathHelper.sin(9 * x) / 10f
+                ) / MathHelper.PI;
+        }
+    }
 
     // EATING GRASS
 
@@ -205,10 +214,10 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     private int eatGrassTimer = 0;
 
     @Override
-    protected void mobTick(ServerWorld world)
+    protected void mobTick()
     {
         eatGrassTimer = eatGrassGoal.getTimer();
-        super.mobTick(world);
+        super.mobTick();
     }
 
     @Override
@@ -224,7 +233,9 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     public void tick()
     {
         super.tick();
-        updateEatGrassAnimation();
+
+        if (this.getWorld().isClient())
+            updateEatGrassAnimation();
     }
 
     @Override
@@ -250,6 +261,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             eatGrassAnimationState.startIfNotRunning(age);
         else
             eatGrassAnimationState.stop();
+
     }
 
 
@@ -302,7 +314,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     @Override
     protected float getSaddledSpeed(PlayerEntity controllingPlayer)
     {
-        return (float)(getAttributeValue(EntityAttributes.MOVEMENT_SPEED) * 0.4f * saddledComponent.getMovementSpeedMultiplier());
+        return (float)(getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 0.4f * saddledComponent.getMovementSpeedMultiplier());
     }
 
     @Override
@@ -312,12 +324,11 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     }
 
     @Override
-    protected void dropInventory(ServerWorld world)
+    protected void dropInventory()
     {
-        super.dropInventory(world);
+        super.dropInventory();
 
-        if (isSaddled())
-            dropItem(world, Items.SADDLE);
+        if (isSaddled()) dropItem(Items.SADDLE);
     }
 
     @Override

@@ -25,7 +25,7 @@ public abstract class ModItems
     public ModItems()
     {
         DEER_SPAWN_EGG =
-            registerItem("deer_spawn_egg", settings -> new SpawnEggItem(ModEntities.DEER.get(), settings));
+            registerItem("deer_spawn_egg", settings -> new SpawnEggItem(ModEntities.DEER.get(),-4688839, -334136, settings));
 
         ANTLERS = registerItem("antlers");
         VENISON = registerFoodItem("venison", ModFoodComponents.VENISON);
@@ -34,7 +34,7 @@ public abstract class ModItems
 
         DEER_CRACKERS_ON_A_STICK = registerItem(
             "deer_crackers_on_a_stick",
-            settings -> new OnAStickItem<>(ModEntities.DEER.get(), 4, settings),
+            settings -> new OnAStickItem<>(settings, ModEntities.DEER.get(), 4),
             new Item.Settings().maxDamage(100)
         );
 

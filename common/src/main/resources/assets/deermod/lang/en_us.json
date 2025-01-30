@@ -16,7 +16,8 @@
   "block.minecraft.banner.deer.white": "White Deer",
   "block.minecraft.banner.deer.yellow": "Yellow Deer",
 
-  "item.deermod.deer_banner_pattern": "Deer Banner Pattern",
+  "item.deermod.deer_banner_pattern": "Banner Pattern",
+  "item.deermod.deer_banner_pattern.desc": "Deer",
 
   "item.deermod.deer_spawn_egg": "Deer Spawn Egg",
   "item.deermod.venison": "Raw Venison",

@@ -38,7 +38,7 @@ public class FabricModItems extends mei.arisuwu.deermod.ModItems
     @Override
     protected Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory, Item.Settings settings)
     {
-        var item = Items.register(RegistryKey.of(RegistryKeys.ITEM, ModIdentifier.of(name)), factory, settings);
+        var item = Items.register(RegistryKey.of(RegistryKeys.ITEM, ModIdentifier.of(name)), factory.apply(settings));
         return () -> item;
     }
 }

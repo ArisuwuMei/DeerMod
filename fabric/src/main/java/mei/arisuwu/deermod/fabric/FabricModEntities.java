@@ -18,7 +18,7 @@ public class FabricModEntities extends ModEntities
     {
         var entityType = Registry.register(
             Registries.ENTITY_TYPE, ModIdentifier.of(name),
-            builder.build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, ModIdentifier.of(name)))
+            builder.build()
         );
         return () -> entityType;
     }
