@@ -118,7 +118,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     @Override
     public @Nullable PassiveEntity createChild(ServerWorld world, PassiveEntity entity)
     {
-        return (PassiveEntity) Registries.ENTITY_TYPE.get(ModIdentifier.of("deer")).create(world, SpawnReason.BREEDING);
+        return ModEntities.DEER.get().create(world);
     }
 
     @Override
