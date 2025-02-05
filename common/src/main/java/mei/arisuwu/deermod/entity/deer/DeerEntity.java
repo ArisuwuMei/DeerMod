@@ -146,7 +146,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
 
         if (player.isSneaking() && isSaddled() && !hasPassengers())
         {
-            if (getWorld() instanceof ServerWorld serverWorld)
+            if (getWorld() instanceof ServerWorld)
             {
                 setSaddled(false);
                 dropItem(Items.SADDLE);
