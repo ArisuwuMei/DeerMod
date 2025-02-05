@@ -136,7 +136,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             return ActionResult.CONSUME;
         }
 
-        if (!isBreedingItem(itemStack) && isSaddled() && !hasPassengers() && !player.shouldCancelInteraction())
+        if (isSaddled() && !hasPassengers() && !player.shouldCancelInteraction())
         {
             if (!getWorld().isClient)
                 player.startRiding(this);
@@ -144,11 +144,21 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             return ActionResult.SUCCESS;
         }
 
-        ActionResult actionResult = super.interactMob(player, hand);
-        if (!actionResult.isAccepted())
-            return (itemStack.isOf(Items.SADDLE) ? itemStack.useOnEntity(player, this, hand) : ActionResult.PASS);
+        if (player.isSneaking() && isSaddled() && !hasPassengers())
+        {
+            if (getWorld() instanceof ServerWorld serverWorld)
+            {
+                setSaddled(false);
+                dropItem(serverWorld, Items.SADDLE);
+                return ActionResult.SUCCESS;
+            }
+            return ActionResult.CONSUME;
+        }
 
-        return actionResult;
+        if (itemStack.isOf(Items.SADDLE))
+            itemStack.useOnEntity(player, this, hand);
+
+        return super.interactMob(player, hand);
     }
 
 
@@ -282,10 +292,15 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
         return getDeerFlag(SADDLED_FLAG);
     }
 
+    public void setSaddled(boolean value)
+    {
+        setDeerFlag(SADDLED_FLAG, value);
+    }
+
     @Override
     public void saddle(ItemStack stack, @Nullable SoundCategory soundCategory)
     {
-        setDeerFlag(SADDLED_FLAG, true);
+        setSaddled(true);
     }
 
     @Override
