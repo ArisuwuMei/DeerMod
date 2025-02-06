@@ -3,7 +3,9 @@
   "category": "misc",
   "group": "bonemeal",
   "ingredients": [
-    "deermod:antlers"
+    {
+      "item": "deermod:antlers"
+    }
   ],
   "result": {
     "count": 3,

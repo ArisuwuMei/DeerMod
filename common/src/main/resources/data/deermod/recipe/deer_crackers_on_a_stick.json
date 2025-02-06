@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "minecraft:fishing_rod",
-    "X": "deermod:deer_crackers"
+    "#": { "item": "minecraft:fishing_rod" },
+    "X": { "item": "deermod:deer_crackers" }
   },
   "pattern": [
     "# ",

@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:paper",
-    "deermod:antlers"
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "deermod:antlers"
+    }
   ],
   "result": {
     "count": 1,

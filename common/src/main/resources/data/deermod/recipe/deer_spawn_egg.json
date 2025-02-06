@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "deermod:deer_crackers",
-    "X": "minecraft:egg"
+    "#": { "item": "deermod:deer_crackers" },
+    "X": { "item": "minecraft:egg" }
   },
   "pattern": [
     "###",
