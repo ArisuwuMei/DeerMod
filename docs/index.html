@@ -8,5 +8,13 @@
 </head>
 <body>
    <h1>Hello deers!</h1>
+   <pre id="output"></pre>
+
+   <script type="text/javascript">
+      let reader = new FileReader()
+      reader.onload = () => document.getElementById('output').textContent = reader.result
+      
+      reader.readAsText('../settings.gradle')
+   </script>
 </body>
 </html>
