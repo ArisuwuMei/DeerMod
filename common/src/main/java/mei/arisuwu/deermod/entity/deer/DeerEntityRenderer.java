@@ -35,7 +35,7 @@ public class DeerEntityRenderer extends MobEntityRenderer<DeerEntity, DeerEntity
     {
         super.updateRenderState(deerEntity, deerEntityRenderState, delta);
         deerEntityRenderState.sheared = deerEntity.isSheared();
-        deerEntityRenderState.saddled = deerEntity.isSaddled();
+        deerEntityRenderState.saddled = deerEntity.hasSaddleEquipped();
         deerEntityRenderState.eatGrassAnimationState.copyFrom(deerEntity.eatGrassAnimationState);
     }
 

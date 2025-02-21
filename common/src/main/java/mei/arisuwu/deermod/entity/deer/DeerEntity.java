@@ -28,18 +28,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable, Saddleable
+public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
 {
     public static DefaultAttributeContainer.Builder createAttributes()
     {
         return AnimalEntity.createAnimalAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 8.0)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.25f);
+            .add(EntityAttributes.MAX_HEALTH, 8.0)
+            .add(EntityAttributes.MOVEMENT_SPEED, 0.25f);
     }
-
-    public static final TrackedData<Byte> DEER_FLAGS = DataTracker.registerData(DeerEntity.class, TrackedDataHandlerRegistry.BYTE);
-    private static final int SHEARED_FLAG = 1;
-    private static final int SADDLED_FLAG = 2;
 
     public DeerEntity(EntityType<? extends AnimalEntity> entityType, World world)
     {
@@ -52,35 +48,27 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
         goalSelector.add(0, new SwimGoal(this));
         goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
         goalSelector.add(2, new AnimalMateGoal(this, 1.0));
-        goalSelector.add(3,
-            new TemptGoal(this, 1.25, stack -> stack.isOf(ModItems.DEER_CRACKERS_ON_A_STICK.get()), false));
-        goalSelector.add(3,
-            new TemptGoal(this, 1.25, stack -> stack.isIn(ModTags.DEER_FOOD), false));
+        goalSelector.add(3, new TemptGoal(
+            this, 1.25,
+            stack -> stack.isOf(ModItems.DEER_CRACKERS_ON_A_STICK.get()),
+            false
+        ));
+        goalSelector.add(3, new TemptGoal(
+            this, 1.25,
+            stack -> stack.isIn(ModTags.DEER_FOOD),
+            false
+        ));
         goalSelector.add(4, eatGrassGoal = new EatGrassGoal(this));
         goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f, 1));
         goalSelector.add(6, new LookAroundGoal(this));
         goalSelector.add(7, new WanderAroundFarGoal(this, 1));
     }
 
-    private boolean getDeerFlag(int bitmask)
-    {
-        return (dataTracker.get(DEER_FLAGS) & bitmask) != 0;
-    }
-
-    private void setDeerFlag(int bitmask, boolean value)
-    {
-        byte b = this.dataTracker.get(DEER_FLAGS);
-        if (value)
-            dataTracker.set(DEER_FLAGS, (byte)(b | bitmask));
-        else
-            dataTracker.set(DEER_FLAGS, (byte)(b & ~bitmask));
-    }
-
     @Override
     protected void initDataTracker(DataTracker.Builder builder)
     {
         super.initDataTracker(builder);
-        builder.add(DEER_FLAGS, (byte)0);
+        builder.add(SHEARED, false);
         builder.add(BOOST_TIME, 0);
     }
 
@@ -98,7 +86,6 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     {
         super.writeCustomDataToNbt(nbt);
         nbt.putBoolean("Sheared", isSheared());
-        nbt.putBoolean("Saddled", isSaddled());
     }
 
     @Override
@@ -106,7 +93,6 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     {
         super.readCustomDataFromNbt(nbt);
         setSheared(nbt.getBoolean("Sheared"));
-        setDeerFlag(SADDLED_FLAG, nbt.getBoolean("Saddled"));
     }
 
     @Override
@@ -138,7 +124,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             return ActionResult.CONSUME;
         }
 
-        if (isSaddled() && !hasPassengers() && !player.shouldCancelInteraction())
+        if (hasSaddleEquipped() && !hasPassengers() && !player.shouldCancelInteraction() && !isBreedingItem(itemStack))
         {
             if (!getWorld().isClient)
                 player.startRiding(this);
@@ -146,18 +132,17 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             return ActionResult.SUCCESS;
         }
 
-        if (player.isSneaking() && isSaddled() && !hasPassengers())
+        if (hasSaddleEquipped() && !hasPassengers() && player.isSneaking())
         {
             if (getWorld() instanceof ServerWorld serverWorld)
             {
-                setSaddled(false);
-                dropItem(serverWorld, Items.SADDLE);
-                return ActionResult.SUCCESS;
+                dropEquipment(serverWorld, equippedStack -> equippedStack.isOf(Items.SADDLE));
+                return ActionResult.SUCCESS_SERVER;
             }
             return ActionResult.CONSUME;
         }
 
-        if (itemStack.isOf(Items.SADDLE))
+        if (canEquip(itemStack, EquipmentSlot.SADDLE))
             itemStack.useOnEntity(player, this, hand);
 
         return super.interactMob(player, hand);
@@ -166,28 +151,29 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
 
     // SHEARING
 
+    private static final TrackedData<Boolean> SHEARED = DataTracker.registerData(DeerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
     @Override
     public void sheared(ServerWorld world, SoundCategory shearedSoundCategory, ItemStack shears)
     {
         world.playSoundFromEntity(null, this, SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0f, 1.0f);
         forEachShearedItem(
-                world,
-                ModLootTables.DEER_SHEARING,
-                shears,
-                (serverWorld, itemStack) -> {
-                    for (int i = 0; i < itemStack.getCount(); i++)
-                    {
-                        ItemEntity itemEntity = dropStack(serverWorld, itemStack.copyWithCount(1), 1.0f);
-                        if (itemEntity == null) continue;
+            world,
+            ModLootTables.DEER_SHEARING,
+            shears,
+            (serverWorld, itemStack) -> {
+                for (int i = 0; i < itemStack.getCount(); i++)
+                {
+                    ItemEntity itemEntity = dropStack(serverWorld, itemStack.copyWithCount(1), 1.0f);
+                    if (itemEntity == null) continue;
 
-                        itemEntity.setVelocity(itemEntity.getVelocity().add(
-                                    (random.nextFloat() - random.nextFloat()) * 0.1f,
-                                    random.nextFloat() * 0.5f,
-                                    (random.nextFloat() - random.nextFloat()) * 0.1f
-                                )
-                        );
-                    }
+                    itemEntity.setVelocity(itemEntity.getVelocity().add(
+                        (random.nextFloat() - random.nextFloat()) * 0.1f,
+                        random.nextFloat() * 0.5f,
+                        (random.nextFloat() - random.nextFloat()) * 0.1f
+                    ));
                 }
+            }
         );
         setSheared(true);
     }
@@ -200,12 +186,12 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
 
     public boolean isSheared()
     {
-        return getDeerFlag(SHEARED_FLAG);
+        return dataTracker.get(SHEARED);
     }
 
     public void setSheared(boolean sheared)
     {
-        setDeerFlag(SHEARED_FLAG, sheared);
+        dataTracker.set(SHEARED, sheared);
     }
 
 
@@ -270,26 +256,18 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     private final DeerEntitySaddledComponent saddledComponent = new DeerEntitySaddledComponent(dataTracker, BOOST_TIME);
 
     @Override
-    public boolean canBeSaddled()
+    public boolean canUseSlot(EquipmentSlot slot)
     {
-        return isAlive() && !isBaby();
+        if (slot == EquipmentSlot.SADDLE)
+            return isAlive() && !isBaby();
+
+        return canUseSlot(slot);
     }
 
     @Override
-    public boolean isSaddled()
+    protected boolean canDispenserEquipSlot(EquipmentSlot slot)
     {
-        return getDeerFlag(SADDLED_FLAG);
-    }
-
-    public void setSaddled(boolean value)
-    {
-        setDeerFlag(SADDLED_FLAG, value);
-    }
-
-    @Override
-    public void saddle(ItemStack stack, @Nullable SoundCategory soundCategory)
-    {
-        setSaddled(true);
+        return slot == EquipmentSlot.SADDLE || super.canDispenserEquipSlot(slot);
     }
 
     @Override
@@ -304,7 +282,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     @Override
     public @Nullable LivingEntity getControllingPassenger()
     {
-        return isSaddled() && getFirstPassenger() instanceof PlayerEntity player && player.isHolding(ModItems.DEER_CRACKERS_ON_A_STICK.get())
+        return hasSaddleEquipped() && getFirstPassenger() instanceof PlayerEntity player && player.isHolding(ModItems.DEER_CRACKERS_ON_A_STICK.get())
             ? player
             : super.getControllingPassenger();
     }
@@ -325,15 +303,6 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     public Vec3d getPassengerRidingPos(Entity passenger)
     {
         return super.getPassengerRidingPos(passenger).add(0, -0.55f, 0);
-    }
-
-    @Override
-    protected void dropInventory(ServerWorld world)
-    {
-        super.dropInventory(world);
-
-        if (isSaddled())
-            dropItem(world, Items.SADDLE);
     }
 
     @Override
@@ -370,7 +339,6 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
                     }
                 }
             }
-
         }
         return super.updatePassengerForDismount(passenger);
     }

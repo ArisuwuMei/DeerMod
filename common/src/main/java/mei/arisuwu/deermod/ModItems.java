@@ -1,5 +1,6 @@
 package mei.arisuwu.deermod;
 
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -40,8 +41,9 @@ public abstract class ModItems
 
         DEER_BANNER_PATTERN = registerItem(
             "deer_banner_pattern",
-            settings -> new BannerPatternItem(ModTags.DEER_PATTERN_ITEM, settings),
-            new Item.Settings().maxCount(1)
+            new Item.Settings()
+                .maxCount(1)
+                .component(DataComponentTypes.PROVIDES_BANNER_PATTERNS, ModTags.DEER_PATTERN_ITEM)
         );
 
         MOD_ITEM_GROUP_ENTRIES.put(
