@@ -1,6 +1,8 @@
 package mei.arisuwu.deermod.entity.deer;
 
 import mei.arisuwu.deermod.*;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -27,6 +29,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
 {
@@ -136,7 +140,18 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
         {
             if (getWorld() instanceof ServerWorld serverWorld)
             {
-                dropEquipment(serverWorld, equippedStack -> equippedStack.isOf(Items.SADDLE));
+                var equippedStack = getEquippedStack(EquipmentSlot.SADDLE);
+
+                var soundEvent = Optional.ofNullable(equippedStack.get(DataComponentTypes.EQUIPPABLE))
+                    .map(EquippableComponent::equipSound)
+                    .orElse(SoundEvents.ENTITY_HORSE_SADDLE);
+
+                getWorld().playSoundFromEntity(
+                    null, this, soundEvent, getSoundCategory(), 1, 1, random.nextLong()
+                );
+
+                dropStack(serverWorld, equippedStack);
+                equipStack(EquipmentSlot.SADDLE, ItemStack.EMPTY);
                 return ActionResult.SUCCESS_SERVER;
             }
             return ActionResult.CONSUME;
