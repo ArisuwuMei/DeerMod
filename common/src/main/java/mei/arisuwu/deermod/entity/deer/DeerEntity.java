@@ -261,7 +261,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
         if (slot == EquipmentSlot.SADDLE)
             return isAlive() && !isBaby();
 
-        return canUseSlot(slot);
+        return super.canUseSlot(slot);
     }
 
     @Override
