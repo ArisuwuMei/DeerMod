@@ -143,7 +143,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
         }
 
         if (canEquip(itemStack, EquipmentSlot.SADDLE))
-            itemStack.useOnEntity(player, this, hand);
+            return itemStack.useOnEntity(player, this, hand);
 
         return super.interactMob(player, hand);
     }
