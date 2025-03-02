@@ -176,19 +176,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             world,
             ModLootTables.DEER_SHEARING,
             shears,
-            (serverWorld, itemStack) -> {
-                for (int i = 0; i < itemStack.getCount(); i++)
-                {
-                    ItemEntity itemEntity = dropStack(serverWorld, itemStack.copyWithCount(1), 1.0f);
-                    if (itemEntity == null) continue;
-
-                    itemEntity.setVelocity(itemEntity.getVelocity().add(
-                        (random.nextFloat() - random.nextFloat()) * 0.1f,
-                        random.nextFloat() * 0.5f,
-                        (random.nextFloat() - random.nextFloat()) * 0.1f
-                    ));
-                }
-            }
+            (serverWorld, itemStack) -> dropStack(serverWorld, itemStack, 1.0f)
         );
         setSheared(true);
     }
