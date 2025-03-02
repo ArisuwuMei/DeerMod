@@ -22,10 +22,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -116,9 +113,9 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     {
         ItemStack itemStack = player.getStackInHand(hand);
 
-        if (itemStack.isOf(Items.SHEARS))
+        if (itemStack.isOf(Items.SHEARS) && isShearable())
         {
-            if (getWorld() instanceof ServerWorld serverWorld && isShearable())
+            if (getWorld() instanceof ServerWorld serverWorld)
             {
                 sheared(serverWorld, SoundCategory.PLAYERS, itemStack);
                 emitGameEvent(GameEvent.SHEAR, player);
@@ -128,7 +125,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             return ActionResult.CONSUME;
         }
 
-        if (hasSaddleEquipped() && !hasPassengers() && !player.shouldCancelInteraction() && !isBreedingItem(itemStack))
+        if (!isBreedingItem(itemStack) && hasSaddleEquipped() && !hasPassengers() && !player.shouldCancelInteraction())
         {
             if (!getWorld().isClient)
                 player.startRiding(this);
