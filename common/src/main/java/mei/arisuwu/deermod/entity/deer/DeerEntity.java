@@ -295,6 +295,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     public void setSaddled(boolean value)
     {
         setDeerFlag(SADDLED_FLAG, value);
+        playSound(getSaddleSound(), 0.5F, 1.0F);
     }
 
     @Override
