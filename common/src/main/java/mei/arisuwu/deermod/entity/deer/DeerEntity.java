@@ -169,17 +169,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     {
         this.getWorld().playSoundFromEntity(null, this, SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
 
-        ItemEntity itementity = this.dropItem(ModItems.ANTLERS.get(), 1);
-        if (itementity != null) {
-            itementity.setVelocity(
-                itementity.getVelocity()
-                    .add(
-                        (this.random.nextFloat() - this.random.nextFloat()) * 0.1F,
-                        this.random.nextFloat() * 0.05F,
-                        (this.random.nextFloat() - this.random.nextFloat()) * 0.1F
-                    )
-            );
-        }
+        this.dropItem(ModItems.ANTLERS.get(), 1);
         this.setSheared(true);
     }
 
