@@ -126,9 +126,9 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     {
         ItemStack itemStack = player.getStackInHand(hand);
 
-        if (itemStack.isOf(Items.SHEARS))
+        if (itemStack.isOf(Items.SHEARS) && isShearable())
         {
-            if (getWorld() instanceof ServerWorld serverWorld && isShearable())
+            if (getWorld() instanceof ServerWorld serverWorld)
             {
                 sheared(serverWorld, SoundCategory.PLAYERS, itemStack);
                 emitGameEvent(GameEvent.SHEAR, player);
