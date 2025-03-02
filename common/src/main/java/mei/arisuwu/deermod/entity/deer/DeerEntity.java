@@ -138,7 +138,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             return ActionResult.CONSUME;
         }
 
-        if (isSaddled() && !hasPassengers() && !player.shouldCancelInteraction())
+        if (!isBreedingItem(itemStack) && isSaddled() && !hasPassengers() && !player.shouldCancelInteraction())
         {
             if (!getWorld().isClient)
                 player.startRiding(this);
