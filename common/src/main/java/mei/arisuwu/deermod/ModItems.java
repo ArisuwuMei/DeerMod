@@ -98,7 +98,7 @@ public abstract class ModItems
     protected RegistryKey<ItemGroup> getItemGroup(String name)
     {
         return Registries.ITEM_GROUP.getKeys().stream()
-            .filter(key -> key.getValue().equals(Identifier.ofVanilla(name)))
+            .filter(key -> key.getValue().equals(new Identifier(name)))
             .findAny()
             .orElseThrow(() -> new NoSuchElementException("No item group present with id: " + name));
     }
