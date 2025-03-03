@@ -16,7 +16,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
 
 import static mei.arisuwu.deermod.Mod.MOD_ID;
 
@@ -57,12 +57,12 @@ public final class NeoforgeMod
         }
 
         @SubscribeEvent
-        public static void onRegisteringSpawnPlacements(RegisterSpawnPlacementsEvent event)
+        public static void onRegisteringSpawnPlacements(SpawnPlacementRegisterEvent event)
         {
             event.register(
                 ModEntities.DEER.get(), SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::isValidNaturalSpawn,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE
+                SpawnPlacementRegisterEvent.Operation.REPLACE
             );
         }
     }
