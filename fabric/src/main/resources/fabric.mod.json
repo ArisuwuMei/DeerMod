@@ -21,12 +21,7 @@
   },
   "depends": {
     "fabricloader": "*",
-    "minecraft": ">=1.14",
-    "java": ">=21",
-    "fabric-api": "*"
-  },
-  "recommends": {
-    "fabricloader": ">=$fabric_loader_version",
-    "minecraft": "$minecraft_version"
+    "fabric-api": "*",
+    "minecraft": "~1.20.5"
   }
 }
