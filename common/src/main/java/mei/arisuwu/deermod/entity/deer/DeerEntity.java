@@ -289,7 +289,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     }
 
     @Override
-    public void saddle(ItemStack stack, @Nullable SoundCategory soundCategory)
+    public void saddle(@Nullable SoundCategory soundCategory)
     {
         setSaddled(true);
     }
