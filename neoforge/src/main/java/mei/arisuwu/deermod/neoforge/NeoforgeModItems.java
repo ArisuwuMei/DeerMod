@@ -31,16 +31,17 @@ public class NeoforgeModItems extends ModItems
         MOD_ITEM_GROUP_ENTRIES.forEach((group, newEntries) -> {
             if (group == event.getTabKey())
             {
+                var entries = event.getEntries();
                 newEntries.forEach(newEntry -> {
                     switch (newEntry.position)
                     {
-                        case HEAD -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertFirst(
+                        case HEAD -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> entries.putFirst(
                             itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
                         ));
-                        case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> event.insertBefore(
+                        case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> entries.putBefore(
                             newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
                         ));
-                        case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
+                        case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> entries.putAfter(
                             newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
                         ));
                         case TAIL -> event.addAll(newEntry.getNewItemStacks());
