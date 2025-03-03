@@ -1,11 +1,8 @@
 package mei.arisuwu.deermod.neoforge;
 
-import mei.arisuwu.deermod.ModIdentifier;
 import mei.arisuwu.deermod.ModItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
