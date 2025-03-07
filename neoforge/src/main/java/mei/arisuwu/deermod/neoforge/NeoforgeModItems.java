@@ -10,6 +10,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -28,24 +29,19 @@ public class NeoforgeModItems extends ModItems
 
     public void addItemsToGroups(BuildCreativeModeTabContentsEvent event)
     {
-        MOD_ITEM_GROUP_ENTRIES.forEach((group, newEntries) -> {
-            if (group == event.getTabKey())
+        MOD_ITEM_GROUP_ENTRIES.getOrDefault(event.getTabKey(), Set.of()).forEach(newEntry -> {
+            switch (newEntry.position)
             {
-                newEntries.forEach(newEntry -> {
-                    switch (newEntry.position)
-                    {
-                        case HEAD -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertFirst(
-                            itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
-                        ));
-                        case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> event.insertBefore(
-                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
-                        ));
-                        case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
-                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
-                        ));
-                        case TAIL -> event.addAll(newEntry.getNewItemStacks());
-                    }
-                });
+                case HEAD -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertFirst(
+                    itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                ));
+                case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> event.insertBefore(
+                    newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                ));
+                case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
+                    newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                ));
+                case TAIL -> event.addAll(newEntry.getNewItemStacks());
             }
         });
     }
