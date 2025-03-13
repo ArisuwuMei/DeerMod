@@ -1,10 +1,15 @@
-architectury {
-    common rootProject.enabled_platforms.split(',')
+plugins {
+    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'java'
 }
 
 dependencies {
-    // We depend on Fabric Loader here to use the Fabric @Environment annotations,
-    // which get remapped to the correct annotations on each platform.
-    // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    minecraft "com.mojang:minecraft:$minecraft_version"
+    mappings loom.officialMojangMappings()
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_api_version"
+}
+
+base {
+    archivesName = "$archives_name-$project.name"
 }

@@ -1,11 +1,10 @@
 package mei.arisuwu.deermod;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-
 import java.util.List;
 import java.util.function.Supplier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 public class ItemGroupEntry
 {
@@ -15,10 +14,10 @@ public class ItemGroupEntry
     }
 
     public final Position position;
-    public final ItemConvertible existingItem;
-    public final List<Supplier<? extends ItemConvertible>> newItems;
+    public final ItemLike existingItem;
+    public final List<Supplier<? extends ItemLike>> newItems;
 
-    private ItemGroupEntry(Position position, ItemConvertible existingItem, List<Supplier<? extends ItemConvertible>> newItems)
+    private ItemGroupEntry(Position position, ItemLike existingItem, List<Supplier<? extends ItemLike>> newItems)
     {
         this.position = position;
         this.existingItem = existingItem;
@@ -27,38 +26,38 @@ public class ItemGroupEntry
 
     public ItemStack getExitingItemStack()
     {
-        return existingItem.asItem().getDefaultStack();
+        return existingItem.asItem().getDefaultInstance();
     }
 
     public List<ItemStack> getNewItemStacks()
     {
         return newItems.stream()
             .map(Supplier::get)
-            .map(ItemConvertible::asItem)
-            .map(Item::getDefaultStack)
+            .map(ItemLike::asItem)
+            .map(Item::getDefaultInstance)
             .toList();
     }
 
     @SafeVarargs
-    static ItemGroupEntry head(Supplier<? extends ItemConvertible>... newItems)
+    static ItemGroupEntry head(Supplier<? extends ItemLike>... newItems)
     {
         return new ItemGroupEntry(Position.HEAD, null, List.of(newItems));
     }
 
     @SafeVarargs
-    static ItemGroupEntry before(ItemConvertible existingItem, Supplier<? extends ItemConvertible>... newItems)
+    static ItemGroupEntry before(ItemLike existingItem, Supplier<? extends ItemLike>... newItems)
     {
         return new ItemGroupEntry(Position.BEFORE, existingItem, List.of(newItems));
     }
 
     @SafeVarargs
-    static ItemGroupEntry after(ItemConvertible existingItem, Supplier<? extends ItemConvertible>... newItems)
+    static ItemGroupEntry after(ItemLike existingItem, Supplier<? extends ItemLike>... newItems)
     {
         return new ItemGroupEntry(Position.AFTER, existingItem, List.of(newItems));
     }
 
     @SafeVarargs
-    static ItemGroupEntry tail(Supplier<? extends ItemConvertible>... newItems)
+    static ItemGroupEntry tail(Supplier<? extends ItemLike>... newItems)
     {
         return new ItemGroupEntry(Position.TAIL, null, List.of(newItems));
     }

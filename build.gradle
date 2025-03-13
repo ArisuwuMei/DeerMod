@@ -1,12 +1,5 @@
 plugins {
-    id 'dev.architectury.loom' version '1.7-SNAPSHOT' apply false
-    id 'architectury-plugin' version '3.4-SNAPSHOT'
-    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
     id 'java'
-}
-
-architectury {
-    minecraft = minecraft_version
 }
 
 allprojects {
@@ -15,24 +8,7 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'dev.architectury.loom'
-    apply plugin: 'architectury-plugin'
-
-    base {
-        archivesName = "$archives_name-$project.name"
-    }
-
-    dependencies {
-        minecraft "net.minecraft:minecraft:$minecraft_version"
-        mappings loom.layered {
-            it.mappings("net.fabricmc:yarn:$yarn_mappings:v2")
-            it.mappings("dev.architectury:yarn-mappings-patch-neoforge:$yarn_mappings_patch_neoforge_version")
-        }
-    }
-
     java {
-        withSourcesJar()
-
         sourceCompatibility = JavaVersion.toVersion(java_version)
         targetCompatibility = JavaVersion.toVersion(java_version)
     }

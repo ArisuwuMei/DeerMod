@@ -1,12 +1,15 @@
 package mei.arisuwu.deermod;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.FoodOnAStickItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -21,7 +24,7 @@ public abstract class ModItems
     public static Supplier<Item> DEER_CRACKERS_ON_A_STICK;
     public static Supplier<Item> DEER_BANNER_PATTERN;
 
-    public static Map<RegistryKey<ItemGroup>, Set<ItemGroupEntry>> MOD_ITEM_GROUP_ENTRIES = new HashMap<>();
+    public static Map<ResourceKey<CreativeModeTab>, Set<ItemGroupEntry>> MOD_ITEM_GROUP_ENTRIES = new HashMap<>();
 
     public ModItems()
     {
@@ -35,15 +38,15 @@ public abstract class ModItems
 
         DEER_CRACKERS_ON_A_STICK = registerItem(
             "deer_crackers_on_a_stick",
-            settings -> new OnAStickItem<>(ModEntities.DEER.get(), 4, settings),
-            new Item.Settings().maxDamage(100)
+            settings -> new FoodOnAStickItem<>(ModEntities.DEER.get(), 4, settings),
+            new Item.Properties().durability(100)
         );
 
         DEER_BANNER_PATTERN = registerItem(
             "deer_banner_pattern",
-            new Item.Settings()
-                .maxCount(1)
-                .component(DataComponentTypes.PROVIDES_BANNER_PATTERNS, ModTags.DEER_PATTERN_ITEM)
+            new Item.Properties()
+                .stacksTo(1)
+                .component(DataComponents.PROVIDES_BANNER_PATTERNS, ModTags.DEER_PATTERN_ITEM)
         );
 
         MOD_ITEM_GROUP_ENTRIES.put(
@@ -73,20 +76,20 @@ public abstract class ModItems
         );
     }
 
-    protected abstract Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory, Item.Settings settings);
+    protected abstract Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings);
 
 
-    private Supplier<Item> registerFoodItem(String name, FoodComponent foodComponent)
+    private Supplier<Item> registerFoodItem(String name, FoodProperties foodComponent)
     {
-        return registerItem(name, new Item.Settings().food(foodComponent));
+        return registerItem(name, new Item.Properties().food(foodComponent));
     }
 
-    private Supplier<Item> registerItem(@SuppressWarnings("SameParameterValue") String name, Function<Item.Settings, Item> factory)
+    private Supplier<Item> registerItem(@SuppressWarnings("SameParameterValue") String name, Function<Item.Properties, Item> factory)
     {
-        return registerItem(name, factory, new Item.Settings());
+        return registerItem(name, factory, new Item.Properties());
     }
 
-    private Supplier<Item> registerItem(String name, Item.Settings settings)
+    private Supplier<Item> registerItem(String name, Item.Properties settings)
     {
         return registerItem(name, Item::new, settings);
     }
@@ -94,13 +97,13 @@ public abstract class ModItems
     @SuppressWarnings("SameParameterValue")
     private Supplier<Item> registerItem(String name)
     {
-        return registerItem(name, Item::new, new Item.Settings());
+        return registerItem(name, Item::new, new Item.Properties());
     }
 
-    protected RegistryKey<ItemGroup> getItemGroup(String name)
+    protected ResourceKey<CreativeModeTab> getItemGroup(String name)
     {
-        return Registries.ITEM_GROUP.getKeys().stream()
-            .filter(key -> key.getValue().equals(Identifier.ofVanilla(name)))
+        return BuiltInRegistries.CREATIVE_MODE_TAB.registryKeySet().stream()
+            .filter(key -> key.location().equals(ResourceLocation.withDefaultNamespace(name)))
             .findAny()
             .orElseThrow(() -> new NoSuchElementException("No item group present with id: " + name));
     }

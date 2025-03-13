@@ -2,13 +2,12 @@ package mei.arisuwu.deermod.fabric;
 
 import mei.arisuwu.deermod.ModEntities;
 import mei.arisuwu.deermod.ModIdentifier;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import java.util.function.Supplier;
 
 public class FabricModEntities extends ModEntities
@@ -17,8 +16,8 @@ public class FabricModEntities extends ModEntities
     public <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, EntityType.Builder<T> builder)
     {
         var entityType = Registry.register(
-            Registries.ENTITY_TYPE, ModIdentifier.of(name),
-            builder.build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, ModIdentifier.of(name)))
+            BuiltInRegistries.ENTITY_TYPE, ModIdentifier.of(name),
+            builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ModIdentifier.of(name)))
         );
         return () -> entityType;
     }

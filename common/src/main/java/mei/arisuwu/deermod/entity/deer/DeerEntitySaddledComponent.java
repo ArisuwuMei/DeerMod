@@ -1,18 +1,18 @@
 package mei.arisuwu.deermod.entity.deer;
 
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
 public class DeerEntitySaddledComponent
 {
-    private final DataTracker dataTracker;
-    private final TrackedData<Integer> boostTime;
+    private final SynchedEntityData dataTracker;
+    private final EntityDataAccessor<Integer> boostTime;
     private boolean boosted;
     private int boostedTime;
 
-    public DeerEntitySaddledComponent(DataTracker dataTracker, TrackedData<Integer> boostTime)
+    public DeerEntitySaddledComponent(SynchedEntityData dataTracker, EntityDataAccessor<Integer> boostTime)
     {
         this.dataTracker = dataTracker;
         this.boostTime = boostTime;
@@ -24,7 +24,7 @@ public class DeerEntitySaddledComponent
         boostedTime = 0;
     }
 
-    public boolean boost(Random random)
+    public boolean boost(RandomSource random)
     {
         if (boosted) return false;
 
@@ -43,7 +43,7 @@ public class DeerEntitySaddledComponent
     public float getMovementSpeedMultiplier()
     {
         return boosted ?
-            1 + 1.15f * MathHelper.sin((float)boostedTime / (float)getBoostTime() * (float)Math.PI) : 1;
+            1 + 1.15f * Mth.sin((float)boostedTime / (float)getBoostTime() * (float)Math.PI) : 1;
     }
 
     public int getBoostTime()

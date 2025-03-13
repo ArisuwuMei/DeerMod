@@ -6,10 +6,6 @@ public final class Mod
 
     public static void init()
     {
-        //ModEntities.init();
-        //ModFoodComponents.init();
-        //ModLootTables.init();
-        //ModItems.init();
-        //ModTags.init();
+
     }
 }

@@ -1,12 +1,18 @@
 package mei.arisuwu.deermod.entity.deer;
 
+import net.minecraft.client.animation.AnimationChannel;
+import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.client.animation.Keyframe;
+import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.animation.Animation;
-import net.minecraft.client.render.entity.animation.AnimationHelper;
-import net.minecraft.client.render.entity.animation.Keyframe;
-import net.minecraft.client.render.entity.animation.Transformation;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
 {
@@ -34,91 +40,91 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
         this.saddle = root.getChild("saddle");
     }
 
-    public static TexturedModelData getTexturedModelData()
+    public static LayerDefinition getTexturedModelData()
     {
-        ModelData modelData = new ModelData();
-        ModelPartData modelPartData = modelData.getRoot();
-        ModelPartData neck = modelPartData.addChild("neck", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 9.0F, -11.0F));
+        MeshDefinition modelData = new MeshDefinition();
+        PartDefinition modelPartData = modelData.getRoot();
+        PartDefinition neck = modelPartData.addOrReplaceChild("neck", CubeListBuilder.create(), PartPose.offset(0.0F, 9.0F, -11.0F));
 
-        ModelPartData neck_r1 = neck.addChild("neck_r1", ModelPartBuilder.create().uv(32, 43).cuboid(-2.0F, -8.0F, -1.5F, 4.0F, 10.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -2.5F, -0.5F, 0.192F, 0.0F, 0.0F));
+        PartDefinition neck_r1 = neck.addOrReplaceChild("neck_r1", CubeListBuilder.create().texOffs(32, 43).addBox(-2.0F, -8.0F, -1.5F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.5F, -0.5F, 0.192F, 0.0F, 0.0F));
 
-        ModelPartData head = neck.addChild("head", ModelPartBuilder.create().uv(32, 31).cuboid(-3.0F, -3.0F, -4.0F, 6.0F, 6.0F, 6.0F, new Dilation(0.0F))
-            .uv(14, 47).cuboid(-2.0F, 0.0F, -7.0F, 4.0F, 3.0F, 3.0F, new Dilation(0.0F))
-            .uv(0, 54).cuboid(-1.0F, 0.0F, -8.0F, 2.0F, 2.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -13.0F, -1.0F));
+        PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(32, 31).addBox(-3.0F, -3.0F, -4.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
+            .texOffs(14, 47).addBox(-2.0F, 0.0F, -7.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(0, 54).addBox(-1.0F, 0.0F, -8.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -13.0F, -1.0F));
 
-        ModelPartData right_ear = head.addChild("right_ear", ModelPartBuilder.create(), ModelTransform.pivot(-4.0F, -2.0F, 1.0F));
+        PartDefinition right_ear = head.addOrReplaceChild("right_ear", CubeListBuilder.create(), PartPose.offset(-4.0F, -2.0F, 1.0F));
 
-        ModelPartData ear_r1 = right_ear.addChild("ear_r1", ModelPartBuilder.create().uv(6, 54).cuboid(-4.0F, -2.0F, -1.0F, 2.0F, 2.0F, 1.0F, new Dilation(0.0F))
-            .uv(22, 53).cuboid(-2.0F, -2.0F, -1.0F, 3.0F, 3.0F, 1.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, -0.3927F, 0.6981F));
+        PartDefinition ear_r1 = right_ear.addOrReplaceChild("ear_r1", CubeListBuilder.create().texOffs(6, 54).addBox(-4.0F, -2.0F, -1.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+            .texOffs(22, 53).addBox(-2.0F, -2.0F, -1.0F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -0.3927F, 0.6981F));
 
-        ModelPartData left_ear = head.addChild("left_ear", ModelPartBuilder.create(), ModelTransform.pivot(4.0F, -2.0F, 1.0F));
+        PartDefinition left_ear = head.addOrReplaceChild("left_ear", CubeListBuilder.create(), PartPose.offset(4.0F, -2.0F, 1.0F));
 
-        ModelPartData ear_r2 = left_ear.addChild("ear_r2", ModelPartBuilder.create().uv(6, 54).mirrored().cuboid(2.0F, -2.0F, -1.0F, 2.0F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-            .uv(22, 53).mirrored().cuboid(-1.0F, -2.0F, -1.0F, 3.0F, 3.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.3927F, -0.6981F));
+        PartDefinition ear_r2 = left_ear.addOrReplaceChild("ear_r2", CubeListBuilder.create().texOffs(6, 54).mirror().addBox(2.0F, -2.0F, -1.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+            .texOffs(22, 53).mirror().addBox(-1.0F, -2.0F, -1.0F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.3927F, -0.6981F));
 
-        ModelPartData antlers = head.addChild("antlers", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 28.0F, 12.0F));
+        PartDefinition antlers = head.addOrReplaceChild("antlers", CubeListBuilder.create(), PartPose.offset(0.0F, 28.0F, 12.0F));
 
-        ModelPartData antlers_l = antlers.addChild("antlers_l", ModelPartBuilder.create().uv(28, 47).mirrored().cuboid(0.0F, -2.0F, -23.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-            .uv(28, 47).mirrored().cuboid(1.0F, -4.0F, -22.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-            .uv(28, 47).mirrored().cuboid(2.0F, -5.0F, -21.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-            .uv(28, 50).mirrored().cuboid(2.0F, -7.0F, -22.0F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-            .uv(28, 47).mirrored().cuboid(3.0F, -6.0F, -21.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-            .uv(28, 47).mirrored().cuboid(4.0F, -7.0F, -22.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-            .uv(28, 50).mirrored().cuboid(5.0F, -8.0F, -23.0F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
-            .uv(28, 50).mirrored().cuboid(0.0F, -5.0F, -21.0F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(1.0F, -31.0F, 11.0F));
+        PartDefinition antlers_l = antlers.addOrReplaceChild("antlers_l", CubeListBuilder.create().texOffs(28, 47).mirror().addBox(0.0F, -2.0F, -23.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+            .texOffs(28, 47).mirror().addBox(1.0F, -4.0F, -22.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+            .texOffs(28, 47).mirror().addBox(2.0F, -5.0F, -21.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+            .texOffs(28, 50).mirror().addBox(2.0F, -7.0F, -22.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+            .texOffs(28, 47).mirror().addBox(3.0F, -6.0F, -21.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+            .texOffs(28, 47).mirror().addBox(4.0F, -7.0F, -22.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+            .texOffs(28, 50).mirror().addBox(5.0F, -8.0F, -23.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+            .texOffs(28, 50).mirror().addBox(0.0F, -5.0F, -21.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.0F, -31.0F, 11.0F));
 
-        ModelPartData antlers_r = antlers.addChild("antlers_r", ModelPartBuilder.create().uv(28, 47).cuboid(-2.0F, -33.0F, -12.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F))
-            .uv(28, 47).cuboid(-3.0F, -35.0F, -11.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F))
-            .uv(28, 47).cuboid(-4.0F, -36.0F, -10.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F))
-            .uv(28, 50).cuboid(-4.0F, -38.0F, -11.0F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F))
-            .uv(28, 47).cuboid(-5.0F, -37.0F, -10.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F))
-            .uv(28, 47).cuboid(-6.0F, -38.0F, -11.0F, 1.0F, 2.0F, 1.0F, new Dilation(0.0F))
-            .uv(28, 50).cuboid(-7.0F, -39.0F, -12.0F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F))
-            .uv(28, 50).cuboid(-2.0F, -36.0F, -11.0F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+        PartDefinition antlers_r = antlers.addOrReplaceChild("antlers_r", CubeListBuilder.create().texOffs(28, 47).addBox(-2.0F, -33.0F, -12.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+            .texOffs(28, 47).addBox(-3.0F, -35.0F, -11.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+            .texOffs(28, 47).addBox(-4.0F, -36.0F, -10.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+            .texOffs(28, 50).addBox(-4.0F, -38.0F, -11.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+            .texOffs(28, 47).addBox(-5.0F, -37.0F, -10.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+            .texOffs(28, 47).addBox(-6.0F, -38.0F, -11.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+            .texOffs(28, 50).addBox(-7.0F, -39.0F, -12.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+            .texOffs(28, 50).addBox(-2.0F, -36.0F, -11.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-        ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create().uv(0, 47).cuboid(-2.0F, -21.0F, 8.0F, 4.0F, 4.0F, 3.0F, new Dilation(0.0F))
-            .uv(14, 53).cuboid(-1.0F, -23.0F, 10.0F, 2.0F, 4.0F, 2.0F, new Dilation(0.0F))
-            .uv(0, 0).cuboid(-4.0F, -19.0F, -13.0F, 8.0F, 9.0F, 22.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+        PartDefinition body = modelPartData.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 47).addBox(-2.0F, -21.0F, 8.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(14, 53).addBox(-1.0F, -23.0F, 10.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F))
+            .texOffs(0, 0).addBox(-4.0F, -19.0F, -13.0F, 8.0F, 9.0F, 22.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-        ModelPartData right_front_leg = body.addChild("right_front_leg", ModelPartBuilder.create().uv(48, 43).cuboid(-0.5F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-3.5F, -10.0F, -10.0F));
+        PartDefinition right_front_leg = body.addOrReplaceChild("right_front_leg", CubeListBuilder.create().texOffs(48, 43).addBox(-0.5F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.5F, -10.0F, -10.0F));
 
-        ModelPartData left_front_leg = body.addChild("left_front_leg", ModelPartBuilder.create().uv(48, 43).mirrored().cuboid(-1.5F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(3.5F, -10.0F, -10.0F));
+        PartDefinition left_front_leg = body.addOrReplaceChild("left_front_leg", CubeListBuilder.create().texOffs(48, 43).mirror().addBox(-1.5F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(3.5F, -10.0F, -10.0F));
 
-        ModelPartData right_hind_leg = body.addChild("right_hind_leg", ModelPartBuilder.create().uv(48, 43).cuboid(-0.5F, 0.0F, -2.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-3.5F, -10.0F, 8.0F));
+        PartDefinition right_hind_leg = body.addOrReplaceChild("right_hind_leg", CubeListBuilder.create().texOffs(48, 43).addBox(-0.5F, 0.0F, -2.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.5F, -10.0F, 8.0F));
 
-        ModelPartData left_hind_leg = body.addChild("left_hind_leg", ModelPartBuilder.create().uv(48, 43).mirrored().cuboid(-1.5F, 0.0F, -2.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(3.5F, -10.0F, 8.0F));
+        PartDefinition left_hind_leg = body.addOrReplaceChild("left_hind_leg", CubeListBuilder.create().texOffs(48, 43).mirror().addBox(-1.5F, 0.0F, -2.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(3.5F, -10.0F, 8.0F));
 
-        ModelPartData saddle = modelPartData.addChild("saddle", ModelPartBuilder.create().uv(0, 31).cuboid(-4.0F, -5.0F, -5.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.22F)), ModelTransform.pivot(0.0F, 10.0F, 0.0F));
+        PartDefinition saddle = modelPartData.addOrReplaceChild("saddle", CubeListBuilder.create().texOffs(0, 31).addBox(-4.0F, -5.0F, -5.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.22F)), PartPose.offset(0.0F, 10.0F, 0.0F));
 
-        return TexturedModelData.of(modelData, 64, 64);
+        return LayerDefinition.create(modelData, 64, 64);
     }
 
-    private static final Animation EAT_GRASS = Animation.Builder.create(2.0F)
-        .addBoneAnimation("neck", new Transformation(Transformation.Targets.ROTATE,
-            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-            new Keyframe(0.4167F, AnimationHelper.createRotationalVector(90.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC),
-            new Keyframe(0.75F, AnimationHelper.createRotationalVector(105.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-            new Keyframe(0.9167F, AnimationHelper.createRotationalVector(95.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-            new Keyframe(1.0833F, AnimationHelper.createRotationalVector(105.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-            new Keyframe(1.25F, AnimationHelper.createRotationalVector(95.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-            new Keyframe(1.4167F, AnimationHelper.createRotationalVector(105.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-            new Keyframe(2.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)
+    private static final AnimationDefinition EAT_GRASS = AnimationDefinition.Builder.withLength(2.0F)
+        .addAnimation("neck", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+            new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+            new Keyframe(0.4167F, KeyframeAnimations.degreeVec(90.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+            new Keyframe(0.75F, KeyframeAnimations.degreeVec(105.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+            new Keyframe(0.9167F, KeyframeAnimations.degreeVec(95.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+            new Keyframe(1.0833F, KeyframeAnimations.degreeVec(105.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+            new Keyframe(1.25F, KeyframeAnimations.degreeVec(95.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+            new Keyframe(1.4167F, KeyframeAnimations.degreeVec(105.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+            new Keyframe(2.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
         )).build();
 
     @Override
-    public void setAngles(DeerEntityRenderState livingEntityRenderState)
+    public void setupAnim(DeerEntityRenderState livingEntityRenderState)
     {
-        super.setAngles(livingEntityRenderState);
+        super.setupAnim(livingEntityRenderState);
         this.saddle.visible = livingEntityRenderState.saddled;
-        this.head.pitch = livingEntityRenderState.pitch * (float) (Math.PI / 180.0);
-        this.head.yaw = livingEntityRenderState.yawDegrees * (float) (Math.PI / 180.0);
-        float f = livingEntityRenderState.limbFrequency;
-        float g = livingEntityRenderState.limbAmplitudeMultiplier;
-        this.rightHindLeg.pitch = MathHelper.cos(f * 0.6662F) * 1.4F * g;
-        this.leftHindLeg.pitch = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.rightFrontLeg.pitch = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.leftFrontLeg.pitch = MathHelper.cos(f * 0.6662F) * 1.4F * g;
-        this.antlers.visible = !livingEntityRenderState.sheared && !livingEntityRenderState.baby;
-        this.animate(livingEntityRenderState.eatGrassAnimationState, EAT_GRASS, livingEntityRenderState.age);
+        this.head.xRot = livingEntityRenderState.xRot * (float) (Math.PI / 180.0);
+        this.head.yRot = livingEntityRenderState.yRot * (float) (Math.PI / 180.0);
+        float f = livingEntityRenderState.walkAnimationPos;
+        float g = livingEntityRenderState.walkAnimationSpeed;
+        this.rightHindLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
+        this.leftHindLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
+        this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
+        this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
+        this.antlers.visible = !livingEntityRenderState.sheared && !livingEntityRenderState.isBaby;
+        this.animate(livingEntityRenderState.eatGrassAnimationState, EAT_GRASS, livingEntityRenderState.ageInTicks);
     }
 }

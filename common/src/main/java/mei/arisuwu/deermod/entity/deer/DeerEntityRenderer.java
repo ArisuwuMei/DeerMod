@@ -1,48 +1,49 @@
 package mei.arisuwu.deermod.entity.deer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mei.arisuwu.deermod.ModIdentifier;
 import mei.arisuwu.deermod.ModModelLayers;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
-public class DeerEntityRenderer extends MobEntityRenderer<DeerEntity, DeerEntityRenderState, DeerEntityModel>
+public class DeerEntityRenderer extends MobRenderer<DeerEntity, DeerEntityRenderState, DeerEntityModel>
 {
     private final static float BASE_SHADOW_RADIUS = 0.75f;
     private final static float BABY_MULTIPLIER = 0.6f;
 
-    public DeerEntityRenderer(EntityRendererFactory.Context context)
+    public DeerEntityRenderer(EntityRendererProvider.Context context)
     {
-        super(context, new DeerEntityModel(context.getPart(ModModelLayers.DEER)), BASE_SHADOW_RADIUS);
+        super(context, new DeerEntityModel(context.bakeLayer(ModModelLayers.DEER)), BASE_SHADOW_RADIUS);
     }
 
     @Override
-    public Identifier getTexture(DeerEntityRenderState state)
+    public @NotNull ResourceLocation getTextureLocation(DeerEntityRenderState state)
     {
         return ModIdentifier.of("textures/entity/deer/deer.png");
     }
 
     @Override
-    public DeerEntityRenderState createRenderState()
+    public @NotNull DeerEntityRenderState createRenderState()
     {
         return new DeerEntityRenderState();
     }
 
     @Override
-    public void updateRenderState(DeerEntity deerEntity, DeerEntityRenderState deerEntityRenderState, float delta)
+    public void extractRenderState(DeerEntity deerEntity, DeerEntityRenderState deerEntityRenderState, float delta)
     {
-        super.updateRenderState(deerEntity, deerEntityRenderState, delta);
+        super.extractRenderState(deerEntity, deerEntityRenderState, delta);
         deerEntityRenderState.sheared = deerEntity.isSheared();
-        deerEntityRenderState.saddled = deerEntity.hasSaddleEquipped();
+        deerEntityRenderState.saddled = deerEntity.isSaddled();
         deerEntityRenderState.eatGrassAnimationState.copyFrom(deerEntity.eatGrassAnimationState);
     }
 
     @Override
-    public void render(DeerEntityRenderState livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
+    public void render(DeerEntityRenderState livingEntityRenderState, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i)
     {
-        if(livingEntityRenderState.baby)
+        if(livingEntityRenderState.isBaby)
             matrixStack.scale(BABY_MULTIPLIER, BABY_MULTIPLIER, BABY_MULTIPLIER);
         else
             matrixStack.scale(1, 1, 1);
