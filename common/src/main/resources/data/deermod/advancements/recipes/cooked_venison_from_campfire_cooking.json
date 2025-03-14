@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": "deermod:venison"
+            "items": ["deermod:venison"]
           }
         ]
       },
