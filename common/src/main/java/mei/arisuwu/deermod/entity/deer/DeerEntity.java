@@ -326,12 +326,12 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
         return (float)(getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 0.4f * saddledComponent.getMovementSpeedMultiplier());
     }
 
-//    @Override
-//    public Vec3d getPassengerRidingPos(Entity passenger)
-//    {
-//        return super.getPassengerRidingPos(passenger).add(0, -0.55f, 0);
-//    }
-
+    @Override
+    public double getMountedHeightOffset()
+    {
+        return super.getMountedHeightOffset() - 0.55f;
+    }
+    
     @Override
     protected void dropInventory()
     {
