@@ -16,6 +16,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -47,13 +48,14 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     @Override
     protected void initGoals()
     {
+
         goalSelector.add(0, new SwimGoal(this));
         goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
         goalSelector.add(2, new AnimalMateGoal(this, 1.0));
         goalSelector.add(3,
-            new TemptGoal(this, 1.25, stack -> stack.isOf(ModItems.DEER_CRACKERS_ON_A_STICK.get()), false));
+            new TemptGoal(this, 1.25, Ingredient.ofItems(ModItems.DEER_CRACKERS_ON_A_STICK.get()), false));
         goalSelector.add(3,
-            new TemptGoal(this, 1.25, stack -> stack.isIn(ModTags.DEER_FOOD), false));
+            new TemptGoal(this, 1.25, Ingredient.fromTag(ModTags.DEER_FOOD), false));
         goalSelector.add(4, eatGrassGoal = new EatGrassGoal(this));
         goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f, 1));
         goalSelector.add(6, new LookAroundGoal(this));
@@ -75,11 +77,12 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
     }
 
     @Override
-    protected void initDataTracker(DataTracker.Builder builder)
+    protected void initDataTracker()
     {
-        super.initDataTracker(builder);
-        builder.add(DEER_FLAGS, (byte)0);
-        builder.add(BOOST_TIME, 0);
+        super.initDataTracker();
+
+        dataTracker.startTracking(DEER_FLAGS, (byte)0);
+        dataTracker.startTracking(BOOST_TIME, 0);
     }
 
     @Override
@@ -130,7 +133,7 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
             {
                 sheared(SoundCategory.PLAYERS);
                 emitGameEvent(GameEvent.SHEAR, player);
-                itemStack.damage(1, player, getSlotForHand(hand));
+                itemStack.damage(1, player, p -> p.sendToolBreakStatus(hand));
                 return ActionResult.SUCCESS;
             }
             return ActionResult.CONSUME;
@@ -323,11 +326,11 @@ public class DeerEntity extends AnimalEntity implements Shearable, ItemSteerable
         return (float)(getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 0.4f * saddledComponent.getMovementSpeedMultiplier());
     }
 
-    @Override
-    public Vec3d getPassengerRidingPos(Entity passenger)
-    {
-        return super.getPassengerRidingPos(passenger).add(0, -0.55f, 0);
-    }
+//    @Override
+//    public Vec3d getPassengerRidingPos(Entity passenger)
+//    {
+//        return super.getPassengerRidingPos(passenger).add(0, -0.55f, 0);
+//    }
 
     @Override
     protected void dropInventory()

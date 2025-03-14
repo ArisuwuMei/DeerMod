@@ -1,6 +1,7 @@
 package mei.arisuwu.deermod.fabric;
 
 import mei.arisuwu.deermod.ModIdentifier;
+import mei.arisuwu.deermod.ModItems;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;
 import net.minecraft.registry.RegistryKey;
@@ -10,7 +11,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 
-public class FabricModItems extends mei.arisuwu.deermod.ModItems
+public class FabricModItems extends ModItems
 {
     public FabricModItems()
     {
@@ -25,7 +26,7 @@ public class FabricModItems extends mei.arisuwu.deermod.ModItems
                 newEntries.forEach(newEntry -> {
                     switch (newEntry.position)
                     {
-                        case HEAD -> newEntry.newItems.reversed().forEach(newItem -> entries.prepend(newItem.get()));
+                        case HEAD -> newEntry.getNewItemStacks().forEach(entries::prepend);
                         case BEFORE -> entries.addBefore(newEntry.existingItem, newEntry.getNewItemStacks());
                         case AFTER -> entries.addAfter(newEntry.existingItem, newEntry.getNewItemStacks());
                         case TAIL -> entries.addAll(newEntry.getNewItemStacks());

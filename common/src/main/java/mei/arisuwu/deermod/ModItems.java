@@ -1,6 +1,6 @@
 package mei.arisuwu.deermod;
 
-import net.minecraft.component.type.FoodComponent;
+import net.minecraft.item.FoodComponent;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;

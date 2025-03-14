@@ -6,8 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 
 import java.util.function.Supplier;
 
@@ -18,7 +16,7 @@ public class FabricModEntities extends ModEntities
     {
         var entityType = Registry.register(
             Registries.ENTITY_TYPE, ModIdentifier.of(name),
-            builder.build()
+            builder.build(name)
         );
         return () -> entityType;
     }
