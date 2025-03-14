@@ -1,5 +1,6 @@
 package mei.arisuwu.deermod.fabric;
 
+import mei.arisuwu.deermod.ModBannerPatterns;
 import mei.arisuwu.deermod.ModEntities;
 import mei.arisuwu.deermod.ModTags;
 import mei.arisuwu.deermod.entity.deer.DeerEntity;
@@ -21,6 +22,7 @@ public final class FabricMod implements ModInitializer
     {
         new FabricModEntities();
         new FabricModItems();
+        new ModBannerPatterns();
         FabricDefaultAttributeRegistry.register(ModEntities.DEER.get(), DeerEntity.createAttributes());
         addDeerEntitySpawn();
     }
