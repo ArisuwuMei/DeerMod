@@ -4,7 +4,5 @@
   "cookingtime": 100,
   "experience": 0.35,
   "ingredient": { "item": "deermod:venison" },
-  "result": {
-    "id": "deermod:cooked_venison"
-  }
+  "result": "deermod:cooked_venison"
 }
