@@ -2,6 +2,7 @@ package mei.arisuwu.deermod;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
@@ -14,7 +15,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public abstract class ModItems
+public class ModItems
 {
     public static Supplier<Item> VENISON;
     public static Supplier<Item> COOKED_VENISON;
@@ -76,7 +77,11 @@ public abstract class ModItems
         );
     }
 
-    protected abstract Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings);
+    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings)
+    {
+        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name)), factory, settings);
+        return () -> item;
+    }
 
 
     private Supplier<Item> registerFoodItem(String name, FoodProperties foodComponent)
