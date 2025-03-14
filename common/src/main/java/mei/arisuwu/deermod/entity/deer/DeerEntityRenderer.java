@@ -1,7 +1,7 @@
 package mei.arisuwu.deermod.entity.deer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import mei.arisuwu.deermod.ModIdentifier;
+import mei.arisuwu.deermod.ModResourceLocation;
 import mei.arisuwu.deermod.ModModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -22,7 +22,7 @@ public class DeerEntityRenderer extends MobRenderer<DeerEntity, DeerEntityRender
     @Override
     public @NotNull ResourceLocation getTextureLocation(DeerEntityRenderState state)
     {
-        return ModIdentifier.of("textures/entity/deer/deer.png");
+        return ModResourceLocation.of("textures/entity/deer/deer.png");
     }
 
     @Override

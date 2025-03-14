@@ -1,6 +1,6 @@
 package mei.arisuwu.deermod.fabric;
 
-import mei.arisuwu.deermod.ModIdentifier;
+import mei.arisuwu.deermod.ModResourceLocation;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -38,7 +38,7 @@ public class FabricModItems extends mei.arisuwu.deermod.ModItems
     @Override
     protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings)
     {
-        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModIdentifier.of(name)), factory, settings);
+        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name)), factory, settings);
         return () -> item;
     }
 }

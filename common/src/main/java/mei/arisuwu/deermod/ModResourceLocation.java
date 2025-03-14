@@ -2,7 +2,7 @@ package mei.arisuwu.deermod;
 
 import net.minecraft.resources.ResourceLocation;
 
-public class ModIdentifier
+public class ModResourceLocation
 {
     public static ResourceLocation of(String name)
     {
