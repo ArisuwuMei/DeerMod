@@ -5,10 +5,10 @@ import mei.arisuwu.deermod.ModModelLayers;
 import mei.arisuwu.deermod.entity.deer.DeerEntity;
 import mei.arisuwu.deermod.entity.deer.DeerEntityModel;
 import mei.arisuwu.deermod.entity.deer.DeerEntityRenderer;
-import net.minecraft.client.render.entity.EntityRenderers;
-import net.minecraft.entity.SpawnLocationTypes;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.world.Heightmap;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -25,8 +25,6 @@ public final class NeoforgeMod
 {
     public NeoforgeMod(IEventBus modBus)
     {
-        mei.arisuwu.deermod.Mod.init();
-
         new NeoforgeModEntities(modBus);
         new NeoforgeModItems(modBus);
     }
@@ -60,8 +58,8 @@ public final class NeoforgeMod
         public static void onRegisteringSpawnPlacements(RegisterSpawnPlacementsEvent event)
         {
             event.register(
-                ModEntities.DEER.get(), SpawnLocationTypes.ON_GROUND,
-                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::isValidNaturalSpawn,
+                ModEntities.DEER.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE
             );
         }

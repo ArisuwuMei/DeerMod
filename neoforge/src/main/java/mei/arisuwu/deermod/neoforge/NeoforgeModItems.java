@@ -1,11 +1,11 @@
 package mei.arisuwu.deermod.neoforge;
 
-import mei.arisuwu.deermod.ModIdentifier;
+import mei.arisuwu.deermod.ModResourceLocation;
 import mei.arisuwu.deermod.ModItems;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -35,15 +35,15 @@ public class NeoforgeModItems extends ModItems
                     switch (newEntry.position)
                     {
                         case HEAD -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertFirst(
-                            itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                            itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
                         ));
                         case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> event.insertBefore(
-                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                            newEntry.getExitingItemStack(), itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
                         ));
                         case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
-                            newEntry.getExitingItemStack(), itemStack, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
+                            newEntry.getExitingItemStack(), itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
                         ));
-                        case TAIL -> event.addAll(newEntry.getNewItemStacks());
+                        case TAIL -> event.acceptAll(newEntry.getNewItemStacks());
                     }
                 });
             }
@@ -51,9 +51,9 @@ public class NeoforgeModItems extends ModItems
     }
 
     @Override
-    protected Supplier<Item> registerItem(String name, Function<Item.Settings, Item> factory, Item.Settings settings)
+    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings)
     {
-        var registryKey = RegistryKey.of(RegistryKeys.ITEM, ModIdentifier.of(name));
-        return ITEMS.registerItem(name, factory, settings.registryKey(registryKey));
+        var registryKey = ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name));
+        return ITEMS.registerItem(name, factory, settings.setId(registryKey));
     }
 }

@@ -1,27 +1,23 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'java'
+    id 'net.neoforged.gradle.userdev' version '7.0.183'
 }
 
-architectury {
-    platformSetupLoomIde()
-    neoForge()
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+base {
+    archivesName = "$archives_name-$project.name"
 }
 
 configurations {
-    common {
+    fatJar {
         canBeResolved = true
         canBeConsumed = false
     }
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentNeoForge.extendsFrom common
 
-    // Files in this configuration will be bundled into your mod using the Shadow plugin.
-    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
-    shadowBundle {
-        canBeResolved = true
-        canBeConsumed = false
-    }
+    compileClasspath.extendsFrom fatJar
+    runtimeClasspath.extendsFrom fatJar
+    developmentFabric.extendsFrom fatJar
 }
 
 repositories {
@@ -32,10 +28,9 @@ repositories {
 }
 
 dependencies {
-    neoForge "net.neoforged:neoforge:$neoforge_version"
+    implementation "net.neoforged:neoforge:$neoforge_version"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
+    fatJar project(path: ':common', configuration: 'namedElements')
 }
 
 processResources {
@@ -50,11 +45,12 @@ processResources {
     }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
-}
+jar {
+    //duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+    from {
+        configurations.fatJar.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }
