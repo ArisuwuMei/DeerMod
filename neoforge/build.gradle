@@ -1,5 +1,6 @@
 plugins {
     id 'com.github.johnrengelman.shadow'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 architectury {
@@ -57,4 +58,20 @@ shadowJar {
 
 remapJar {
     inputFile.set shadowJar.archiveFile
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "deermod"
+
+    versionName = "Deer Mod $mod_version+$minecraft_version"
+    versionNumber = "$mod_version+$minecraft_version"
+
+    uploadFile = remapJar
+
+    versionType = "release"
+    gameVersions = ["1.21.1"]
+    loaders = ["neoforge"]
+
+    changelog = "- Added the missing translation for the deer entity"
 }
