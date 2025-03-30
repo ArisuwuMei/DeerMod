@@ -25,8 +25,6 @@ public final class NeoforgeMod
 {
     public NeoforgeMod(IEventBus modBus)
     {
-        mei.arisuwu.deermod.Mod.init();
-
         new NeoforgeModEntities(modBus);
         new NeoforgeModItems(modBus);
     }
