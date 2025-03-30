@@ -16,8 +16,9 @@
   "block.minecraft.banner.deer.white": "Cervo bianco",
   "block.minecraft.banner.deer.yellow": "Cervo giallo",
 
-  "item.deermod.deer_banner_pattern": "Motivo con cervo",
+  "entity.deermod.deer": "Cervo",
 
+  "item.deermod.deer_banner_pattern": "Motivo con cervo",
   "item.deermod.deer_spawn_egg": "Uovo generatore di cervo",
   "item.deermod.venison": "Carne di cervo cruda",
   "item.deermod.cooked_venison": "Carne di cervo cotta",
