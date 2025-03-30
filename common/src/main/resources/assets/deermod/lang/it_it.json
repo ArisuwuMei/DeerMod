@@ -16,6 +16,8 @@
   "block.minecraft.banner.deer.white": "Cervo bianco",
   "block.minecraft.banner.deer.yellow": "Cervo giallo",
 
+  "entity.deermod.deer": "Cervo",
+
   "item.deermod.deer_banner_pattern": "Motivo per stendardo",
   "item.deermod.deer_banner_pattern.desc": "Cervo",
 
