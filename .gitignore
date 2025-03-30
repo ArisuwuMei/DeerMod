@@ -39,3 +39,8 @@ replay_*.log
 *.hprof
 *.jfr
 /docs-tools/logs/
+/neoforge/runs/
+/fabric/run/
+/fabric/mods/
+/.architectury-transformer/
+/docs-tools/
