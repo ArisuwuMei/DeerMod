@@ -73,7 +73,7 @@ modrinth {
     uploadFile = remapJar
 
     versionType = "release"
-    gameVersions = ["1.21.1"]
+    gameVersions = ["1.21.4"]
     loaders = ["fabric"]
 
     changelog = "- Added the missing translation for the deer entity"
