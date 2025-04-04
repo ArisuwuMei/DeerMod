@@ -2,6 +2,10 @@ plugins {
     id 'java'
 }
 
+tasks.named('wrapper', Wrapper) {
+    tasks.wrapper.distributionType = distributionType = Wrapper.DistributionType.ALL
+}
+
 allprojects {
     group = maven_group
     version = "$mod_version+$minecraft_version"
