@@ -23,31 +23,6 @@ public class NeoforgeModItems extends ModItems
     {
         super();
         ITEMS.register(eventBus);
-        eventBus.addListener(this::addItemsToGroups);
-    }
-
-    public void addItemsToGroups(BuildCreativeModeTabContentsEvent event)
-    {
-        MOD_ITEM_GROUP_ENTRIES.forEach((group, newEntries) -> {
-            if (group == event.getTabKey())
-            {
-                newEntries.forEach(newEntry -> {
-                    switch (newEntry.position)
-                    {
-                        case HEAD -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertFirst(
-                            itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
-                        ));
-                        case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> event.insertBefore(
-                            newEntry.getExitingItemStack(), itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
-                        ));
-                        case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
-                            newEntry.getExitingItemStack(), itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
-                        ));
-                        case TAIL -> event.acceptAll(newEntry.getNewItemStacks());
-                    }
-                });
-            }
-        });
     }
 
     @Override

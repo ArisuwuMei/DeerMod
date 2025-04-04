@@ -27,6 +27,7 @@ public final class NeoforgeMod
     {
         new NeoforgeModEntities(modBus);
         new NeoforgeModItems(modBus);
+        new NeoforgeModCreativeTabs(modBus);
     }
 
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
