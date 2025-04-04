@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'fabric-loom' version '1.10-SNAPSHOT'
-    id "com.modrinth.minotaur" version "2.+"
 }
 
 base {
@@ -47,8 +46,6 @@ processResources {
     }
 }
 
-remapJar.enabled = false
-
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
@@ -57,20 +54,4 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
-}
-
-modrinth {
-    token = System.getenv("MODRINTH_TOKEN")
-    projectId = "deermod"
-
-    versionName = "Deer Mod $mod_version+$minecraft_version"
-    versionNumber = "$mod_version+$minecraft_version"
-
-    uploadFile = jar
-
-    versionType = "release"
-    loaders = ["fabric"]
-
-    gameVersions = [minecraft_version]
-    changelog = "- Added a painting of the LUVDEER!"
 }
