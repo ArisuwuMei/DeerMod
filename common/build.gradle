@@ -13,3 +13,14 @@ dependencies {
 base {
     archivesName = "$archives_name-$project.name"
 }
+
+java {
+    withSourcesJar()
+}
+
+jar {
+    manifest {
+        attributes.put('FMLModType', 'GAMELIBRARY')
+        attributes.put('Automatic-Module-Name', 'deermodcommon')
+    }
+}

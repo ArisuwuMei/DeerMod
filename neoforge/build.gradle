@@ -1,6 +1,7 @@
 plugins {
     id 'java'
-    id 'net.neoforged.gradle.userdev' version '7.0.183'
+    id 'net.neoforged.gradle.userdev' version '7.0.184'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -14,10 +15,6 @@ configurations {
         canBeResolved = true
         canBeConsumed = false
     }
-
-    compileClasspath.extendsFrom fatJar
-    runtimeClasspath.extendsFrom fatJar
-    developmentFabric.extendsFrom fatJar
 }
 
 repositories {
@@ -30,10 +27,12 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:$neoforge_version"
 
-    fatJar project(path: ':common', configuration: 'namedElements')
+    fatJar implementation(files(project(':common').tasks.jar))
 }
 
 processResources {
+    from project(':common').tasks.processResources
+
     replaceProperties['neoforge_version_range'] = neoforge_version.substring(
         0, neoforge_version.findIndexValues {it == "."}.get(1) as int
     )
@@ -46,11 +45,33 @@ processResources {
 }
 
 jar {
-    //duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from {
         configurations.fatJar.collect {
             it.isDirectory() ? it : zipTree(it)
         }
     }
+}
+
+runs {
+    configureEach {
+        modSource project.sourceSets.main
+    }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "deermod"
+
+    versionName = "Deer Mod $mod_version+$minecraft_version"
+    versionNumber = "$mod_version+$minecraft_version"
+
+    uploadFile = jar
+
+    versionType = "release"
+    loaders = ["neoforge"]
+
+    gameVersions = [minecraft_version]
+    changelog = "- Added a painting of the LUVDEER!"
 }

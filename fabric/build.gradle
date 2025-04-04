@@ -1,6 +1,11 @@
 plugins {
     id 'java'
     id 'fabric-loom' version '1.10-SNAPSHOT'
+    id "com.modrinth.minotaur" version "2.+"
+}
+
+base {
+    archivesName = "$archives_name-$project.name"
 }
 
 repositories {
@@ -15,33 +20,20 @@ configurations {
         canBeResolved = true
         canBeConsumed = false
     }
-
-    compileClasspath.extendsFrom fatJar
-    runtimeClasspath.extendsFrom fatJar
-    developmentFabric.extendsFrom fatJar
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:$minecraft_version"
     mappings loom.officialMojangMappings()
 
-    fatJar implementation(project(path: ':common', configuration: 'namedElements'))
+    fatJar implementation(files(project(':common').tasks.jar))
     modImplementation "net.fabricmc:fabric-loader:$fabric_loader_version"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_api_version"
     modImplementation "com.terraformersmc:modmenu:$modmenu_version"
 }
 
-base {
-    archivesName = "$archives_name-$project.name"
-}
-
 processResources {
-    var commonSourceSets = project(':common')
-            .getExtensions()
-            .getByType(JavaPluginExtension.class)
-            .getSourceSets();
-
-    from commonSourceSets.main.resources.asFileTree
+    from project(':common').tasks.processResources
 
     replaceProperties.compute('authors', (key, val) ->
         (val as String).split(',').collect(str -> '"' + str.trim() + '"'))
@@ -55,6 +47,8 @@ processResources {
     }
 }
 
+remapJar.enabled = false
+
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
@@ -63,4 +57,20 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "deermod"
+
+    versionName = "Deer Mod $mod_version+$minecraft_version"
+    versionNumber = "$mod_version+$minecraft_version"
+
+    uploadFile = jar
+
+    versionType = "release"
+    loaders = ["fabric"]
+
+    gameVersions = [minecraft_version]
+    changelog = "- Added a painting of the LUVDEER!"
 }
