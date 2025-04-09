@@ -3,9 +3,19 @@ plugins {
     id 'java'
 }
 
+repositories {
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:$minecraft_version"
-    mappings loom.officialMojangMappings()
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-1.21.4:2025.03.23@zip")
+    }
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_api_version"
 }
