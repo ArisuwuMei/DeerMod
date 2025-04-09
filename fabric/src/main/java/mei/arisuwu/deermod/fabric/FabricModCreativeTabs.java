@@ -12,7 +12,8 @@ public class FabricModCreativeTabs extends ModCreativeTabs
 {
     public FabricModCreativeTabs()
     {
-        ENTRIES.forEach(this::addEntries);
+        super();
+        entriesMap.forEach(this::addEntries);
     }
 
     public void addEntries(ResourceKey<CreativeModeTab> tab, Set<ItemGroupEntry> newEntries)

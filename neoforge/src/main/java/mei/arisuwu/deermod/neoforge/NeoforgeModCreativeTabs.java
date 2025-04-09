@@ -1,7 +1,8 @@
 package mei.arisuwu.deermod.neoforge;
 
+import static net.minecraft.world.item.CreativeModeTab.TabVisibility.*;
+
 import mei.arisuwu.deermod.ModCreativeTabs;
-import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
@@ -11,24 +12,25 @@ public class NeoforgeModCreativeTabs extends ModCreativeTabs
 {
     public NeoforgeModCreativeTabs(IEventBus eventBus)
     {
+        super();
         eventBus.addListener(this::addEntriesToTab);
     }
 
     private void addEntriesToTab(BuildCreativeModeTabContentsEvent event)
     {
-        ENTRIES.getOrDefault(event.getTabKey(), Set.of()).forEach(newEntry -> {
-            switch (newEntry.position)
+        entriesMap.getOrDefault(event.getTabKey(), Set.of()).forEach(entryMapping -> {
+            switch (entryMapping.position)
             {
-                case HEAD -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertFirst(
-                    itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
+                case HEAD -> entryMapping.getNewItemStacks().reversed().forEach(itemStack -> event.insertFirst(
+                    itemStack, PARENT_AND_SEARCH_TABS
                 ));
-                case BEFORE -> newEntry.getNewItemStacks().forEach(itemStack -> event.insertBefore(
-                    newEntry.getExitingItemStack(), itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
+                case BEFORE -> entryMapping.getNewItemStacks().forEach(itemStack -> event.insertBefore(
+                    entryMapping.getExitingItemStack(), itemStack, PARENT_AND_SEARCH_TABS
                 ));
-                case AFTER -> newEntry.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
-                    newEntry.getExitingItemStack(), itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
+                case AFTER -> entryMapping.getNewItemStacks().reversed().forEach(itemStack -> event.insertAfter(
+                    entryMapping.getExitingItemStack(), itemStack, PARENT_AND_SEARCH_TABS
                 ));
-                case TAIL -> event.acceptAll(newEntry.getNewItemStacks());
+                case TAIL -> event.acceptAll(entryMapping.getNewItemStacks());
             }
         });
     }
