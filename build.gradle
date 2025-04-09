@@ -3,7 +3,7 @@ plugins {
 }
 
 tasks.named('wrapper', Wrapper) {
-    tasks.wrapper.distributionType = distributionType = Wrapper.DistributionType.ALL
+    distributionType = Wrapper.DistributionType.ALL
 }
 
 allprojects {
