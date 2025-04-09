@@ -3,6 +3,17 @@ plugins {
     id 'java'
 }
 
+sourceSets {
+    datagen {
+        compileClasspath += main.output
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        java {
+
+        }
+    }
+}
+
 repositories {
     maven {
         name = 'ParchmentMC'
@@ -18,6 +29,10 @@ dependencies {
     }
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_api_version"
+
+    sourceSets.named('datagen') {
+        modImplementation "net.fabricmc:fabric-loader:$fabric_loader_version"
+    }
 }
 
 base {
@@ -32,5 +47,20 @@ jar {
     manifest {
         attributes.put('FMLModType', 'GAMELIBRARY')
         attributes.put('Automatic-Module-Name', 'deermodcommon')
+    }
+}
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+    }
+}
+
+loom {
+    runs {
+        it.getNames().forEach { println it}
+        datagen {
+            source = sourceSets.datagen
+        }
     }
 }
