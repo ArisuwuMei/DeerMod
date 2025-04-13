@@ -46,11 +46,11 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
         PartDefinition modelPartData = modelData.getRoot();
         PartDefinition neck = modelPartData.addOrReplaceChild("neck", CubeListBuilder.create(), PartPose.offset(0.0F, 9.0F, -11.0F));
 
-        PartDefinition neck_r1 = neck.addOrReplaceChild("neck_r1", CubeListBuilder.create().texOffs(32, 43).addBox(-2.0F, -8.0F, -1.5F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.5F, -0.5F, 0.192F, 0.0F, 0.0F));
+        PartDefinition neck_r1 = neck.addOrReplaceChild("neck_r1", CubeListBuilder.create().texOffs(32, 43).addBox(-2.0F, -10.0F, -1.5F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.5F, -0.5F, 0.2356F, 0.0F, 0.0F));
 
-        PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(32, 31).addBox(-3.0F, -3.0F, -4.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-            .texOffs(14, 47).addBox(-2.0F, 0.0F, -7.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(0, 54).addBox(-1.0F, 0.0F, -8.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -13.0F, -1.0F));
+        PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(32, 31).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
+            .texOffs(14, 47).addBox(-2.0F, 0.0F, -6.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(0, 54).addBox(-1.0F, 0.0F, -7.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -13.0F, -2.0F));
 
         PartDefinition right_ear = head.addOrReplaceChild("right_ear", CubeListBuilder.create(), PartPose.offset(-4.0F, -2.0F, 1.0F));
 
