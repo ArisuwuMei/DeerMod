@@ -3,15 +3,15 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "deermod:deer_banner_pattern"
+        "recipe": "deermod:deer_crackers"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_items": {
+    "has_wheat": {
       "conditions": {
         "items": [
           {
-            "items": "deermod:antlers"
+            "items": "minecraft:wheat"
           }
         ]
       },
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_items"
+      "has_wheat"
     ]
   ],
   "rewards": {
     "recipes": [
-      "deermod:deer_banner_pattern"
+      "deermod:deer_crackers"
     ]
   }
 }

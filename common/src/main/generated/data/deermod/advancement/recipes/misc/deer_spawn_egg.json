@@ -1,32 +1,32 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "deermod:cooked_venison"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_items": {
+    "has_deer_crackers": {
       "conditions": {
         "items": [
           {
-            "items": "deermod:venison"
+            "items": "deermod:deer_crackers"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "deermod:deer_spawn_egg"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_items"
+      "has_deer_crackers"
     ]
   ],
   "rewards": {
     "recipes": [
-      "deermod:cooked_venison"
+      "deermod:deer_spawn_egg"
     ]
   }
 }

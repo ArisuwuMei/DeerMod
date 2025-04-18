@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "deermod:deer_crackers",
-    "X": "minecraft:egg"
+    "S": "minecraft:string",
+    "W": "minecraft:wheat"
   },
   "pattern": [
-    "###",
-    "#X#",
-    "###"
+    " S ",
+    "WWW",
+    " S "
   ],
   "result": {
     "count": 1,
-    "id": "deermod:deer_spawn_egg"
+    "id": "deermod:deer_crackers"
   }
 }

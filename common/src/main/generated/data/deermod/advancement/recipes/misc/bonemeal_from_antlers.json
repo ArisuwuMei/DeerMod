@@ -1,32 +1,32 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "deermod:cooked_venison_from_smoking"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_items": {
+    "has_antlers": {
       "conditions": {
         "items": [
           {
-            "items": "deermod:venison"
+            "items": "deermod:antlers"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "deermod:bonemeal_from_antlers"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_items"
+      "has_antlers"
     ]
   ],
   "rewards": {
     "recipes": [
-      "deermod:cooked_venison_from_smoking"
+      "deermod:bonemeal_from_antlers"
     ]
   }
 }

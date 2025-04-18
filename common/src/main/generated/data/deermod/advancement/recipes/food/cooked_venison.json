@@ -3,15 +3,15 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "deermod:deer_crackers_on_a_stick"
+        "recipe": "deermod:cooked_venison"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_items": {
+    "has_venison": {
       "conditions": {
         "items": [
           {
-            "items": "deermod:deer_crackers"
+            "items": "deermod:venison"
           }
         ]
       },
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_items"
+      "has_venison"
     ]
   ],
   "rewards": {
     "recipes": [
-      "deermod:deer_crackers_on_a_stick"
+      "deermod:cooked_venison"
     ]
   }
 }

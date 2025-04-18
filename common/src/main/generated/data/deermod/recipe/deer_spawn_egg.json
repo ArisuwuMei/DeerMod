@@ -2,15 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "minecraft:fishing_rod",
-    "X": "deermod:deer_crackers"
+    "C": "deermod:deer_crackers",
+    "E": "minecraft:egg"
   },
   "pattern": [
-    "# ",
-    " X"
+    "CCC",
+    "CEC",
+    "CCC"
   ],
   "result": {
     "count": 1,
-    "id": "deermod:deer_crackers_on_a_stick"
+    "id": "deermod:deer_spawn_egg"
   }
 }

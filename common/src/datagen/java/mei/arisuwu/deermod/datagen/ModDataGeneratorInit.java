@@ -6,7 +6,7 @@ import mei.arisuwu.deermod.entity.deer.DeerEntity;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 
-public class ModInit implements ModInitializer
+public class ModDataGeneratorInit implements ModInitializer
 {
     @Override
     public void onInitialize()
