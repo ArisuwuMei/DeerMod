@@ -15,16 +15,15 @@
   "block.minecraft.banner.deer.red": "Cervo rosso",
   "block.minecraft.banner.deer.white": "Cervo bianco",
   "block.minecraft.banner.deer.yellow": "Cervo giallo",
-
   "entity.deermod.deer": "Cervo",
-
-  "item.deermod.deer_banner_pattern": "Motivo con cervo",
-  "item.deermod.deer_spawn_egg": "Uovo generatore di cervo",
-  "item.deermod.venison": "Carne di cervo cruda",
-  "item.deermod.cooked_venison": "Carne di cervo cotta",
   "item.deermod.antlers": "Corna",
+  "item.deermod.cooked_venison": "Carne di cervo cotta",
+  "item.deermod.deer_banner_pattern": "Motivo con cervo",
   "item.deermod.deer_crackers": "Biscotto per cervi",
   "item.deermod.deer_crackers_on_a_stick": "Bastone e biscotto per cervi",
-
+  "item.deermod.deer_spawn_egg": "Uovo generatore di cervo",
+  "item.deermod.venison": "Carne di cervo cruda",
+  "painting.deermod.luvdeer.author": "Arisuwu Mei",
+  "painting.deermod.luvdeer.title": "LUVDEER",
   "tag.item.deermod.deer_food": "Cibo per cervi"
 }

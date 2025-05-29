@@ -15,19 +15,15 @@
   "block.minecraft.banner.deer.red": "Red Deer",
   "block.minecraft.banner.deer.white": "White Deer",
   "block.minecraft.banner.deer.yellow": "Yellow Deer",
-
   "entity.deermod.deer": "Deer",
-
-  "item.deermod.deer_banner_pattern": "Deer Banner Pattern",
-  "item.deermod.deer_spawn_egg": "Deer Spawn Egg",
-  "item.deermod.venison": "Raw Venison",
-  "item.deermod.cooked_venison": "Cooked Venison",
   "item.deermod.antlers": "Antlers",
+  "item.deermod.cooked_venison": "Cooked Venison",
+  "item.deermod.deer_banner_pattern": "Deer Banner Pattern",
   "item.deermod.deer_crackers": "Deer Crackers",
   "item.deermod.deer_crackers_on_a_stick": "Deer Crackers on a Stick",
-
+  "item.deermod.deer_spawn_egg": "Deer Spawn Egg",
+  "item.deermod.venison": "Venison",
   "painting.deermod.luvdeer.author": "Arisuwu Mei",
   "painting.deermod.luvdeer.title": "LUVDEER",
-
   "tag.item.deermod.deer_food": "Deer Food"
 }

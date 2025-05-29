@@ -1,14 +1,13 @@
 {
   "asset_id": "deermod:luvdeer",
-  "width": 1,
-  "height": 1,
   "author": {
     "color": "gray",
     "translate": "painting.deermod.luvdeer.author"
   },
-
+  "height": 1,
   "title": {
     "color": "yellow",
     "translate": "painting.deermod.luvdeer.title"
-  }
+  },
+  "width": 1
 }
