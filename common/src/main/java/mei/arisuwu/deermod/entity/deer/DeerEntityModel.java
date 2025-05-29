@@ -25,6 +25,7 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
     private final ModelPart rightHindLeg;
     private final ModelPart leftHindLeg;
     private final ModelPart saddle;
+    private final KeyframeAnimation eatGrassAnimation;
 
     public DeerEntityModel(ModelPart root)
     {
@@ -38,6 +39,8 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
         this.rightHindLeg = this.body.getChild("right_hind_leg");
         this.leftHindLeg = this.body.getChild("left_hind_leg");
         this.saddle = root.getChild("saddle");
+
+        this.eatGrassAnimation = EAT_GRASS.bake(root);
     }
 
     public static LayerDefinition getTexturedModelData()
@@ -125,6 +128,6 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
         this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
         this.antlers.visible = !livingEntityRenderState.sheared && !livingEntityRenderState.isBaby;
-        this.animate(livingEntityRenderState.eatGrassAnimationState, EAT_GRASS, livingEntityRenderState.ageInTicks);
+        this.eatGrassAnimation.apply(livingEntityRenderState.eatGrassAnimationState, livingEntityRenderState.ageInTicks);
     }
 }
