@@ -5,8 +5,8 @@
   "name": "Deer Mod",
   "environment": "*",
   "entrypoints": {
-    "main": ["mei.arisuwu.deermod.datagen.ModInit"],
-    "fabric-datagen": ["mei.arisuwu.deermod.datagen.ModDataGenerator"]
+    "main": ["mei.arisuwu.deermod.datagen.ModDataGeneratorInit"],
+    "fabric-datagen": ["mei.arisuwu.deermod.datagen.ModDataGeneratorEntrypoint"]
   },
   "depends": {
     "fabricloader": "*",
