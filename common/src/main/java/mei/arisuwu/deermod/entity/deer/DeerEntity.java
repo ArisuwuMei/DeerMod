@@ -153,27 +153,6 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
             return InteractionResult.SUCCESS;
         }
 
-        if (isSaddled() && !isVehicle() && player.isShiftKeyDown())
-        {
-            if (level() instanceof ServerLevel serverWorld)
-            {
-                var equippedStack = getItemBySlot(EquipmentSlot.SADDLE);
-
-                var soundEvent = Optional.ofNullable(equippedStack.get(DataComponents.EQUIPPABLE))
-                    .map(Equippable::equipSound)
-                    .orElse(SoundEvents.HORSE_SADDLE);
-
-                level().playSeededSound(
-                    null, this, soundEvent, getSoundSource(), 1, 1, random.nextLong()
-                );
-
-                spawnAtLocation(serverWorld, equippedStack);
-                setItemSlot(EquipmentSlot.SADDLE, ItemStack.EMPTY);
-                return InteractionResult.SUCCESS_SERVER;
-            }
-            return InteractionResult.CONSUME;
-        }
-
         if (isEquippableInSlot(itemStack, EquipmentSlot.SADDLE))
             return itemStack.interactLivingEntity(player, this, hand);
 
