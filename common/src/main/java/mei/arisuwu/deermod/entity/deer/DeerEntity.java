@@ -3,7 +3,6 @@ package mei.arisuwu.deermod.entity.deer;
 import mei.arisuwu.deermod.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -39,16 +38,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class DeerEntity extends Animal implements Shearable, ItemSteerable
 {
@@ -130,7 +127,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     }
 
     @Override
-    public InteractionResult mobInteract(Player player, InteractionHand hand)
+    public @NotNull InteractionResult mobInteract(Player player, InteractionHand hand)
     {
         ItemStack itemStack = player.getItemInHand(hand);
 
