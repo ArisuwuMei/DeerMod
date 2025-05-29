@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -43,6 +42,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -103,17 +104,17 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt)
+    protected void addAdditionalSaveData(ValueOutput valueOutput)
     {
-        super.addAdditionalSaveData(nbt);
-        nbt.putBoolean("Sheared", isSheared());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Sheared", isSheared());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt)
+    protected void readAdditionalSaveData(ValueInput valueInput)
     {
-        super.readAdditionalSaveData(nbt);
-        nbt.getBoolean("Sheared").ifPresent(this::setSheared);
+        super.readAdditionalSaveData(valueInput);
+        setSheared(valueInput.getBooleanOr("Sheared", false));
     }
 
     @Override
