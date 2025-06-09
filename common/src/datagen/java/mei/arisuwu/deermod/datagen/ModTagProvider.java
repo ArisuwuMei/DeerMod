@@ -32,13 +32,13 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            valueLookupBuilder(ModTags.DEER_FOOD)
+            getOrCreateTagBuilder(ModTags.DEER_FOOD)
                 .add(Items.WHEAT)
                 .add(Items.SWEET_BERRIES)
                 .add(Items.CARROT)
                 .add(ModItems.DEER_CRACKERS.get());
 
-            valueLookupBuilder(ItemTags.MEAT)
+            getOrCreateTagBuilder(ItemTags.MEAT)
                 .add(ModItems.COOKED_VENISON.get())
                 .add(ModItems.VENISON.get());
         }
@@ -54,7 +54,7 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            valueLookupBuilder(EntityTypeTags.CAN_EQUIP_SADDLE)
+            getOrCreateTagBuilder(EntityTypeTags.CAN_EQUIP_SADDLE)
                 .add(ModEntities.DEER.get());
         }
     }
@@ -69,8 +69,7 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            //noinspection unchecked
-            builder(ModTags.SPAWNS_DEERS)
+            getOrCreateTagBuilder(ModTags.SPAWNS_DEERS)
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS)
                 .add(Biomes.CHERRY_GROVE)
@@ -92,7 +91,7 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            builder(PaintingVariantTags.PLACEABLE)
+            getOrCreateTagBuilder(PaintingVariantTags.PLACEABLE)
                 .add(ModPaintingVariants.LUVDEER);
         }
     }
@@ -107,7 +106,7 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            builder(ModTags.DEER_PATTERN_ITEM)
+            getOrCreateTagBuilder(ModTags.DEER_PATTERN_ITEM)
                 .add(ModBannerPatterns.DEER);
         }
     }
