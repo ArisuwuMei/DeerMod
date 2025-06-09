@@ -87,6 +87,6 @@ public class ModRecipeProvider extends FabricRecipeProvider
     @Override
     public @NotNull String getName()
     {
-        return "UWU";
+        return "Recipes";
     }
 }
