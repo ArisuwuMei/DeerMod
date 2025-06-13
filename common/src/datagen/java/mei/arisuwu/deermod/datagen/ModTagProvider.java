@@ -70,12 +70,16 @@ public class ModTagProvider
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
             //noinspection unchecked
-            builder(ModTags.SPAWNS_DEERS)
+            builder(ModTags.DEERS_ESCAPADE_BIOMES)
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS)
                 .add(Biomes.CHERRY_GROVE)
                 .add(Biomes.SAVANNA)
-                .add(Biomes.SAVANNA_PLATEAU)
+                .add(Biomes.SAVANNA_PLATEAU);
+
+            //noinspection unchecked
+            builder(ModTags.DEERS_HABITAT_BIOMES)
+                .add(Biomes.CHERRY_GROVE)
                 .forceAddTag(BiomeTags.IS_TAIGA)
                 .forceAddTag(BiomeTags.IS_FOREST)
                 .forceAddTag(BiomeTags.IS_JUNGLE);

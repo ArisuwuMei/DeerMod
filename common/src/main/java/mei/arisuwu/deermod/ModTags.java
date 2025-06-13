@@ -8,7 +8,9 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 
 public class ModTags
 {
-    public static final TagKey<Biome> SPAWNS_DEERS = TagKey.create(Registries.BIOME, ModResourceLocation.of("spawns_deers"));
+    public static final TagKey<Biome> DEERS_HABITAT_BIOMES = TagKey.create(Registries.BIOME, ModResourceLocation.of("deers_habitat_biomes"));
+    public static final TagKey<Biome> DEERS_ESCAPADE_BIOMES = TagKey.create(Registries.BIOME, ModResourceLocation.of("deers_escapade_biomes"));
+
     public static final TagKey<Item> DEER_FOOD = TagKey.create(Registries.ITEM, ModResourceLocation.of("deer_food"));
     public static final TagKey<BannerPattern> DEER_PATTERN_ITEM = TagKey.create(Registries.BANNER_PATTERN, ModResourceLocation.of("pattern_item/deer"));
 }
