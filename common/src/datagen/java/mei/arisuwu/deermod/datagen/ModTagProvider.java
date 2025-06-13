@@ -5,9 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
 
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
@@ -69,12 +67,14 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            getOrCreateTagBuilder(ModTags.SPAWNS_DEERS)
+            getOrCreateTagBuilder(ModTags.DEERS_ESCAPADE_BIOMES)
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS)
-                .add(Biomes.CHERRY_GROVE)
                 .add(Biomes.SAVANNA)
-                .add(Biomes.SAVANNA_PLATEAU)
+                .add(Biomes.SAVANNA_PLATEAU);
+
+            getOrCreateTagBuilder(ModTags.DEERS_HABITAT_BIOMES)
+                .add(Biomes.CHERRY_GROVE)
                 .forceAddTag(BiomeTags.IS_TAIGA)
                 .forceAddTag(BiomeTags.IS_FOREST)
                 .forceAddTag(BiomeTags.IS_JUNGLE);

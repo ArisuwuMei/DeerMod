@@ -30,8 +30,15 @@ public final class FabricMod implements ModInitializer
     private void addDeerEntitySpawn()
     {
         BiomeModifications.addSpawn(
-            BiomeSelectors.tag(ModTags.SPAWNS_DEERS),
-            MobCategory.CREATURE, ModEntities.DEER.get(), 50, 2, 6
+            BiomeSelectors.tag(ModTags.DEERS_HABITAT_BIOMES),
+            MobCategory.CREATURE, ModEntities.DEER.get(),
+            25, 2, 6
+        );
+
+        BiomeModifications.addSpawn(
+            BiomeSelectors.tag(ModTags.DEERS_ESCAPADE_BIOMES),
+            MobCategory.CREATURE, ModEntities.DEER.get(),
+            6, 1, 2
         );
 
         SpawnPlacements.register(
