@@ -94,7 +94,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> data)
     {
-        if (BOOST_TIME.equals(data) && level().isClientSide)
+        if (BOOST_TIME.equals(data) && level().isClientSide())
             saddledComponent.boost();
 
         super.onSyncedDataUpdated(data);
@@ -137,7 +137,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
             {
                 shear(serverWorld, SoundSource.PLAYERS, itemStack);
                 gameEvent(GameEvent.SHEAR, player);
-                itemStack.hurtAndBreak(1, player, getSlotForHand(hand));
+                itemStack.hurtAndBreak(1, player, hand.asEquipmentSlot());
                 return InteractionResult.SUCCESS_SERVER;
             }
             return InteractionResult.CONSUME;
@@ -145,7 +145,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
 
         if (!isFood(itemStack) && isSaddled() && !isVehicle() && !player.isSecondaryUseActive())
         {
-            if (!level().isClientSide)
+            if (!level().isClientSide())
                 player.startRiding(this);
 
             return InteractionResult.SUCCESS;

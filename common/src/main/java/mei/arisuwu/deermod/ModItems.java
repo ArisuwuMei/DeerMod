@@ -23,8 +23,9 @@ public class ModItems
 
     public ModItems()
     {
-        DEER_SPAWN_EGG =
-            registerItem("deer_spawn_egg", settings -> new SpawnEggItem(ModEntities.DEER.get(), settings));
+        DEER_SPAWN_EGG = registerItem(
+            "deer_spawn_egg", SpawnEggItem::new, new Item.Properties().spawnEgg(ModEntities.DEER.get())
+        );
 
         ANTLERS = registerItem("antlers");
         VENISON = registerFoodItem("venison", ModFoodComponents.VENISON);
