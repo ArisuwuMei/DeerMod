@@ -47,6 +47,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("resource")
 public class DeerEntity extends Animal implements Shearable, ItemSteerable
 {
     public static AttributeSupplier.Builder createAttributes()
@@ -285,7 +286,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     }
 
     @Override
-    protected Vec3 getRiddenInput(Player controllingPlayer, Vec3 movementInput)
+    protected @NotNull Vec3 getRiddenInput(Player controllingPlayer, Vec3 movementInput)
     {
         return new Vec3(0.0, 0.0, 1.0);
     }
@@ -297,7 +298,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     }
 
     @Override
-    public Vec3 getPassengerRidingPosition(Entity passenger)
+    public @NotNull Vec3 getPassengerRidingPosition(Entity passenger)
     {
         return super.getPassengerRidingPosition(passenger).add(0, -0.55f, 0);
     }
@@ -309,7 +310,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     }
 
     @Override
-    public Vec3 getDismountLocationForPassenger(LivingEntity passenger) {
+    public @NotNull Vec3 getDismountLocationForPassenger(LivingEntity passenger) {
         Direction direction = this.getMotionDirection();
         if (direction.getAxis() != Direction.Axis.Y)
         {
