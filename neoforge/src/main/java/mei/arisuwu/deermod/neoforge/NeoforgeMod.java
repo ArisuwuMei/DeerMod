@@ -6,7 +6,7 @@ import mei.arisuwu.deermod.entity.deer.DeerEntity;
 import mei.arisuwu.deermod.entity.deer.DeerEntityModel;
 import mei.arisuwu.deermod.entity.deer.DeerEntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.neoforged.api.distmarker.Dist;
@@ -60,7 +60,7 @@ public final class NeoforgeMod
         {
             event.register(
                 ModEntities.DEER.get(), SpawnPlacementTypes.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE
             );
         }
