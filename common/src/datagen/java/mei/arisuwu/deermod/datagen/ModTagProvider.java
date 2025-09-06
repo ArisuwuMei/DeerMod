@@ -52,6 +52,9 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
+            getOrCreateTagBuilder(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
+                .add(ModEntities.DEER.get());
+
             getOrCreateTagBuilder(EntityTypeTags.CAN_EQUIP_SADDLE)
                 .add(ModEntities.DEER.get());
         }
@@ -70,6 +73,7 @@ public class ModTagProvider
             getOrCreateTagBuilder(ModTags.DEERS_ESCAPADE_BIOMES)
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS)
+                .add(Biomes.CHERRY_GROVE)
                 .add(Biomes.SAVANNA)
                 .add(Biomes.SAVANNA_PLATEAU);
 

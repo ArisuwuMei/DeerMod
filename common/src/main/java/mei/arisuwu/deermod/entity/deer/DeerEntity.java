@@ -27,14 +27,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.Shearable;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.EatBlockGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
@@ -67,6 +60,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     protected void registerGoals()
     {
         goalSelector.addGoal(0, new FloatGoal(this));
+        goalSelector.addGoal(0, new ClimbOnTopOfPowderSnowGoal(this, level()));
         goalSelector.addGoal(1, new PanicGoal(this, 2.0));
         goalSelector.addGoal(2, new BreedGoal(this, 1.0));
         goalSelector.addGoal(3, new TemptGoal(
