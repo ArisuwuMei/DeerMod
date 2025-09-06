@@ -54,6 +54,9 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
+            valueLookupBuilder(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
+                .add(ModEntities.DEER.get());
+
             valueLookupBuilder(EntityTypeTags.CAN_EQUIP_SADDLE)
                 .add(ModEntities.DEER.get());
         }
