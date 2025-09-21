@@ -3,7 +3,6 @@ package mei.arisuwu.deermod.entity.deer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mei.arisuwu.deermod.ModResourceLocation;
 import mei.arisuwu.deermod.ModModelLayers;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
