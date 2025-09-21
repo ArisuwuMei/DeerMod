@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,13 +43,13 @@ public class DeerEntityRenderer extends MobRenderer<DeerEntity, DeerEntityRender
     }
 
     @Override
-    public void submit(DeerEntityRenderState livingEntityRenderState, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector)
+    public void submit(DeerEntityRenderState livingEntityRenderState, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
     {
         if(livingEntityRenderState.isBaby)
             matrixStack.scale(BABY_MULTIPLIER, BABY_MULTIPLIER, BABY_MULTIPLIER);
         else
             matrixStack.scale(1, 1, 1);
 
-        super.submit(livingEntityRenderState, matrixStack, submitNodeCollector);
+        super.submit(livingEntityRenderState, matrixStack, submitNodeCollector, cameraRenderState);
     }
 }
