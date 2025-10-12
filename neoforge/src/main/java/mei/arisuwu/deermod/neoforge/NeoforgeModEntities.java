@@ -18,6 +18,7 @@ public class NeoforgeModEntities extends ModEntities
 
     public NeoforgeModEntities(IEventBus eventBus)
     {
+        super();
         ENTITY_TYPES.register(eventBus);
     }
 
