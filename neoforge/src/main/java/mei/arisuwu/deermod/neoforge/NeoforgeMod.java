@@ -30,7 +30,7 @@ public final class NeoforgeMod
         new NeoforgeModCreativeTabs(modBus);
     }
 
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public static class ClientEvents
     {
         @SubscribeEvent
@@ -40,7 +40,7 @@ public final class NeoforgeMod
         }
     }
 
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = MOD_ID)
     public static class Events
     {
         @SubscribeEvent
