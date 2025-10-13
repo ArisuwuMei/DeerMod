@@ -38,10 +38,11 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+/docs/
 /docs-tools/logs/
 /neoforge/runs/
 /fabric/run/
 /fabric/mods/
 /.architectury-transformer/
 /docs-tools/
-/common/src/main/generated/
+/common/src/main/generated/.cache/
