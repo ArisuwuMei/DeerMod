@@ -1,5 +1,6 @@
 package mei.arisuwu.deermod.fabric;
 
+import mei.arisuwu.deermod.ModConfig;
 import mei.arisuwu.deermod.ModEntities;
 import mei.arisuwu.deermod.ModItems;
 import mei.arisuwu.deermod.ModTags;
@@ -9,6 +10,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -30,16 +32,22 @@ public final class FabricMod implements ModInitializer
 
     private void addDeerEntitySpawn()
     {
+        var config = ModConfig.load(FabricLoader.getInstance().getConfigDir().resolve("deermod.json"));
+
         BiomeModifications.addSpawn(
             BiomeSelectors.tag(ModTags.DEERS_HABITAT_BIOMES),
             MobCategory.CREATURE, ModEntities.DEER.get(),
-            25, 2, 6
+            config.habitatBiomesDeerSpawnSettings().spawnRate(),
+            config.habitatBiomesDeerSpawnSettings().minGroupSize(),
+            config.habitatBiomesDeerSpawnSettings().maxGroupSize()
         );
 
         BiomeModifications.addSpawn(
             BiomeSelectors.tag(ModTags.DEERS_ESCAPADE_BIOMES),
             MobCategory.CREATURE, ModEntities.DEER.get(),
-            6, 1, 2
+            config.escapadeBiomesDeerSpawnSettings().spawnRate(),
+            config.escapadeBiomesDeerSpawnSettings().minGroupSize(),
+            config.escapadeBiomesDeerSpawnSettings().maxGroupSize()
         );
 
         SpawnPlacements.register(
