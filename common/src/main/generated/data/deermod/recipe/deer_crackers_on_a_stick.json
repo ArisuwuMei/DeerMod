@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "deermod:deer_crackers",
+    "R": "minecraft:fishing_rod"
+  },
+  "pattern": [
+    "R ",
+    " C"
+  ],
+  "result": {
+    "count": 1,
+    "id": "deermod:deer_crackers_on_a_stick"
+  }
+}

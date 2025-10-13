@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_deer_crackers": {
+      "conditions": {
+        "items": [
+          {
+            "items": "deermod:deer_crackers"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "deermod:deer_crackers_on_a_stick"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_deer_crackers"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "deermod:deer_crackers_on_a_stick"
+    ]
+  }
+}
