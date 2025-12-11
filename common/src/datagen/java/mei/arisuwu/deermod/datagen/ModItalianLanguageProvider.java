@@ -5,7 +5,6 @@ import mei.arisuwu.deermod.ModEntities;
 import mei.arisuwu.deermod.ModItems;
 import mei.arisuwu.deermod.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.DyeColor;
 

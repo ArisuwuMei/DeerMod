@@ -1,17 +1,14 @@
 package mei.arisuwu.deermod.entity.deer;
 
-import static net.minecraft.client.animation.AnimationChannel.*;
-
 import net.minecraft.client.animation.*;
-import net.minecraft.client.model.*;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
+
+import static net.minecraft.client.animation.AnimationChannel.Interpolations;
+import static net.minecraft.client.animation.AnimationChannel.Targets;
 
 public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
 {
