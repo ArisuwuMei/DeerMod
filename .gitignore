@@ -45,4 +45,4 @@ replay_*.log
 /fabric/mods/
 /.architectury-transformer/
 /docs-tools/
-/common/src/main/generated/.cache/
+/common/src/main/generated/
