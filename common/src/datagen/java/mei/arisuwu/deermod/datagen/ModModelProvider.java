@@ -1,13 +1,13 @@
 package mei.arisuwu.deermod.datagen;
 
 import mei.arisuwu.deermod.ModItems;
-import mei.arisuwu.deermod.ModResourceLocation;
+import mei.arisuwu.deermod.ModIdentifier;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -35,20 +35,20 @@ public class ModModelProvider extends FabricModelProvider
         generateLayeredItem(
             ModItems.DEER_BANNER_PATTERN.get(),
             ModelLocationUtils.getModelLocation(Items.PIGLIN_BANNER_PATTERN),
-            ModResourceLocation.of("item/deer_banner_pattern_overlay"),
+            ModIdentifier.of("item/deer_banner_pattern_overlay"),
             itemModelGenerator
         );
 
         generateLayeredItem(
             ModItems.DEER_CRACKERS_ON_A_STICK.get(),
-            ResourceLocation.withDefaultNamespace("item/handheld_rod"),
+            Identifier.withDefaultNamespace("item/handheld_rod"),
             ModelLocationUtils.getModelLocation(Items.FISHING_ROD),
-            ModResourceLocation.of("item/deer_crackers_on_a_stick_overlay"),
+            ModIdentifier.of("item/deer_crackers_on_a_stick_overlay"),
             itemModelGenerator
         );
     }
 
-    private static void generateLayeredItem(Item item, ResourceLocation parentModel, ResourceLocation layer0, ResourceLocation layer1, ItemModelGenerators itemModelGenerator)
+    private static void generateLayeredItem(Item item, Identifier parentModel, Identifier layer0, Identifier layer1, ItemModelGenerators itemModelGenerator)
     {
         var modelTemplate = new ModelTemplate(
             Optional.of(parentModel), Optional.empty(), TextureSlot.LAYER0, TextureSlot.LAYER1
@@ -63,8 +63,8 @@ public class ModModelProvider extends FabricModelProvider
         itemModelGenerator.itemModelOutput.accept(item, model);
     }
 
-    private static void generateLayeredItem(Item item, ResourceLocation layer0, ResourceLocation layer1, ItemModelGenerators itemModelGenerator)
+    private static void generateLayeredItem(Item item, Identifier layer0, Identifier layer1, ItemModelGenerators itemModelGenerator)
     {
-        generateLayeredItem(item, ResourceLocation.withDefaultNamespace("item/generated"), layer0, layer1, itemModelGenerator);
+        generateLayeredItem(item, Identifier.withDefaultNamespace("item/generated"), layer0, layer1, itemModelGenerator);
     }
 }

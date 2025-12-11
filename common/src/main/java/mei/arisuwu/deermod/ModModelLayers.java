@@ -4,5 +4,5 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 
 public class ModModelLayers
 {
-    public static final ModelLayerLocation DEER = new ModelLayerLocation(ModResourceLocation.of("deer"), "main");
+    public static final ModelLayerLocation DEER = new ModelLayerLocation(ModIdentifier.of("deer"), "main");
 }

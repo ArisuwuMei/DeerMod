@@ -1,13 +1,13 @@
 package mei.arisuwu.deermod.entity.deer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import mei.arisuwu.deermod.ModResourceLocation;
+import mei.arisuwu.deermod.ModIdentifier;
 import mei.arisuwu.deermod.ModModelLayers;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public class DeerEntityRenderer extends MobRenderer<DeerEntity, DeerEntityRenderState, DeerEntityModel>
@@ -21,9 +21,9 @@ public class DeerEntityRenderer extends MobRenderer<DeerEntity, DeerEntityRender
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(DeerEntityRenderState state)
+    public @NotNull Identifier getTextureLocation(DeerEntityRenderState state)
     {
-        return ModResourceLocation.of("textures/entity/deer/deer.png");
+        return ModIdentifier.of("textures/entity/deer/deer.png");
     }
 
     @Override

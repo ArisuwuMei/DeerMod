@@ -118,7 +118,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity)
     {
-        return (AgeableMob) BuiltInRegistries.ENTITY_TYPE.getValue(ModResourceLocation.of("deer")).create(world, EntitySpawnReason.BREEDING);
+        return (AgeableMob) BuiltInRegistries.ENTITY_TYPE.getValue(ModIdentifier.of("deer")).create(world, EntitySpawnReason.BREEDING);
     }
 
     @Override

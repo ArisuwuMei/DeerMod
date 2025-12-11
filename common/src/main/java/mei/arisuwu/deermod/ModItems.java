@@ -48,7 +48,7 @@ public class ModItems
 
     protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings)
     {
-        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name)), factory, settings);
+        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModIdentifier.of(name)), factory, settings);
         return () -> item;
     }
 
