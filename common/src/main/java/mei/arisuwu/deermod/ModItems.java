@@ -25,7 +25,7 @@ public class ModItems
     public ModItems()
     {
         DEER_SPAWN_EGG = registerItem(
-            "deer_spawn_egg", SpawnEggItem::new, new Item.Properties().spawnEgg(ModEntities.DEER.get())
+            "deer_spawn_egg", SpawnEggItem::new, () -> new Item.Properties().spawnEgg(ModEntities.DEER.get())
         );
 
         ANTLERS = registerItem("antlers");
@@ -36,35 +36,35 @@ public class ModItems
         DEER_CRACKERS_ON_A_STICK = registerItem(
             "deer_crackers_on_a_stick",
             settings -> new FoodOnAStickItem<>(ModEntities.DEER.get(), 4, settings),
-            new Item.Properties().durability(100)
+            () -> new Item.Properties().durability(100)
         );
 
         DEER_BANNER_PATTERN = registerItem(
             "deer_banner_pattern",
-            new Item.Properties()
+            () -> new Item.Properties()
                 .stacksTo(1)
                 .component(DataComponents.PROVIDES_BANNER_PATTERNS, ModTags.DEER_PATTERN_ITEM)
         );
     }
 
-    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings)
+    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Supplier<Item.Properties> settings)
     {
-        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModIdentifier.of(name)), factory, settings);
+        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModIdentifier.of(name)), factory, settings.get());
         return () -> item;
     }
 
 
     private Supplier<Item> registerFoodItem(String name, FoodProperties foodComponent)
     {
-        return registerItem(name, new Item.Properties().food(foodComponent));
+        return registerItem(name, () -> new Item.Properties().food(foodComponent));
     }
 
     private Supplier<Item> registerItem(@SuppressWarnings("SameParameterValue") String name, Function<Item.Properties, Item> factory)
     {
-        return registerItem(name, factory, new Item.Properties());
+        return registerItem(name, factory, Item.Properties::new);
     }
 
-    private Supplier<Item> registerItem(String name, Item.Properties settings)
+    private Supplier<Item> registerItem(String name, Supplier<Item.Properties> settings)
     {
         return registerItem(name, Item::new, settings);
     }
@@ -72,6 +72,6 @@ public class ModItems
     @SuppressWarnings("SameParameterValue")
     private Supplier<Item> registerItem(String name)
     {
-        return registerItem(name, Item::new, new Item.Properties());
+        return registerItem(name, Item::new, Item.Properties::new);
     }
 }

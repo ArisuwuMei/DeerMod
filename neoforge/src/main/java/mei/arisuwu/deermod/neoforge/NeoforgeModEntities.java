@@ -2,7 +2,7 @@ package mei.arisuwu.deermod.neoforge;
 
 import mei.arisuwu.deermod.Mod;
 import mei.arisuwu.deermod.ModEntities;
-import mei.arisuwu.deermod.ModResourceLocation;
+import mei.arisuwu.deermod.ModIdentifier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -25,6 +25,6 @@ public class NeoforgeModEntities extends ModEntities
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, EntityType.Builder<T> builder)
     {
-        return ENTITY_TYPES.register(name, () -> builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ModResourceLocation.of(name))));
+        return ENTITY_TYPES.register(name, () -> builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ModIdentifier.of(name))));
     }
 }
