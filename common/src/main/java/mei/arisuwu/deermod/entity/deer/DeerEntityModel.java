@@ -17,6 +17,7 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
 {
     private final ModelPart neck;
     private final ModelPart head;
+    private final ModelPart redNose;
     private final ModelPart antlers;
     private final ModelPart body;
     private final ModelPart rightFrontLeg;
@@ -31,6 +32,7 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
         super(root);
         this.neck = root.getChild("neck");
         this.head = this.neck.getChild("head");
+        this.redNose = this.head.getChild("red_nose");
         this.antlers = this.head.getChild("antlers");
         this.body = root.getChild("body");
         this.rightFrontLeg = this.body.getChild("right_front_leg");
@@ -52,8 +54,13 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
 
         PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create()
             .texOffs(32, 31).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F)
-            .texOffs(14, 47).addBox(-2.0F, 0.0F, -6.0F, 4.0F, 3.0F, 3.0F)
-            .texOffs(0, 54).addBox(-1.0F, 0.0F, -7.0F, 2.0F, 2.0F, 1.0F), PartPose.offset(0.0F, -13.0F, -2.0F));
+            .texOffs(14, 47).addBox(-2.0F, 0.0F, -6.0F, 4.0F, 3.0F, 3.0F), PartPose.offset(0.0F, -13.0F, -2.0F));
+
+        PartDefinition nose = head.addOrReplaceChild("nose", CubeListBuilder.create()
+            .texOffs(0, 54).addBox(-1.0F, -2.0F, -2.0F, 2.0F, 2.0F, 1.0F), PartPose.offset(0.0F, 2.0F, -5.0F));
+
+        PartDefinition red_nose = head.addOrReplaceChild("red_nose", CubeListBuilder.create()
+            .texOffs(0, 57).addBox(-1.0F, -2.0F, -2.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.01f)), PartPose.offset(0.0F, 2.0F, -5.0F));
 
         PartDefinition right_ear = head.addOrReplaceChild("right_ear", CubeListBuilder.create(), PartPose.offset(-4.0F, -2.0F, 1.0F));
 
@@ -132,6 +139,7 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
         this.leftHindLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
+        this.redNose.visible = livingEntityRenderState.hasRedNose;
         this.antlers.visible = !livingEntityRenderState.sheared && !livingEntityRenderState.isBaby;
         this.eatGrassAnimation.apply(livingEntityRenderState.eatGrassAnimationState, livingEntityRenderState.ageInTicks);
     }
