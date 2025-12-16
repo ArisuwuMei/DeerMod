@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'net.neoforged.gradle.userdev' version '7.0.184'
-    id "com.modrinth.minotaur" version "2.+"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -58,20 +57,4 @@ runs {
     configureEach {
         modSource project.sourceSets.main
     }
-}
-
-modrinth {
-    token = System.getenv("MODRINTH_TOKEN")
-    projectId = "deermod"
-
-    versionName = "Deer Mod $mod_version+$minecraft_version"
-    versionNumber = "$mod_version+$minecraft_version"
-
-    uploadFile = jar
-
-    versionType = "release"
-    loaders = ["neoforge"]
-
-    gameVersions = [minecraft_version]
-    changelog = "- Added a painting of the LUVDEER!"
 }
