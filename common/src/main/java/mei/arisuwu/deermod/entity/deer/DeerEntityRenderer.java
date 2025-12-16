@@ -36,6 +36,7 @@ public class DeerEntityRenderer extends MobRenderer<DeerEntity, DeerEntityRender
     public void extractRenderState(DeerEntity deerEntity, DeerEntityRenderState deerEntityRenderState, float delta)
     {
         super.extractRenderState(deerEntity, deerEntityRenderState, delta);
+        deerEntityRenderState.hasRedNose = deerEntity.hasRedNose();
         deerEntityRenderState.sheared = deerEntity.isSheared();
         deerEntityRenderState.saddled = deerEntity.isSaddled();
         deerEntityRenderState.eatGrassAnimationState.copyFrom(deerEntity.eatGrassAnimationState);
