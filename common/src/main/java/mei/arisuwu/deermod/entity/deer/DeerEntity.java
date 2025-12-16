@@ -81,6 +81,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
         super.defineSynchedData(builder);
+        builder.define(RED_NOSE, false);
         builder.define(SHEARED, false);
         builder.define(BOOST_TIME, 0);
     }
@@ -98,6 +99,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     protected void addAdditionalSaveData(ValueOutput valueOutput)
     {
         super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("RedNose", hasRedNose());
         valueOutput.putBoolean("Sheared", isSheared());
     }
 
@@ -105,6 +107,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     protected void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
+        setRedNose(valueInput.getBooleanOr("RedNose", false));
         setSheared(valueInput.getBooleanOr("Sheared", false));
     }
 
@@ -124,6 +127,17 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     public @NotNull InteractionResult mobInteract(Player player, InteractionHand hand)
     {
         ItemStack itemStack = player.getItemInHand(hand);
+
+        if (itemStack.is(Items.RED_DYE) || itemStack.is(Items.BLACK_DYE))
+        {
+            if (level() instanceof ServerLevel serverWorld)
+            {
+                setRedNose(itemStack.is(Items.RED_DYE));
+                itemStack.consume(1, player);
+                return InteractionResult.SUCCESS_SERVER;
+            }
+            return InteractionResult.CONSUME;
+        }
 
         if (itemStack.is(Items.SHEARS) && readyForShearing())
         {
@@ -149,6 +163,21 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
             return itemStack.interactLivingEntity(player, this, hand);
 
         return super.mobInteract(player, hand);
+    }
+
+
+    // RED NOSE MECHANICS
+
+    private static final EntityDataAccessor<Boolean> RED_NOSE = SynchedEntityData.defineId(DeerEntity.class, EntityDataSerializers.BOOLEAN);
+
+    public boolean hasRedNose()
+    {
+        return entityData.get(RED_NOSE);
+    }
+
+    protected void setRedNose(boolean b)
+    {
+        entityData.set(RED_NOSE, b);
     }
 
 
