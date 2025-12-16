@@ -5,6 +5,7 @@ import net.minecraft.world.entity.AnimationState;
 
 public class DeerEntityRenderState extends LivingEntityRenderState
 {
+    public boolean hasRedNose;
     public boolean sheared;
     public boolean saddled;
     public AnimationState eatGrassAnimationState = new AnimationState();
