@@ -12,13 +12,13 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModEnglishLanguageProvider extends ModLanguageProviderBase
 {
-    protected ModEnglishLanguageProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup)
+    protected ModEnglishLanguageProvider(FabricDataOutput dataOutput)
     {
-        super(dataOutput, "en_us", registryLookup);
+        super(dataOutput, "en_us");
     }
 
     @Override
-    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder)
+    public void generateTranslations(TranslationBuilder translationBuilder)
     {
         translationBuilder.add(ModItems.ANTLERS.get(), "Antlers");
         translationBuilder.add(ModItems.COOKED_VENISON.get(), "Cooked Venison");
@@ -28,16 +28,14 @@ public class ModEnglishLanguageProvider extends ModLanguageProviderBase
         translationBuilder.add(ModItems.DEER_SPAWN_EGG.get(), "Deer Spawn Egg");
         translationBuilder.add(ModItems.VENISON.get(), "Venison");
 
-        translationBuilder.add(ModTags.DEER_FOOD, "Deer Food");
-
         translationBuilder.add(ModEntities.DEER.get(), "Deer");
 
-        translateBanner(ModBannerPatterns.DEER, color -> color + " Deer", registryLookup, translationBuilder);
+        translateBanner(translationBuilder, ModBannerPatterns.DEER, this::translateDyeColor, "%s Deer");
 
-        translatePaintingVariant(ModPaintingVariants.LUVDEER, "LUVDEER", "Arisuwu Mei", registryLookup, translationBuilder);
+        translationBuilder.add("painting.deermod.luvdeer.author", "Arisuwu Mei");
+        translationBuilder.add("painting.deermod.luvdeer.title", "LUVDEER");
     }
 
-    @Override
     protected String translateDyeColor(DyeColor dyeColor)
     {
         return UCharacter.toTitleCase(

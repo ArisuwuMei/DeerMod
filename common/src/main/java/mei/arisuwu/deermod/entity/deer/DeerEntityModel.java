@@ -1,7 +1,7 @@
 package mei.arisuwu.deermod.entity.deer;
 
 import net.minecraft.client.animation.*;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.AgeableHierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -10,8 +10,9 @@ import net.minecraft.util.Mth;
 import static net.minecraft.client.animation.AnimationChannel.Interpolations;
 import static net.minecraft.client.animation.AnimationChannel.Targets;
 
-public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
+public class DeerEntityModel<D extends DeerEntity> extends AgeableHierarchicalModel<D>
 {
+    private final ModelPart root;
     private final ModelPart neck;
     private final ModelPart head;
     private final ModelPart redNose;
@@ -22,56 +23,56 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
     private final ModelPart rightHindLeg;
     private final ModelPart leftHindLeg;
     private final ModelPart saddle;
-    private final KeyframeAnimation eatGrassAnimation;
 
     public DeerEntityModel(ModelPart root)
     {
-        super(root);
-        this.neck = root.getChild("neck");
-        this.head = this.neck.getChild("head");
-        this.redNose = this.head.getChild("red_nose");
-        this.antlers = this.head.getChild("antlers");
-        this.body = root.getChild("body");
-        this.rightFrontLeg = this.body.getChild("right_front_leg");
-        this.leftFrontLeg = this.body.getChild("left_front_leg");
-        this.rightHindLeg = this.body.getChild("right_hind_leg");
-        this.leftHindLeg = this.body.getChild("left_hind_leg");
-        this.saddle = root.getChild("saddle");
+        super(0.6f, 16f);
+        this.root = root;
+        neck = root.getChild("neck");
+        head = neck.getChild("head");
+        redNose = head.getChild("red_nose");
+        antlers = head.getChild("antlers");
+        body = root.getChild("body");
+        rightFrontLeg = body.getChild("right_front_leg");
+        leftFrontLeg = body.getChild("left_front_leg");
+        rightHindLeg = body.getChild("right_hind_leg");
+        leftHindLeg = body.getChild("left_hind_leg");
+        saddle = root.getChild("saddle");
 
-        this.eatGrassAnimation = EAT_GRASS.bake(root);
+        //eatGrassAnimation = EAT_GRASS.bake(root);
     }
 
     public static LayerDefinition getTexturedModelData()
     {
-        MeshDefinition modelData = new MeshDefinition();
-        PartDefinition modelPartData = modelData.getRoot();
-        PartDefinition neck = modelPartData.addOrReplaceChild("neck", CubeListBuilder.create(), PartPose.offset(0.0F, 9.0F, -11.0F));
+        var modelData = new MeshDefinition();
+        var modelPartData = modelData.getRoot();
+        var neck = modelPartData.addOrReplaceChild("neck", CubeListBuilder.create(), PartPose.offset(0.0F, 9.0F, -11.0F));
 
-        PartDefinition neck_r1 = neck.addOrReplaceChild("neck_r1", CubeListBuilder.create().texOffs(32, 43).addBox(-2.0F, -10.0F, -1.5F, 4.0F, 12.0F, 4.0F), PartPose.offsetAndRotation(0.0F, -2.5F, -0.5F, 0.2356F, 0.0F, 0.0F));
+        var neck_r1 = neck.addOrReplaceChild("neck_r1", CubeListBuilder.create().texOffs(32, 43).addBox(-2.0F, -10.0F, -1.5F, 4.0F, 12.0F, 4.0F), PartPose.offsetAndRotation(0.0F, -2.5F, -0.5F, 0.2356F, 0.0F, 0.0F));
 
-        PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create()
+        var head = neck.addOrReplaceChild("head", CubeListBuilder.create()
             .texOffs(32, 31).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F)
             .texOffs(14, 47).addBox(-2.0F, 0.0F, -6.0F, 4.0F, 3.0F, 3.0F), PartPose.offset(0.0F, -13.0F, -2.0F));
 
-        PartDefinition nose = head.addOrReplaceChild("nose", CubeListBuilder.create()
+        var nose = head.addOrReplaceChild("nose", CubeListBuilder.create()
             .texOffs(0, 54).addBox(-1.0F, -2.0F, -2.0F, 2.0F, 2.0F, 1.0F), PartPose.offset(0.0F, 2.0F, -5.0F));
 
-        PartDefinition red_nose = head.addOrReplaceChild("red_nose", CubeListBuilder.create()
+        var red_nose = head.addOrReplaceChild("red_nose", CubeListBuilder.create()
             .texOffs(0, 57).addBox(-1.0F, -2.0F, -2.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.01f)), PartPose.offset(0.0F, 2.0F, -5.0F));
 
-        PartDefinition right_ear = head.addOrReplaceChild("right_ear", CubeListBuilder.create(), PartPose.offset(-4.0F, -2.0F, 1.0F));
+        var right_ear = head.addOrReplaceChild("right_ear", CubeListBuilder.create(), PartPose.offset(-4.0F, -2.0F, 1.0F));
 
-        PartDefinition ear_r1 = right_ear.addOrReplaceChild("ear_r1", CubeListBuilder.create()
+        var ear_r1 = right_ear.addOrReplaceChild("ear_r1", CubeListBuilder.create()
             .texOffs(6, 54).addBox(-4.0F, -2.0F, -1.0F, 2.0F, 2.0F, 1.0F)
             .texOffs(22, 53).addBox(-2.0F, -2.0F, -1.0F, 3.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -0.3927F, 0.6981F));
 
-        PartDefinition left_ear = head.addOrReplaceChild("left_ear", CubeListBuilder.create(), PartPose.offset(4.0F, -2.0F, 1.0F));
+        var left_ear = head.addOrReplaceChild("left_ear", CubeListBuilder.create(), PartPose.offset(4.0F, -2.0F, 1.0F));
 
-        PartDefinition ear_r2 = left_ear.addOrReplaceChild("ear_r2", CubeListBuilder.create()
+        var ear_r2 = left_ear.addOrReplaceChild("ear_r2", CubeListBuilder.create()
             .texOffs(6, 54).mirror().addBox(2.0F, -2.0F, -1.0F, 2.0F, 2.0F, 1.0F).mirror(false)
             .texOffs(22, 53).mirror().addBox(-1.0F, -2.0F, -1.0F, 3.0F, 3.0F, 1.0F).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.3927F, -0.6981F));
 
-        PartDefinition antlers = head.addOrReplaceChild("antlers", CubeListBuilder.create(), PartPose.offset(0.0F, 28.0F, 12.0F));
+        var antlers = head.addOrReplaceChild("antlers", CubeListBuilder.create(), PartPose.offset(0.0F, 28.0F, 12.0F));
 
         antlers.addOrReplaceChild("antlers_l", CubeListBuilder.create()
             .texOffs(28, 47).mirror().addBox(0.0F, -2.0F, -23.0F, 1.0F, 2.0F, 1.0F).mirror(false)
@@ -93,7 +94,7 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
             .texOffs(28, 50).addBox(-7.0F, -39.0F, -12.0F, 1.0F, 1.0F, 1.0F)
             .texOffs(28, 50).addBox(-2.0F, -36.0F, -11.0F, 1.0F, 1.0F, 1.0F), PartPose.ZERO);
 
-        PartDefinition body = modelPartData.addOrReplaceChild("body", CubeListBuilder.create()
+        var body = modelPartData.addOrReplaceChild("body", CubeListBuilder.create()
             .texOffs(0, 47).addBox(-2.0F, -21.0F, 8.0F, 4.0F, 4.0F, 3.0F)
             .texOffs(14, 53).addBox(-1.0F, -23.0F, 10.0F, 2.0F, 4.0F, 2.0F)
             .texOffs(0, 0).addBox(-4.0F, -19.0F, -13.0F, 8.0F, 9.0F, 22.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
@@ -124,20 +125,26 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
         )).build();
 
     @Override
-    public void setupAnim(DeerEntityRenderState livingEntityRenderState)
+    public void setupAnim(D deer, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
     {
-        super.setupAnim(livingEntityRenderState);
-        this.saddle.visible = livingEntityRenderState.saddled;
-        this.head.xRot = livingEntityRenderState.xRot * (float) (Math.PI / 180.0);
-        this.head.yRot = livingEntityRenderState.yRot * (float) (Math.PI / 180.0);
-        float f = livingEntityRenderState.walkAnimationPos;
-        float g = livingEntityRenderState.walkAnimationSpeed;
-        this.rightHindLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
-        this.leftHindLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
-        this.redNose.visible = livingEntityRenderState.hasRedNose;
-        this.antlers.visible = !livingEntityRenderState.sheared && !livingEntityRenderState.isBaby;
-        this.eatGrassAnimation.apply(livingEntityRenderState.eatGrassAnimationState, livingEntityRenderState.ageInTicks);
+        head.xRot = headPitch * (float) (Math.PI / 180.0);
+        head.yRot = headYaw * (float) (Math.PI / 180.0);
+        rightHindLeg.xRot = Mth.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+        leftHindLeg.xRot = Mth.cos(limbAngle * 0.6662F + (float) Math.PI) * 1.4F * limbDistance;
+        rightFrontLeg.xRot = Mth.cos(limbAngle * 0.6662F + (float) Math.PI) * 1.4F * limbDistance;
+        leftFrontLeg.xRot = Mth.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+
+        redNose.visible = deer.hasRedNose();
+        antlers.visible = !deer.isSheared() && !deer.isBaby();
+        saddle.visible = deer.isSaddled();
+
+        neck.resetPose();
+        animate(deer.eatGrassAnimationState, EAT_GRASS, animationProgress);
+    }
+
+    @Override
+    public ModelPart root()
+    {
+        return root;
     }
 }

@@ -1,9 +1,6 @@
 package mei.arisuwu.deermod.fabric;
 
-import mei.arisuwu.deermod.ModConfig;
-import mei.arisuwu.deermod.ModEntities;
-import mei.arisuwu.deermod.ModItems;
-import mei.arisuwu.deermod.ModTags;
+import mei.arisuwu.deermod.*;
 import mei.arisuwu.deermod.entity.deer.DeerEntity;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -12,7 +9,6 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
 
@@ -25,6 +21,8 @@ public final class FabricMod implements ModInitializer
         new ModEntities();
         new ModItems();
         new FabricModCreativeTabs();
+        new ModBannerPatterns();
+        new ModPaintingVariants();
         FabricDefaultAttributeRegistry.register(ModEntities.DEER.get(), DeerEntity.createAttributes());
         addDeerEntitySpawn();
     }
@@ -50,7 +48,7 @@ public final class FabricMod implements ModInitializer
         );
 
         SpawnPlacements.register(
-            ModEntities.DEER.get(), SpawnPlacementTypes.ON_GROUND,
+            ModEntities.DEER.get(), SpawnPlacements.Type.ON_GROUND,
             Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules
         );
     }

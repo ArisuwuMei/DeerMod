@@ -10,16 +10,17 @@ import net.minecraft.world.item.DyeColor;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 public class ModItalianLanguageProvider extends ModLanguageProviderBase
 {
-    protected ModItalianLanguageProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup)
+    protected ModItalianLanguageProvider(FabricDataOutput dataOutput)
     {
-        super(dataOutput,"it_it", registryLookup);
+        super(dataOutput,"it_it");
     }
 
     @Override
-    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder)
+    public void generateTranslations(TranslationBuilder translationBuilder)
     {
         translationBuilder.add(ModItems.ANTLERS.get(), "Corna");
         translationBuilder.add(ModItems.COOKED_VENISON.get(), "Carne di cervo cotta");
@@ -29,37 +30,15 @@ public class ModItalianLanguageProvider extends ModLanguageProviderBase
         translationBuilder.add(ModItems.DEER_SPAWN_EGG.get(), "Uovo generatore di cervo");
         translationBuilder.add(ModItems.VENISON.get(), "Carne di cervo cruda");
 
-        translationBuilder.add(ModTags.DEER_FOOD, "Cibo per cervi");
-
         translationBuilder.add(ModEntities.DEER.get(), "Cervo");
 
         translationBuilder.add("painting.deermod.luvdeer.author", "Arisuwu Mei");
         translationBuilder.add("painting.deermod.luvdeer.title", "LUVDEER");
 
-        var map = Map.ofEntries(
-            Map.entry(DyeColor.BLACK, "nero"),
-            Map.entry(DyeColor.BLUE, "blu"),
-            Map.entry(DyeColor.BROWN, "marrone"),
-            Map.entry(DyeColor.CYAN, "ciano"),
-            Map.entry(DyeColor.GRAY, "grigio"),
-            Map.entry(DyeColor.GREEN, "verde"),
-            Map.entry(DyeColor.LIGHT_BLUE, "azzurro"),
-            Map.entry(DyeColor.LIGHT_GRAY, "grigio chiaro"),
-            Map.entry(DyeColor.LIME, "lime"),
-            Map.entry(DyeColor.MAGENTA, "magenta"),
-            Map.entry(DyeColor.ORANGE, "arancione"),
-            Map.entry(DyeColor.PINK, "rosa"),
-            Map.entry(DyeColor.PURPLE, "viola"),
-            Map.entry(DyeColor.RED, "rosso"),
-            Map.entry(DyeColor.WHITE, "bianco"),
-            Map.entry(DyeColor.YELLOW, "giallo")
-        );
-
-        translateBanner(ModBannerPatterns.DEER, color -> "Cervo " + color, registryLookup, translationBuilder);
+        translateBanner(translationBuilder, ModBannerPatterns.DEER, this::translateMasculineDyeColor, "Cervo %s");
     }
 
-    @Override
-    protected String translateDyeColor(DyeColor dyeColor)
+    protected String translateMasculineDyeColor(DyeColor dyeColor)
     {
         return switch (dyeColor) {
             case BLACK -> "nero";

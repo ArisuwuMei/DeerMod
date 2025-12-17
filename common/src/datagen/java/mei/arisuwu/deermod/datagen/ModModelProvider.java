@@ -1,17 +1,14 @@
 package mei.arisuwu.deermod.datagen;
 
-import mei.arisuwu.deermod.ModIdentifier;
 import mei.arisuwu.deermod.ModItems;
-import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
+import mei.arisuwu.deermod.ModResourceLocation;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.client.data.models.BlockModelGenerators;
-import net.minecraft.client.data.models.ItemModelGenerators;
-import net.minecraft.client.data.models.model.*;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Item;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.data.models.BlockModelGenerators;
+import net.minecraft.data.models.ItemModelGenerators;
+import net.minecraft.data.models.model.ModelLocationUtils;
+import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.world.item.Items;
-
-import java.util.Optional;
 
 public class ModModelProvider extends FabricModelProvider
 {
@@ -21,7 +18,12 @@ public class ModModelProvider extends FabricModelProvider
     }
 
     @Override
-    public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) { }
+    public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {
+        blockModelGenerators.delegateItemModel(
+            ModItems.DEER_SPAWN_EGG.get(),
+            ModelLocationUtils.decorateItemModelLocation("template_spawn_egg")
+        );
+    }
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator)
@@ -29,42 +31,41 @@ public class ModModelProvider extends FabricModelProvider
         itemModelGenerator.generateFlatItem(ModItems.ANTLERS.get(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.COOKED_VENISON.get(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.DEER_CRACKERS.get(), ModelTemplates.FLAT_ITEM);
-        itemModelGenerator.generateFlatItem(ModItems.DEER_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.VENISON.get(), ModelTemplates.FLAT_ITEM);
-
-        generateLayeredItem(
-            ModItems.DEER_BANNER_PATTERN.get(),
-            ModelLocationUtils.getModelLocation(Items.PIGLIN_BANNER_PATTERN),
-            ModIdentifier.of("item/deer_banner_pattern_overlay"),
-            itemModelGenerator
-        );
-
-        generateLayeredItem(
-            ModItems.DEER_CRACKERS_ON_A_STICK.get(),
-            Identifier.withDefaultNamespace("item/handheld_rod"),
+        itemModelGenerator.generateFlatItem(ModItems.DEER_BANNER_PATTERN.get(), Items.PIGLIN_BANNER_PATTERN, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateLayeredItem(
+            ModelLocationUtils.getModelLocation(ModItems.DEER_CRACKERS_ON_A_STICK.get()),
             ModelLocationUtils.getModelLocation(Items.FISHING_ROD),
-            ModIdentifier.of("item/deer_crackers_on_a_stick_overlay"),
-            itemModelGenerator
+            ModResourceLocation.of("item/deer_crackers_on_a_stick_overlay")
         );
+//
+//        generateLayeredItem(
+//            ModItems.DEER_CRACKERS_ON_A_STICK.get(),
+//            ResourceLocation.tryBuild(ResourceLocation.DEFAULT_NAMESPACE, "item/handheld_rod"),
+//            ModelLocationUtils.getModelLocation(Items.FISHING_ROD),
+//            ModResourceLocation.of("item/deer_crackers_on_a_stick_overlay"),
+//            itemModelGenerator
+//        );
     }
 
-    private static void generateLayeredItem(Item item, Identifier parentModel, Identifier layer0, Identifier layer1, ItemModelGenerators itemModelGenerator)
-    {
-        var modelTemplate = new ModelTemplate(
-            Optional.of(parentModel), Optional.empty(), TextureSlot.LAYER0, TextureSlot.LAYER1
-        );
-
-        var model = ItemModelUtils.plainModel(modelTemplate.create(
-            item,
-            TextureMapping.layered(layer0, layer1),
-            itemModelGenerator.modelOutput
-        ));
-
-        itemModelGenerator.itemModelOutput.accept(item, model);
-    }
-
-    private static void generateLayeredItem(Item item, Identifier layer0, Identifier layer1, ItemModelGenerators itemModelGenerator)
-    {
-        generateLayeredItem(item, Identifier.withDefaultNamespace("item/generated"), layer0, layer1, itemModelGenerator);
-    }
+//    private static void generateLayeredItem(Item item, ResourceLocation parentModel, ResourceLocation layer0, ResourceLocation layer1, ItemModelGenerators itemModelGenerator)
+//    {
+//        var modelTemplate = new ModelTemplate(
+//            Optional.of(parentModel), Optional.empty(), TextureSlot.LAYER0, TextureSlot.LAYER1
+//        );
+//
+//        var model = ItemModelUtils.plainModel(modelTemplate.create(
+//            item,
+//            TextureMapping.layered(layer0, layer1),
+//            itemModelGenerator.modelOutput
+//        ));
+//
+//        itemModelGenerator.itemModelOutput.accept(item, model);
+//        itemModelGenerator.output.accept(item);
+//    }
+//
+//    private static void generateLayeredItem(Item item, ResourceLocation layer0, ResourceLocation layer1, ItemModelGenerators itemModelGenerator)
+//    {
+//        generateLayeredItem(item, ResourceLocation.withDefaultNamespace("item/generated"), layer0, layer1, itemModelGenerator);
+//    }
 }

@@ -1,5 +1,6 @@
 package mei.arisuwu.deermod.datagen;
 
+import com.mojang.serialization.Lifecycle;
 import mei.arisuwu.deermod.ModBannerPatterns;
 import mei.arisuwu.deermod.ModPaintingVariants;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -19,7 +20,7 @@ public class ModDataGeneratorEntrypoint implements DataGeneratorEntrypoint
         pack.addProvider(ModRecipeProvider::new);
 
         pack.addProvider(ModEntityLootTableProvider::new);
-        pack.addProvider(ModShearingLootTableProvider::new);
+        //pack.addProvider(ModShearingLootTableProvider::new);
 
         pack.addProvider(ModEnglishLanguageProvider::new);
         pack.addProvider(ModItalianLanguageProvider::new);
@@ -29,15 +30,12 @@ public class ModDataGeneratorEntrypoint implements DataGeneratorEntrypoint
         pack.addProvider(ModTagProvider.ModBiomeTagProvider::new);
         pack.addProvider(ModTagProvider.ModPaintingVariantTagsProvider::new);
         pack.addProvider(ModTagProvider.ModBannerPatternTagsProvider::new);
-
-        pack.addProvider(ModPaintingVariantProvider::new);
-        pack.addProvider(ModBannerPatternProvider::new);
     }
 
     @Override
     public void buildRegistry(RegistrySetBuilder registryBuilder)
     {
-        registryBuilder.add(Registries.PAINTING_VARIANT, ModPaintingVariants::bootstrap);
-        registryBuilder.add(Registries.BANNER_PATTERN, ModBannerPatterns::bootstrap);
+        //registryBuilder.add(Registries.PAINTING_VARIANT, Lifecycle.stable(), ModPaintingVariants::bootstrap);
+        //registryBuilder.add(Registries.BANNER_PATTERN, ModBannerPatterns::bootstrap);
     }
 }

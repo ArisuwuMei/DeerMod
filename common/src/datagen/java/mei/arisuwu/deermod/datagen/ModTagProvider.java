@@ -9,7 +9,7 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.PaintingVariantTags;
-import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -29,15 +29,15 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            valueLookupBuilder(ModTags.DEER_FOOD)
+            getOrCreateTagBuilder(ModTags.DEER_FOOD)
                 .add(Items.WHEAT)
                 .add(Items.SWEET_BERRIES)
                 .add(Items.CARROT)
                 .add(ModItems.DEER_CRACKERS.get());
-
-            valueLookupBuilder(ItemTags.MEAT)
-                .add(ModItems.COOKED_VENISON.get())
-                .add(ModItems.VENISON.get());
+//
+//            getOrCreateTagBuilder(ItemTags.MEAT)
+//                .add(ModItems.COOKED_VENISON.get())
+//                .add(ModItems.VENISON.get());
         }
     }
 
@@ -51,10 +51,7 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            valueLookupBuilder(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
-                .add(ModEntities.DEER.get());
-
-            valueLookupBuilder(EntityTypeTags.CAN_EQUIP_SADDLE)
+            getOrCreateTagBuilder(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
                 .add(ModEntities.DEER.get());
         }
     }
@@ -69,16 +66,14 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            //noinspection unchecked
-            builder(ModTags.DEERS_ESCAPADE_BIOMES)
+            getOrCreateTagBuilder(ModTags.DEERS_ESCAPADE_BIOMES)
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS)
                 .add(Biomes.CHERRY_GROVE)
                 .add(Biomes.SAVANNA)
                 .add(Biomes.SAVANNA_PLATEAU);
 
-            //noinspection unchecked
-            builder(ModTags.DEERS_HABITAT_BIOMES)
+            getOrCreateTagBuilder(ModTags.DEERS_HABITAT_BIOMES)
                 .add(Biomes.CHERRY_GROVE)
                 .forceAddTag(BiomeTags.IS_TAIGA)
                 .forceAddTag(BiomeTags.IS_FOREST)
@@ -96,7 +91,7 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            builder(PaintingVariantTags.PLACEABLE)
+            getOrCreateTagBuilder(PaintingVariantTags.PLACEABLE)
                 .add(ModPaintingVariants.LUVDEER);
         }
     }
@@ -111,7 +106,7 @@ public class ModTagProvider
         @Override
         protected void addTags(HolderLookup.Provider wrapperLookup)
         {
-            builder(ModTags.DEER_PATTERN_ITEM)
+            getOrCreateTagBuilder(ModTags.DEER_PATTERN_ITEM)
                 .add(ModBannerPatterns.DEER);
         }
     }

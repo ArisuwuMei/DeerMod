@@ -1,7 +1,9 @@
 package mei.arisuwu.deermod;
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.entity.BannerPattern;
 
@@ -10,24 +12,18 @@ public class ModBannerPatterns
 {
     public static final ResourceKey<BannerPattern> DEER = create("deer");
 
-    public static void bootstrap(BootstrapContext<BannerPattern> context)
+    public ModBannerPatterns()
     {
-        register(context, DEER);
+        register(DEER, "deer");
     }
 
     private static ResourceKey<BannerPattern> create(String name)
     {
-        return ResourceKey.create(Registries.BANNER_PATTERN, ModIdentifier.of(name));
+        return ResourceKey.create(Registries.BANNER_PATTERN, ModResourceLocation.of(name));
     }
 
-    private static void register(BootstrapContext<BannerPattern> context, ResourceKey<BannerPattern> resourceKey)
+    private static void register(ResourceKey<BannerPattern> resourceKey, String id)
     {
-        context.register(
-            resourceKey,
-            new BannerPattern(
-                resourceKey.identifier(),
-                "block.minecraft.banner." + resourceKey.identifier().getPath()
-            )
-        );
+        Registry.register(BuiltInRegistries.BANNER_PATTERN, resourceKey, new BannerPattern(id));
     }
 }
