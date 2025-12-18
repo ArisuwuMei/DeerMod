@@ -22,7 +22,7 @@ public class ModBannerPatterns
         return ResourceKey.create(Registries.BANNER_PATTERN, ModResourceLocation.of(name));
     }
 
-    private static void register(ResourceKey<BannerPattern> resourceKey, String id)
+    protected void register(ResourceKey<BannerPattern> resourceKey, String id)
     {
         Registry.register(BuiltInRegistries.BANNER_PATTERN, resourceKey, new BannerPattern(id));
     }
