@@ -24,7 +24,8 @@ public class ModItalianLanguageProvider extends ModLanguageProviderBase
     {
         translationBuilder.add(ModItems.ANTLERS.get(), "Corna");
         translationBuilder.add(ModItems.COOKED_VENISON.get(), "Carne di cervo cotta");
-        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get(), "Motivo con cervo");
+        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get(), "Motivo per stendardo");
+        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get().getDescriptionId() + ".desc", "Cervo");
         translationBuilder.add(ModItems.DEER_CRACKERS.get(), "Biscotto per cervi");
         translationBuilder.add(ModItems.DEER_CRACKERS_ON_A_STICK.get(), "Bastone e biscotto per cervi");
         translationBuilder.add(ModItems.DEER_SPAWN_EGG.get(), "Uovo generatore di cervo");
