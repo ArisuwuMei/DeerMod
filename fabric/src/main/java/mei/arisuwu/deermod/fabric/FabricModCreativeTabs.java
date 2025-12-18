@@ -1,5 +1,6 @@
 package mei.arisuwu.deermod.fabric;
 
+import com.google.common.collect.Lists;
 import mei.arisuwu.deermod.ItemGroupEntry;
 import mei.arisuwu.deermod.ModCreativeTabs;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -22,7 +23,7 @@ public class FabricModCreativeTabs extends ModCreativeTabs
             newEntries.forEach(newEntry -> {
                 switch (newEntry.position)
                 {
-                    case HEAD -> newEntry.newItems.reversed().forEach(newItem -> entries.prepend(newItem.get()));
+                    case HEAD -> Lists.reverse(newEntry.newItems).forEach(newItem -> entries.prepend(newItem.get()));
                     case BEFORE -> entries.addBefore(newEntry.existingItem, newEntry.getNewItemStacks());
                     case AFTER -> entries.addAfter(newEntry.existingItem, newEntry.getNewItemStacks());
                     case TAIL -> entries.acceptAll(newEntry.getNewItemStacks());
