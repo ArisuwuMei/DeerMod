@@ -1,0 +1,12 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "#deermod:deers_habitat_biomes",
+  "spawners": [
+    {
+      "type": "deermod:deer",
+      "weight": 14,
+      "minCount": 2,
+      "maxCount": 6
+    }
+  ]
+}
