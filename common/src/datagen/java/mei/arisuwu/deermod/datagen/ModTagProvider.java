@@ -54,9 +54,6 @@ public class ModTagProvider
         {
             getOrCreateTagBuilder(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
                 .add(ModEntities.DEER.get());
-
-            getOrCreateTagBuilder(EntityTypeTags.CAN_EQUIP_SADDLE)
-                .add(ModEntities.DEER.get());
         }
     }
 

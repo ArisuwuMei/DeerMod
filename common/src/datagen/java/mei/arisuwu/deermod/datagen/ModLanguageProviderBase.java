@@ -41,23 +41,10 @@ public abstract class ModLanguageProviderBase extends FabricLanguageProvider
 
     }
 
-    protected void translatePaintingVariant(ResourceKey<PaintingVariant> paintingVariantKey, String title, String author, HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder)
+    protected void translatePaintingVariant(ResourceKey<PaintingVariant> paintingVariantKey, String title, String author, TranslationBuilder translationBuilder)
     {
-        var paintingVariant = registryLookup.lookupOrThrow(Registries.PAINTING_VARIANT)
-            .getOrThrow(paintingVariantKey)
-            .value();
-
-        if (title != null) paintingVariant.title()
-            .map(Component::getContents)
-            .map(TranslatableContents.class::cast)
-            .map(TranslatableContents::getKey)
-            .ifPresent(key -> translationBuilder.add(key, title));
-
-        if (author != null) paintingVariant.author()
-            .map(Component::getContents)
-            .map(TranslatableContents.class::cast)
-            .map(TranslatableContents::getKey)
-            .ifPresent(key -> translationBuilder.add(key, author));
+        translationBuilder.add(paintingVariantKey.location().toLanguageKey("painting", "author"), author);
+        translationBuilder.add(paintingVariantKey.location().toLanguageKey("painting", "title"), title);
     }
 
     protected String translateDyeColor(DyeColor dyeColor)

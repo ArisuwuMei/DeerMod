@@ -3,8 +3,6 @@ package mei.arisuwu.deermod.entity.deer;
 import mei.arisuwu.deermod.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -14,17 +12,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityEvent;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ItemSteerable;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.Shearable;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -33,20 +21,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
-public class DeerEntity extends Animal implements Shearable, ItemSteerable
+public class DeerEntity extends Animal implements Shearable, ItemSteerable, Saddleable
 {
     public static AttributeSupplier.Builder createAttributes()
     {
-        return Animal.createAnimalAttributes()
+        return Animal.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 8.0)
             .add(Attributes.MOVEMENT_SPEED, 0.25f);
     }
@@ -85,6 +73,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
         super.defineSynchedData(builder);
         builder.define(RED_NOSE, false);
         builder.define(SHEARED, false);
+        builder.define(SADDLED, false);
         builder.define(BOOST_TIME, 0);
     }
 
@@ -103,14 +92,16 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
         super.addAdditionalSaveData(nbt);
         nbt.putBoolean("RedNose", hasRedNose());
         nbt.putBoolean("Sheared", isSheared());
+        nbt.putBoolean("Saddled", isSaddled());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag nbt)
     {
         super.readAdditionalSaveData(nbt);
-        nbt.getBoolean("RedNose").ifPresent(this::setRedNose);
-        nbt.getBoolean("Sheared").ifPresent(this::setSheared);
+        setRedNose(nbt.getBoolean("RedNose"));
+        setSheared(nbt.getBoolean("Sheared"));
+        setSaddled(nbt.getBoolean("Saddled"));
     }
 
     @Override
@@ -122,7 +113,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity)
     {
-        return (AgeableMob) BuiltInRegistries.ENTITY_TYPE.getValue(ModResourceLocation.of("deer")).create(world, EntitySpawnReason.BREEDING);
+        return ModEntities.DEER.get().create(world);
     }
 
     @Override
@@ -136,7 +127,7 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
             {
                 setRedNose(itemStack.is(Items.RED_DYE));
                 itemStack.consume(1, player);
-                return InteractionResult.SUCCESS_SERVER;
+                return InteractionResult.SUCCESS;
             }
             return InteractionResult.CONSUME;
         }
@@ -145,10 +136,10 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
         {
             if (level() instanceof ServerLevel serverWorld)
             {
-                shear(serverWorld, SoundSource.PLAYERS, itemStack);
+                shear(SoundSource.PLAYERS);
                 gameEvent(GameEvent.SHEAR, player);
                 itemStack.hurtAndBreak(1, player, getSlotForHand(hand));
-                return InteractionResult.SUCCESS_SERVER;
+                return InteractionResult.SUCCESS;
             }
             return InteractionResult.CONSUME;
         }
@@ -161,28 +152,18 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
             return InteractionResult.SUCCESS;
         }
 
-        if (isSaddled() && !isVehicle() && player.isShiftKeyDown())
+        if (player.isShiftKeyDown() && isSaddled() && !isVehicle())
         {
-            if (level() instanceof ServerLevel serverWorld)
+            if (level() instanceof ServerLevel)
             {
-                var equippedStack = getItemBySlot(EquipmentSlot.SADDLE);
-
-                var soundEvent = Optional.ofNullable(equippedStack.get(DataComponents.EQUIPPABLE))
-                    .map(Equippable::equipSound)
-                    .orElse(SoundEvents.HORSE_SADDLE);
-
-                level().playSeededSound(
-                    null, this, soundEvent, getSoundSource(), 1, 1, random.nextLong()
-                );
-
-                spawnAtLocation(serverWorld, equippedStack);
-                setItemSlot(EquipmentSlot.SADDLE, ItemStack.EMPTY);
-                return InteractionResult.SUCCESS_SERVER;
+                setSaddled(false);
+                spawnAtLocation(Items.SADDLE);
+                return InteractionResult.SUCCESS;
             }
             return InteractionResult.CONSUME;
         }
 
-        if (isEquippableInSlot(itemStack, EquipmentSlot.SADDLE))
+        if (itemStack.is(Items.SADDLE))
             return itemStack.interactLivingEntity(player, this, hand);
 
         return super.mobInteract(player, hand);
@@ -209,15 +190,16 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     private static final EntityDataAccessor<Boolean> SHEARED = SynchedEntityData.defineId(DeerEntity.class, EntityDataSerializers.BOOLEAN);
 
     @Override
-    public void shear(ServerLevel world, SoundSource shearedSoundCategory, ItemStack shears)
+    public void shear(SoundSource shearedSoundCategory)
     {
-        world.playSound(null, this, SoundEvents.SHEEP_SHEAR, shearedSoundCategory, 1.0f, 1.0f);
-        dropFromShearingLootTable(
-            world,
-            ModLootTables.DEER_SHEARING,
-            shears,
-            (serverWorld, itemStack) -> spawnAtLocation(serverWorld, itemStack, 1.0f)
-        );
+        var lootTable = level().getServer().reloadableRegistries().getLootTable(ModLootTables.DEER_SHEARING);
+        var lootParams = new LootParams.Builder((ServerLevel)level())
+            .withParameter(LootContextParams.ORIGIN, position())
+            .withParameter(LootContextParams.THIS_ENTITY, this)
+            .create(LootContextParamSets.SHEARING);
+
+        lootTable.getRandomItems(lootParams).forEach(i -> spawnAtLocation(i, 1));
+        level().playSound(null, this, SoundEvents.SHEEP_SHEAR, shearedSoundCategory, 1.0f, 1.0f);
         setSheared(true);
     }
 
@@ -245,10 +227,10 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     private int eatGrassTimer = 0;
 
     @Override
-    protected void customServerAiStep(ServerLevel world)
+    protected void customServerAiStep()
     {
         eatGrassTimer = eatGrassGoal.getEatAnimationTick();
-        super.customServerAiStep(world);
+        super.customServerAiStep();
     }
 
     @Override
@@ -296,21 +278,30 @@ public class DeerEntity extends Animal implements Shearable, ItemSteerable
     // SADDLE MECHANICS
 
     private static final EntityDataAccessor<Integer> BOOST_TIME = SynchedEntityData.defineId(DeerEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> SADDLED = SynchedEntityData.defineId(DeerEntity.class, EntityDataSerializers.BOOLEAN);
     private final DeerEntitySaddledComponent saddledComponent = new DeerEntitySaddledComponent(entityData, BOOST_TIME);
 
     @Override
-    public boolean canUseSlot(EquipmentSlot slot)
+    public boolean isSaddleable()
     {
-        if (slot == EquipmentSlot.SADDLE)
-            return isAlive() && !isBaby();
-
-        return super.canUseSlot(slot);
+        return isAlive() && !isBaby();
     }
 
     @Override
-    protected boolean canDispenserEquipIntoSlot(EquipmentSlot slot)
+    public boolean isSaddled()
     {
-        return slot == EquipmentSlot.SADDLE || super.canDispenserEquipIntoSlot(slot);
+        return entityData.get(SADDLED);
+    }
+
+    public void setSaddled(boolean b)
+    {
+        entityData.set(SADDLED, b);
+    }
+
+    @Override
+    public void equipSaddle(ItemStack stack, @Nullable SoundSource soundSource)
+    {
+        entityData.set(SADDLED, true);
     }
 
     @Override

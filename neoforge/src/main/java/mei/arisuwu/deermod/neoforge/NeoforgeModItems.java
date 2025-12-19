@@ -27,6 +27,6 @@ public class NeoforgeModItems extends ModItems
     protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings)
     {
         var registryKey = ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name));
-        return ITEMS.registerItem(name, factory, settings.setId(registryKey));
+        return ITEMS.registerItem(name, factory, settings);
     }
 }

@@ -15,16 +15,7 @@ public class ModPaintingVariants
 
     public static void bootstrap(BootstrapContext<PaintingVariant> context)
     {
-        context.register(
-            LUVDEER,
-            new PaintingVariant(
-                1,
-                1,
-                LUVDEER.location(),
-                Optional.of(Component.translatable(LUVDEER.location().toLanguageKey("painting", "title")).withStyle(ChatFormatting.YELLOW)),
-                Optional.of(Component.translatable(LUVDEER.location().toLanguageKey("painting", "author")).withStyle(ChatFormatting.GRAY))
-            )
-        );
+        context.register(LUVDEER, new PaintingVariant(1, 1, LUVDEER.location()));
     }
 
 

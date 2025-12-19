@@ -22,7 +22,8 @@ public class ModEnglishLanguageProvider extends ModLanguageProviderBase
     {
         translationBuilder.add(ModItems.ANTLERS.get(), "Antlers");
         translationBuilder.add(ModItems.COOKED_VENISON.get(), "Cooked Venison");
-        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get(), "Deer Banner Pattern");
+        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get(), "Banner Pattern");
+        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get().getDescriptionId() + ".desc", "Deer");
         translationBuilder.add(ModItems.DEER_CRACKERS.get(), "Deer Crackers");
         translationBuilder.add(ModItems.DEER_CRACKERS_ON_A_STICK.get(), "Deer Crackers on a Stick");
         translationBuilder.add(ModItems.DEER_SPAWN_EGG.get(), "Deer Spawn Egg");
@@ -34,7 +35,7 @@ public class ModEnglishLanguageProvider extends ModLanguageProviderBase
 
         translateBanner(ModBannerPatterns.DEER, color -> color + " Deer", registryLookup, translationBuilder);
 
-        translatePaintingVariant(ModPaintingVariants.LUVDEER, "LUVDEER", "Arisuwu Mei", registryLookup, translationBuilder);
+        translatePaintingVariant(ModPaintingVariants.LUVDEER, "LUVDEER", "Arisuwu Mei", translationBuilder);
     }
 
     @Override

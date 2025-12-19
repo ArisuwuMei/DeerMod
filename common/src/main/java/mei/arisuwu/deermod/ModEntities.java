@@ -23,7 +23,7 @@ public class ModEntities
     {
         var entityType = Registry.register(
             BuiltInRegistries.ENTITY_TYPE, ModResourceLocation.of(name),
-            builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ModResourceLocation.of(name)))
+            builder.build(name)
         );
         return () -> entityType;
     }

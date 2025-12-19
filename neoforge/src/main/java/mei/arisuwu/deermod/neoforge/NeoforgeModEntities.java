@@ -24,6 +24,6 @@ public class NeoforgeModEntities extends ModEntities
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, EntityType.Builder<T> builder)
     {
-        return ENTITY_TYPES.register(name, () -> builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ModResourceLocation.of(name))));
+        return ENTITY_TYPES.register(name, () -> builder.build(name));
     }
 }

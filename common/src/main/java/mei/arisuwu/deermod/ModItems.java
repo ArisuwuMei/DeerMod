@@ -4,10 +4,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.FoodOnAStickItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.*;
+
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -23,8 +21,9 @@ public class ModItems
 
     public ModItems()
     {
-        DEER_SPAWN_EGG =
-            registerItem("deer_spawn_egg", settings -> new SpawnEggItem(ModEntities.DEER.get(), settings));
+        DEER_SPAWN_EGG = registerItem("deer_spawn_egg", settings -> new SpawnEggItem(
+            ModEntities.DEER.get(), -4688839, -334136, settings
+        ));
 
         ANTLERS = registerItem("antlers");
         VENISON = registerFoodItem("venison", ModFoodComponents.VENISON);
@@ -33,21 +32,20 @@ public class ModItems
 
         DEER_CRACKERS_ON_A_STICK = registerItem(
             "deer_crackers_on_a_stick",
-            settings -> new FoodOnAStickItem<>(ModEntities.DEER.get(), 4, settings),
+            settings -> new FoodOnAStickItem<>(settings, ModEntities.DEER.get(), 4),
             new Item.Properties().durability(100)
         );
 
         DEER_BANNER_PATTERN = registerItem(
             "deer_banner_pattern",
-            new Item.Properties()
-                .stacksTo(1)
-                .component(DataComponents.PROVIDES_BANNER_PATTERNS, ModTags.DEER_PATTERN_ITEM)
+            settings -> new BannerPatternItem(ModTags.DEER_PATTERN_ITEM, settings),
+            new Item.Properties().stacksTo(1)
         );
     }
 
     protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties settings)
     {
-        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name)), factory, settings);
+        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name)), factory.apply(settings));
         return () -> item;
     }
 

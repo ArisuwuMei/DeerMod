@@ -1,9 +1,6 @@
 package mei.arisuwu.deermod.datagen;
 
-import mei.arisuwu.deermod.ModBannerPatterns;
-import mei.arisuwu.deermod.ModEntities;
-import mei.arisuwu.deermod.ModItems;
-import mei.arisuwu.deermod.ModTags;
+import mei.arisuwu.deermod.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
@@ -24,7 +21,8 @@ public class ModItalianLanguageProvider extends ModLanguageProviderBase
     {
         translationBuilder.add(ModItems.ANTLERS.get(), "Corna");
         translationBuilder.add(ModItems.COOKED_VENISON.get(), "Carne di cervo cotta");
-        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get(), "Motivo con cervo");
+        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get(), "Motivo per stendardo");
+        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get().getDescriptionId() + ".desc", "Cervo");
         translationBuilder.add(ModItems.DEER_CRACKERS.get(), "Biscotto per cervi");
         translationBuilder.add(ModItems.DEER_CRACKERS_ON_A_STICK.get(), "Bastone e biscotto per cervi");
         translationBuilder.add(ModItems.DEER_SPAWN_EGG.get(), "Uovo generatore di cervo");
@@ -34,8 +32,7 @@ public class ModItalianLanguageProvider extends ModLanguageProviderBase
 
         translationBuilder.add(ModEntities.DEER.get(), "Cervo");
 
-        translationBuilder.add("painting.deermod.luvdeer.author", "Arisuwu Mei");
-        translationBuilder.add("painting.deermod.luvdeer.title", "LUVDEER");
+        translatePaintingVariant(ModPaintingVariants.LUVDEER, "LUVDEER", "Arisuwu Mei", translationBuilder);
 
         var map = Map.ofEntries(
             Map.entry(DyeColor.BLACK, "nero"),

@@ -19,74 +19,71 @@ public class ModRecipeProvider extends FabricRecipeProvider
     }
 
     @Override
-    protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput)
+    public void buildRecipes(RecipeOutput recipeOutput)
     {
-        return new RecipeProvider(provider, recipeOutput) {
+        SimpleCookingRecipeBuilder.smelting(
+                Ingredient.of(ModItems.VENISON.get()), RecipeCategory.FOOD,
+                ModItems.COOKED_VENISON.get(), 0.35f, 200
+            )
+            .unlockedBy("has_venison", has(ModItems.VENISON.get()))
+            .save(recipeOutput);
 
-            @Override
-            public void buildRecipes()
-            {
-                SimpleCookingRecipeBuilder.smelting(
-                    Ingredient.of(ModItems.VENISON.get()),
-                    RecipeCategory.FOOD,
-                    ModItems.COOKED_VENISON.get(), 0.35f, 200
-                )
-                    .unlockedBy("has_venison", has(ModItems.VENISON.get()))
-                    .save(recipeOutput);
+        SimpleCookingRecipeBuilder.smoking(
+                Ingredient.of(ModItems.VENISON.get()), RecipeCategory.FOOD,
+                ModItems.COOKED_VENISON.get(), 0.35F, 100
+            )
+            .unlockedBy("has_venison", has(ModItems.VENISON.get()))
+            .save(recipeOutput, "venison_smoking");
 
-                cookRecipes("smoking", RecipeSerializer.SMOKING_RECIPE, SmokingRecipe::new, 100);
-                cookRecipes("campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING_RECIPE, CampfireCookingRecipe::new, 600);
+        SimpleCookingRecipeBuilder.campfireCooking(
+                Ingredient.of(ModItems.VENISON.get()), RecipeCategory.FOOD,
+                ModItems.COOKED_VENISON.get(), 0.35F, 600
+            )
+            .unlockedBy("has_venison", has(ModItems.VENISON.get()))
+            .save(recipeOutput, "venison_campfire_cooking");
 
-                shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 3)
-                    .group("bonemeal")
-                    .requires(ModItems.ANTLERS.get())
-                    .unlockedBy("has_antlers", has(ModItems.ANTLERS.get()))
-                    .save(recipeOutput, "deermod:bonemeal_from_antlers");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 3)
+            .group("bonemeal")
+            .requires(ModItems.ANTLERS.get())
+            .unlockedBy("has_antlers", has(ModItems.ANTLERS.get()))
+            .save(recipeOutput, "deermod:bonemeal_from_antlers");
 
-                shapeless(RecipeCategory.MISC, ModItems.DEER_BANNER_PATTERN.get())
-                    .requires(Items.PAPER)
-                    .requires(ModItems.ANTLERS.get())
-                    .unlockedBy("has_antlers", has(ModItems.ANTLERS.get()))
-                    .save(output);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.DEER_BANNER_PATTERN.get())
+            .requires(Items.PAPER)
+            .requires(ModItems.ANTLERS.get())
+            .unlockedBy("has_antlers", has(ModItems.ANTLERS.get()))
+            .save(recipeOutput);
 
-                shaped(RecipeCategory.MISC, ModItems.DEER_CRACKERS.get())
-                    .define('W', Items.WHEAT)
-                    .define('S', Items.STRING)
-                    .pattern(" S ")
-                    .pattern("WWW")
-                    .pattern(" S ")
-                    .unlockedBy("has_wheat", has(Items.WHEAT))
-                    .save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DEER_CRACKERS.get())
+            .define('W', Items.WHEAT)
+            .define('S', Items.STRING)
+            .pattern(" S ")
+            .pattern("WWW")
+            .pattern(" S ")
+            .unlockedBy("has_wheat", has(Items.WHEAT))
+            .save(recipeOutput);
 
-                shaped(RecipeCategory.MISC, ModItems.DEER_CRACKERS_ON_A_STICK.get())
-                    .define('R', Items.FISHING_ROD)
-                    .define('C', ModItems.DEER_CRACKERS.get())
-                    .pattern("R ")
-                    .pattern(" C")
-                    .unlockedBy("has_deer_crackers", has(ModItems.DEER_CRACKERS.get()))
-                    .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DEER_CRACKERS_ON_A_STICK.get())
+            .define('R', Items.FISHING_ROD)
+            .define('C', ModItems.DEER_CRACKERS.get())
+            .pattern("R ")
+            .pattern(" C")
+            .unlockedBy("has_deer_crackers", has(ModItems.DEER_CRACKERS.get()))
+            .save(recipeOutput);
 
-                shaped(RecipeCategory.MISC, ModItems.DEER_SPAWN_EGG.get())
-                    .define('C', ModItems.DEER_CRACKERS.get())
-                    .define('E', Items.EGG)
-                    .pattern("CCC")
-                    .pattern("CEC")
-                    .pattern("CCC")
-                    .unlockedBy("has_deer_crackers", has(ModItems.DEER_CRACKERS.get()))
-                    .save(recipeOutput);
-            }
-
-            @Override
-            public <T extends AbstractCookingRecipe> void cookRecipes(String cookingMethod, RecipeSerializer<T> recipeSerializer, AbstractCookingRecipe.Factory<T> factory, int cookingTime)
-            {
-                simpleCookingRecipe(cookingMethod, recipeSerializer, factory, cookingTime, ModItems.VENISON.get(), ModItems.COOKED_VENISON.get(), 0.35F);
-            }
-        };
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DEER_SPAWN_EGG.get())
+            .define('C', ModItems.DEER_CRACKERS.get())
+            .define('E', Items.EGG)
+            .pattern("CCC")
+            .pattern("CEC")
+            .pattern("CCC")
+            .unlockedBy("has_deer_crackers", has(ModItems.DEER_CRACKERS.get()))
+            .save(recipeOutput);
     }
 
     @Override
     public @NotNull String getName()
     {
-        return "UWU";
+        return "DeerMod Recipe Provider";
     }
 }

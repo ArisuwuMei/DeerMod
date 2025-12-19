@@ -13,8 +13,9 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
-public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
+public class DeerEntityModel<D extends DeerEntity> extends AgeableHierarchicalModel<D>
 {
+    private final ModelPart root;
     private final ModelPart neck;
     private final ModelPart head;
     private final ModelPart redNose;
@@ -28,7 +29,8 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
 
     public DeerEntityModel(ModelPart root)
     {
-        super(root);
+        super(0.6f, 16f);
+        this.root = root;
         this.neck = root.getChild("neck");
         this.head = this.neck.getChild("head");
         this.redNose = this.head.getChild("red_nose");
@@ -124,20 +126,26 @@ public class DeerEntityModel extends EntityModel<DeerEntityRenderState>
         )).build();
 
     @Override
-    public void setupAnim(DeerEntityRenderState livingEntityRenderState)
+    public void setupAnim(D deer, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
     {
-        super.setupAnim(livingEntityRenderState);
-        this.saddle.visible = livingEntityRenderState.saddled;
-        this.head.xRot = livingEntityRenderState.xRot * (float) (Math.PI / 180.0);
-        this.head.yRot = livingEntityRenderState.yRot * (float) (Math.PI / 180.0);
-        float f = livingEntityRenderState.walkAnimationPos;
-        float g = livingEntityRenderState.walkAnimationSpeed;
-        this.rightHindLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
-        this.leftHindLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
-        this.redNose.visible = livingEntityRenderState.hasRedNose;
-        this.antlers.visible = !livingEntityRenderState.sheared && !livingEntityRenderState.isBaby;
-        this.animate(livingEntityRenderState.eatGrassAnimationState, EAT_GRASS, livingEntityRenderState.ageInTicks);
+        head.xRot = headPitch * (float) (Math.PI / 180.0);
+        head.yRot = headYaw * (float) (Math.PI / 180.0);
+        rightHindLeg.xRot = Mth.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+        leftHindLeg.xRot = Mth.cos(limbAngle * 0.6662F + (float) Math.PI) * 1.4F * limbDistance;
+        rightFrontLeg.xRot = Mth.cos(limbAngle * 0.6662F + (float) Math.PI) * 1.4F * limbDistance;
+        leftFrontLeg.xRot = Mth.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+
+        redNose.visible = deer.hasRedNose();
+        antlers.visible = !deer.isSheared() && !deer.isBaby();
+        saddle.visible = deer.isSaddled();
+
+        neck.resetPose();
+        animate(deer.eatGrassAnimationState, EAT_GRASS, animationProgress);
+    }
+
+    @Override
+    public ModelPart root()
+    {
+        return root;
     }
 }
