@@ -34,17 +34,17 @@ public class ModRecipeProvider extends FabricRecipeProvider
             .unlockedBy("has_venison", has(ModItems.VENISON.get()))
             .save(consumer);
 
-//        SimpleCookingRecipeBuilder.smoking(
-//                Ingredient.of(ModItems.VENISON.get()), RecipeCategory.FOOD,
-//                ModItems.COOKED_VENISON.get(), 0.35F, 100)
-//            .unlockedBy("has_venison", has(ModItems.VENISON.get()))
-//            .save(consumer);
-//
-//        SimpleCookingRecipeBuilder.campfireCooking(
-//                Ingredient.of(ModItems.VENISON.get()), RecipeCategory.FOOD,
-//                ModItems.COOKED_VENISON.get(), 0.35F, 600)
-//            .unlockedBy("has_venison", has(ModItems.VENISON.get()))
-//            .save(consumer);
+        SimpleCookingRecipeBuilder.smoking(
+                Ingredient.of(ModItems.VENISON.get()), RecipeCategory.FOOD,
+                ModItems.COOKED_VENISON.get(), 0.35F, 100)
+            .unlockedBy("has_venison", has(ModItems.VENISON.get()))
+            .save(consumer, "deermod:cooked_from_venison_smoking");
+
+        SimpleCookingRecipeBuilder.campfireCooking(
+                Ingredient.of(ModItems.VENISON.get()), RecipeCategory.FOOD,
+                ModItems.COOKED_VENISON.get(), 0.35F, 600)
+            .unlockedBy("has_venison", has(ModItems.VENISON.get()))
+            .save(consumer, "deermod:cooked_venison_from_campfire_cooking");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 3)
             .group("bonemeal")

@@ -33,7 +33,8 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableProvider
     @Override
     public void generate(BiConsumer<ResourceLocation, LootTable.Builder> output)
     {
-        output.accept(ModResourceLocation.of("deer"), new LootTable.Builder()
+        output.accept(ModResourceLocation.of("entities/deer"), new LootTable.Builder()
+            .setParamSet(lootContextType)
             .withPool(new LootPool.Builder()
                 .add(LootItem.lootTableItem(ModItems.ANTLERS.get())
                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(0F, 1F)))
