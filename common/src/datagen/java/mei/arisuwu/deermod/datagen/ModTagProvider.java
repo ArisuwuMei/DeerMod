@@ -69,7 +69,6 @@ public class ModTagProvider
             getOrCreateTagBuilder(ModTags.DEERS_ESCAPADE_BIOMES)
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS)
-                .add(Biomes.CHERRY_GROVE)
                 .add(Biomes.SAVANNA)
                 .add(Biomes.SAVANNA_PLATEAU);
 
