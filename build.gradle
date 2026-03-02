@@ -8,7 +8,7 @@ tasks.named('wrapper', Wrapper) {
 
 allprojects {
     group = maven_group
-    version = "$mod_version+$minecraft_version"
+    version = "$mod_version+$minecraft_lowest_version"
 }
 
 subprojects {
