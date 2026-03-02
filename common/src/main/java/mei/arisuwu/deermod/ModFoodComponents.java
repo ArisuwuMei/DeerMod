@@ -2,8 +2,7 @@ package mei.arisuwu.deermod;
 
 import net.minecraft.world.food.FoodProperties;
 
-public class ModFoodComponents
-{
+public class ModFoodComponents {
     public static final FoodProperties VENISON = new FoodProperties.Builder()
         .nutrition(3).saturationModifier(0.3f).build();
 

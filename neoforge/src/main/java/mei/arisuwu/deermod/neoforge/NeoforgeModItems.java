@@ -1,7 +1,7 @@
 package mei.arisuwu.deermod.neoforge;
 
-import mei.arisuwu.deermod.ModItems;
 import mei.arisuwu.deermod.Mod;
+import mei.arisuwu.deermod.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
@@ -13,19 +13,16 @@ import java.util.function.Supplier;
 
 import static mei.arisuwu.deermod.Mod.MOD_ID;
 
-public class NeoforgeModItems extends ModItems
-{
+public class NeoforgeModItems extends ModItems {
     private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);
 
-    public NeoforgeModItems(IEventBus eventBus)
-    {
+    public NeoforgeModItems(IEventBus eventBus) {
         super();
         ITEMS.register(eventBus);
     }
 
     @Override
-    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Supplier<Item.Properties> settings)
-    {
+    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Supplier<Item.Properties> settings) {
         var registryKey = ResourceKey.create(Registries.ITEM, Mod.identifier(name));
         return ITEMS.register(name, () -> factory.apply(settings.get().setId(registryKey)));
     }

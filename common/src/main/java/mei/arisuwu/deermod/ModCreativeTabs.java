@@ -1,7 +1,5 @@
 package mei.arisuwu.deermod;
 
-import static mei.arisuwu.deermod.CreativeTabsEntry.*;
-
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -11,12 +9,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class ModCreativeTabs
-{
+import static mei.arisuwu.deermod.CreativeTabsEntry.after;
+import static mei.arisuwu.deermod.CreativeTabsEntry.before;
+
+public abstract class ModCreativeTabs {
     protected final Map<ResourceKey<CreativeModeTab>, Set<CreativeTabsEntry>> entriesMap = new HashMap<>();
 
-    protected ModCreativeTabs()
-    {
+    protected ModCreativeTabs() {
         entriesMap.put(
             CreativeModeTabs.FOOD_AND_DRINKS,
             Set.of(

@@ -17,16 +17,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModEntityLootTableProvider extends FabricEntityLootSubProvider
-{
-    protected ModEntityLootTableProvider(FabricPackOutput output, @NotNull CompletableFuture<HolderLookup.Provider> registriesFuture)
-    {
+public class ModEntityLootTableProvider extends FabricEntityLootSubProvider {
+    protected ModEntityLootTableProvider(FabricPackOutput output, @NotNull CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    public void generate()
-    {
+    public void generate() {
         add(ModEntities.DEER.get(), ModLootTables.DEER, new LootTable.Builder()
             .withPool(new LootPool.Builder()
                 .add(LootItem.lootTableItem(ModItems.ANTLERS.get())

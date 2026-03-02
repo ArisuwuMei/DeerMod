@@ -9,13 +9,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 
 @SuppressWarnings("unused")
-public final class FabricModClient implements ClientModInitializer
-{
+public final class FabricModClient implements ClientModInitializer {
     @Override
-    public void onInitializeClient()
-    {
+    public void onInitializeClient() {
         ModelLayerRegistry.registerModelLayer(ModModelLayers.DEER, DeerModel::getTexturedModelData);
         EntityRenderers.register(ModEntities.DEER.get(), DeerRenderer::new);
     }
-
 }

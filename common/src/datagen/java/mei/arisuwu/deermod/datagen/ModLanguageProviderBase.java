@@ -15,30 +15,25 @@ import org.apache.commons.lang3.NotImplementedException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-public abstract class ModLanguageProviderBase extends FabricLanguageProvider
-{
-    protected ModLanguageProviderBase(FabricPackOutput output, String languageCode, CompletableFuture<HolderLookup.Provider> registriesFuture)
-    {
+public abstract class ModLanguageProviderBase extends FabricLanguageProvider {
+    protected ModLanguageProviderBase(FabricPackOutput output, String languageCode, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, languageCode, registriesFuture);
     }
 
-    protected void translateBanner(ResourceKey<BannerPattern> bannerPatternKey, Function<String, String> combineColor, HolderLookup.Provider registries, TranslationBuilder translationBuilder)
-    {
+    protected void translateBanner(ResourceKey<BannerPattern> bannerPatternKey, Function<String, String> combineColor, HolderLookup.Provider registries, TranslationBuilder builder) {
         var bannerPattern = registries.lookupOrThrow(Registries.BANNER_PATTERN)
             .getOrThrow(bannerPatternKey).value();
 
-        for (DyeColor dyeColor : DyeColor.values())
-        {
+        for (DyeColor dyeColor : DyeColor.values()) {
             var translationKey = String.format("%s.%s", bannerPattern.translationKey(), dyeColor.getName());
             var translationValue = combineColor.apply(translateDyeColor(dyeColor));
 
-            translationBuilder.add(translationKey, translationValue);
+            builder.add(translationKey, translationValue);
         }
 
     }
 
-    protected void translatePaintingVariant(ResourceKey<PaintingVariant> paintingVariantKey, String title, String author, HolderLookup.Provider registries, TranslationBuilder translationBuilder)
-    {
+    protected void translatePaintingVariant(ResourceKey<PaintingVariant> paintingVariantKey, String title, String author, HolderLookup.Provider registries, TranslationBuilder builder) {
         var paintingVariant = registries.lookupOrThrow(Registries.PAINTING_VARIANT)
             .getOrThrow(paintingVariantKey)
             .value();
@@ -47,17 +42,16 @@ public abstract class ModLanguageProviderBase extends FabricLanguageProvider
             .map(Component::getContents)
             .map(TranslatableContents.class::cast)
             .map(TranslatableContents::getKey)
-            .ifPresent(key -> translationBuilder.add(key, title));
+            .ifPresent(key -> builder.add(key, title));
 
         if (author != null) paintingVariant.author()
             .map(Component::getContents)
             .map(TranslatableContents.class::cast)
             .map(TranslatableContents::getKey)
-            .ifPresent(key -> translationBuilder.add(key, author));
+            .ifPresent(key -> builder.add(key, author));
     }
 
-    protected String translateDyeColor(DyeColor dyeColor)
-    {
+    protected String translateDyeColor(DyeColor dyeColor) {
         throw new NotImplementedException();
     }
 }

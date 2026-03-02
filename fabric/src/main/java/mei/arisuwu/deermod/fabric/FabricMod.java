@@ -8,7 +8,6 @@ import mei.arisuwu.deermod.entity.deer.DeerEntity;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.entity.Mob;
@@ -18,11 +17,9 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 
-public final class FabricMod implements ModInitializer
-{
+public final class FabricMod implements ModInitializer {
     @Override
-    public void onInitialize()
-    {
+    public void onInitialize() {
         new ModEntities();
         new ModItems();
         new FabricModCreativeTabs();
@@ -30,8 +27,7 @@ public final class FabricMod implements ModInitializer
         addDeerEntitySpawn();
     }
 
-    private void addDeerEntitySpawn()
-    {
+    private void addDeerEntitySpawn() {
         var config = ModConfig.load(FabricLoader.getInstance().getConfigDir().resolve("deermod.json"));
 
         BiomeModifications.addSpawn(

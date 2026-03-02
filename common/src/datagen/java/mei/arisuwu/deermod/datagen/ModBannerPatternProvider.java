@@ -9,22 +9,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModBannerPatternProvider extends FabricDynamicRegistryProvider
-{
-    public ModBannerPatternProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
-    {
+public class ModBannerPatternProvider extends FabricDynamicRegistryProvider {
+    public ModBannerPatternProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure(HolderLookup.Provider registries, Entries entries)
-    {
+    protected void configure(HolderLookup.Provider registries, Entries entries) {
         entries.add(registries.lookupOrThrow(Registries.BANNER_PATTERN), ModBannerPatterns.DEER);
     }
 
     @Override
-    public @NotNull String getName()
-    {
+    public @NotNull String getName() {
         return "Banner Patterns";
     }
 }

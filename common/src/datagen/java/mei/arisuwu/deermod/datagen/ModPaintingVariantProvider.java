@@ -9,22 +9,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModPaintingVariantProvider extends FabricDynamicRegistryProvider
-{
-    public ModPaintingVariantProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
-    {
+public class ModPaintingVariantProvider extends FabricDynamicRegistryProvider {
+    public ModPaintingVariantProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure(HolderLookup.Provider registries, Entries entries)
-    {
+    protected void configure(HolderLookup.Provider registries, Entries entries) {
         entries.add(registries.lookupOrThrow(Registries.PAINTING_VARIANT), ModPaintingVariants.LUVDEER);
     }
 
     @Override
-    public @NotNull String getName()
-    {
+    public @NotNull String getName() {
         return "Painting Variants";
     }
 }

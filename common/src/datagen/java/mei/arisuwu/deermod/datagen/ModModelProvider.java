@@ -15,19 +15,16 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 
-public class ModModelProvider extends FabricModelProvider
-{
-    public ModModelProvider(FabricPackOutput output)
-    {
+public class ModModelProvider extends FabricModelProvider {
+    public ModModelProvider(FabricPackOutput output) {
         super(output);
     }
 
     @Override
-    public void generateBlockStateModels(@NonNull BlockModelGenerators generators) { }
+    public void generateBlockStateModels(@NonNull BlockModelGenerators generators) {}
 
     @Override
-    public void generateItemModels(ItemModelGenerators generators)
-    {
+    public void generateItemModels(ItemModelGenerators generators) {
         generators.generateFlatItem(ModItems.ANTLERS.get(), ModelTemplates.FLAT_ITEM);
         generators.generateFlatItem(ModItems.COOKED_VENISON.get(), ModelTemplates.FLAT_ITEM);
         generators.generateFlatItem(ModItems.DEER_CRACKERS.get(), ModelTemplates.FLAT_ITEM);
@@ -50,8 +47,7 @@ public class ModModelProvider extends FabricModelProvider
         );
     }
 
-    private static void generateLayeredItem(Item item, Identifier parentModel, Identifier layer0, Identifier layer1, ItemModelGenerators generators)
-    {
+    private static void generateLayeredItem(Item item, Identifier parentModel, Identifier layer0, Identifier layer1, ItemModelGenerators generators) {
         var modelTemplate = new ModelTemplate(
             Optional.of(parentModel), Optional.empty(), TextureSlot.LAYER0, TextureSlot.LAYER1
         );
@@ -65,8 +61,7 @@ public class ModModelProvider extends FabricModelProvider
         generators.itemModelOutput.accept(item, model);
     }
 
-    private static void generateLayeredItem(Item item, Identifier layer0, Identifier layer1, ItemModelGenerators generators)
-    {
+    private static void generateLayeredItem(Item item, Identifier layer0, Identifier layer1, ItemModelGenerators generators) {
         generateLayeredItem(item, Identifier.withDefaultNamespace("item/generated"), layer0, layer1, generators);
     }
 }

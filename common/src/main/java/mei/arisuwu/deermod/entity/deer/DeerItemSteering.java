@@ -5,27 +5,23 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 
-public class DeerItemSteering
-{
+public class DeerItemSteering {
     private final SynchedEntityData entityData;
     private final EntityDataAccessor<Integer> boostTime;
     private boolean boosted;
     private int boostedTime;
 
-    public DeerItemSteering(SynchedEntityData entityData, EntityDataAccessor<Integer> boostTime)
-    {
+    public DeerItemSteering(SynchedEntityData entityData, EntityDataAccessor<Integer> boostTime) {
         this.entityData = entityData;
         this.boostTime = boostTime;
     }
 
-    public void boost()
-    {
+    public void boost() {
         boosted = true;
         boostedTime = 0;
     }
 
-    public boolean boost(RandomSource random)
-    {
+    public boolean boost(RandomSource random) {
         if (boosted) return false;
 
         boosted = true;
@@ -34,20 +30,16 @@ public class DeerItemSteering
         return true;
     }
 
-    public void tickBoost()
-    {
+    public void tickBoost() {
         if (boosted && boostedTime++ > getBoostTime())
             boosted = false;
     }
 
-    public float getMovementSpeedMultiplier()
-    {
-        return boosted ?
-            1 + 1.15f * Mth.sin((float)boostedTime / (float)getBoostTime() * (float)Math.PI) : 1;
+    public float getMovementSpeedMultiplier() {
+        return boosted ? 1 + 1.15f * Mth.sin((float)boostedTime / getBoostTime() * Math.PI) : 1;
     }
 
-    public int getBoostTime()
-    {
+    public int getBoostTime() {
         return entityData.get(boostTime);
     }
 }

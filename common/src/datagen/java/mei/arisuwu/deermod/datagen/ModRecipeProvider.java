@@ -4,7 +4,10 @@ import mei.arisuwu.deermod.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import org.jetbrains.annotations.NotNull;
@@ -12,27 +15,23 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModRecipeProvider extends FabricRecipeProvider
-{
-    public ModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
-    {
+public class ModRecipeProvider extends FabricRecipeProvider {
+    public ModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider registries, @NonNull RecipeOutput recipeOutput)
-    {
+    protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider registries, @NonNull RecipeOutput recipeOutput) {
         return new RecipeProvider(registries, recipeOutput) {
 
             @Override
-            public void buildRecipes()
-            {
+            public void buildRecipes() {
                 SimpleCookingRecipeBuilder.smelting(
-                    Ingredient.of(ModItems.VENISON.get()),
-                    RecipeCategory.FOOD,
-                    CookingBookCategory.FOOD,
-                    ModItems.COOKED_VENISON.get(), 0.35f, 200
-                )
+                        Ingredient.of(ModItems.VENISON.get()),
+                        RecipeCategory.FOOD,
+                        CookingBookCategory.FOOD,
+                        ModItems.COOKED_VENISON.get(), 0.35f, 200
+                    )
                     .unlockedBy("has_venison", has(ModItems.VENISON.get()))
                     .save(recipeOutput);
 
@@ -79,16 +78,14 @@ public class ModRecipeProvider extends FabricRecipeProvider
             }
 
             @Override
-            public <T extends AbstractCookingRecipe> void cookRecipes(String cookingMethod, AbstractCookingRecipe.Factory<T> factory, int cookingTime)
-            {
+            public <T extends AbstractCookingRecipe> void cookRecipes(String cookingMethod, AbstractCookingRecipe.Factory<T> factory, int cookingTime) {
                 simpleCookingRecipe(cookingMethod, factory, cookingTime, ModItems.VENISON.get(), ModItems.COOKED_VENISON.get(), 0.35F);
             }
         };
     }
 
     @Override
-    public @NotNull String getName()
-    {
+    public @NotNull String getName() {
         return "Recipes";
     }
 }

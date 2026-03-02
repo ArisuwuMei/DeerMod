@@ -10,8 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-public record ModConfig(String configVersion, ModSpawnConfig habitatBiomesDeerSpawnSettings, ModSpawnConfig escapadeBiomesDeerSpawnSettings)
-{
+public record ModConfig(String configVersion, ModSpawnConfig habitatBiomesDeerSpawnSettings,
+                        ModSpawnConfig escapadeBiomesDeerSpawnSettings) {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private final static GsonBuilder GSON_BUILDER = new GsonBuilder()
@@ -24,35 +24,26 @@ public record ModConfig(String configVersion, ModSpawnConfig habitatBiomesDeerSp
         new ModSpawnConfig(4, 1, 2)
     );
 
-    public static ModConfig load(Path path)
-    {
-        if (Files.notExists(path))
-        {
+    public static ModConfig load(Path path) {
+        if (Files.notExists(path)) {
             DEFAULT.save(path);
             return DEFAULT;
         }
 
-        try (var reader = Files.newBufferedReader(path))
-        {
+        try (var reader = Files.newBufferedReader(path)) {
             return GSON_BUILDER.create().fromJson(reader, ModConfig.class);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             LOGGER.error("Failed to load the config file: {}\nLoading default setting instead", path, e);
             return DEFAULT;
         }
     }
 
-    public void save(Path path)
-    {
+    public void save(Path path) {
         var jsonContent = GSON_BUILDER.create().toJson(this);
 
-        try
-        {
+        try {
             Files.writeString(path, jsonContent, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             LOGGER.error("Failed to save the config file: {}", path, e);
         }
     }

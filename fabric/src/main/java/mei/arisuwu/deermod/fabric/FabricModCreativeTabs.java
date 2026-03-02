@@ -8,20 +8,16 @@ import net.minecraft.world.item.CreativeModeTab;
 
 import java.util.Set;
 
-public class FabricModCreativeTabs extends ModCreativeTabs
-{
-    public FabricModCreativeTabs()
-    {
+public class FabricModCreativeTabs extends ModCreativeTabs {
+    public FabricModCreativeTabs() {
         super();
         entriesMap.forEach(this::addEntries);
     }
 
-    public void addEntries(ResourceKey<CreativeModeTab> tab, Set<CreativeTabsEntry> newEntries)
-    {
+    public void addEntries(ResourceKey<CreativeModeTab> tab, Set<CreativeTabsEntry> newEntries) {
         CreativeModeTabEvents.modifyOutputEvent(tab).register(entries ->
             newEntries.forEach(newEntry -> {
-                switch (newEntry.position)
-                {
+                switch (newEntry.position) {
                     case HEAD -> newEntry.newItems.reversed().forEach(newItem -> entries.prepend(newItem.get()));
                     case BEFORE -> entries.insertBefore(newEntry.existingItem, newEntry.getNewItemStacks());
                     case AFTER -> entries.insertAfter(newEntry.existingItem, newEntry.getNewItemStacks());

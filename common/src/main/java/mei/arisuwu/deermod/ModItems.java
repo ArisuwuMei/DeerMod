@@ -13,8 +13,7 @@ import net.minecraft.world.item.SpawnEggItem;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class ModItems
-{
+public class ModItems {
     public static Supplier<Item> VENISON;
     public static Supplier<Item> COOKED_VENISON;
     public static Supplier<Item> ANTLERS;
@@ -23,8 +22,7 @@ public class ModItems
     public static Supplier<Item> DEER_CRACKERS_ON_A_STICK;
     public static Supplier<Item> DEER_BANNER_PATTERN;
 
-    public ModItems()
-    {
+    public ModItems() {
         DEER_SPAWN_EGG = registerItem(
             "deer_spawn_egg", SpawnEggItem::new,
             () -> new Item.Properties().spawnEgg(ModEntities.DEER.get())
@@ -49,8 +47,7 @@ public class ModItems
         );
     }
 
-    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Supplier<Item.Properties> properties)
-    {
+    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Supplier<Item.Properties> properties) {
         var key = ResourceKey.create(Registries.ITEM, Mod.identifier(name));
         var item = Registry.register(
             BuiltInRegistries.ITEM,
@@ -60,24 +57,20 @@ public class ModItems
         return () -> item;
     }
 
-    private Supplier<Item> registerFoodItem(String name, FoodProperties foodProperties)
-    {
+    private Supplier<Item> registerFoodItem(String name, FoodProperties foodProperties) {
         return registerItem(name, () -> new Item.Properties().food(foodProperties));
     }
 
-    private Supplier<Item> registerItem(@SuppressWarnings("SameParameterValue") String name, Function<Item.Properties, Item> factory)
-    {
+    private Supplier<Item> registerItem(@SuppressWarnings("SameParameterValue") String name, Function<Item.Properties, Item> factory) {
         return registerItem(name, factory, Item.Properties::new);
     }
 
-    private Supplier<Item> registerItem(String name, Supplier<Item.Properties> properties)
-    {
+    private Supplier<Item> registerItem(String name, Supplier<Item.Properties> properties) {
         return registerItem(name, Item::new, properties);
     }
 
     @SuppressWarnings("SameParameterValue")
-    private Supplier<Item> registerItem(String name)
-    {
+    private Supplier<Item> registerItem(String name) {
         return registerItem(name, Item::new, Item.Properties::new);
     }
 }

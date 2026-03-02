@@ -1,9 +1,7 @@
 package mei.arisuwu.deermod.entity.deer;
 
-import static net.minecraft.client.animation.AnimationChannel.*;
-
 import net.minecraft.client.animation.*;
-import net.minecraft.client.model.*;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -12,8 +10,10 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.util.Mth;
 
-public class DeerModel extends EntityModel<DeerRenderState>
-{
+import static net.minecraft.client.animation.AnimationChannel.Interpolations;
+import static net.minecraft.client.animation.AnimationChannel.Targets;
+
+public class DeerModel extends EntityModel<DeerRenderState> {
     private final ModelPart head;
     private final ModelPart redNose;
     private final ModelPart antlers;
@@ -24,8 +24,7 @@ public class DeerModel extends EntityModel<DeerRenderState>
     private final ModelPart saddle;
     private final KeyframeAnimation eatGrassAnimation;
 
-    public DeerModel(ModelPart root)
-    {
+    public DeerModel(ModelPart root) {
         super(root);
         var neck = root.getChild("neck");
         this.head = neck.getChild("head");
@@ -41,8 +40,7 @@ public class DeerModel extends EntityModel<DeerRenderState>
         this.eatGrassAnimation = EAT_GRASS.bake(root);
     }
 
-    public static LayerDefinition getTexturedModelData()
-    {
+    public static LayerDefinition getTexturedModelData() {
         var mesh = new MeshDefinition();
         var rootPart = mesh.getRoot();
         var neck = rootPart.addOrReplaceChild("neck", CubeListBuilder.create(), PartPose.offset(0.0F, 9.0F, -11.0F));
@@ -124,17 +122,16 @@ public class DeerModel extends EntityModel<DeerRenderState>
         )).build();
 
     @Override
-    public void setupAnim(DeerRenderState state)
-    {
+    public void setupAnim(DeerRenderState state) {
         super.setupAnim(state);
         this.saddle.visible = state.saddled;
-        this.head.xRot = state.xRot * (float) (Math.PI / 180.0);
-        this.head.yRot = state.yRot * (float) (Math.PI / 180.0);
+        this.head.xRot = state.xRot * (float)(Math.PI / 180.0);
+        this.head.yRot = state.yRot * (float)(Math.PI / 180.0);
         float f = state.walkAnimationPos;
         float g = state.walkAnimationSpeed;
         this.rightHindLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
-        this.leftHindLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
-        this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
+        this.leftHindLeg.xRot = Mth.cos(f * 0.6662F + (float)Math.PI) * 1.4F * g;
+        this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float)Math.PI) * 1.4F * g;
         this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
         this.redNose.visible = state.hasRedNose;
         this.antlers.visible = !state.sheared && !state.isBaby;

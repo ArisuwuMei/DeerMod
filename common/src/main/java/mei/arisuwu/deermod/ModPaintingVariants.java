@@ -9,12 +9,10 @@ import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 
 import java.util.Optional;
 
-public class ModPaintingVariants
-{
+public class ModPaintingVariants {
     public static ResourceKey<PaintingVariant> LUVDEER = create("luvdeer");
 
-    public static void bootstrap(BootstrapContext<PaintingVariant> context)
-    {
+    public static void bootstrap(BootstrapContext<PaintingVariant> context) {
         context.register(
             LUVDEER,
             new PaintingVariant(
@@ -28,8 +26,7 @@ public class ModPaintingVariants
     }
 
 
-    private static ResourceKey<PaintingVariant> create(String name)
-    {
+    private static ResourceKey<PaintingVariant> create(String name) {
         return ResourceKey.create(Registries.PAINTING_VARIANT, Mod.identifier(name));
     }
 }

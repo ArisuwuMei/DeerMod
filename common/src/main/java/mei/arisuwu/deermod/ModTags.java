@@ -6,8 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BannerPattern;
 
-public class ModTags
-{
+public class ModTags {
     public static final TagKey<Biome> DEERS_HABITAT_BIOMES = TagKey.create(Registries.BIOME, Mod.identifier("deers_habitat_biomes"));
     public static final TagKey<Biome> DEERS_ESCAPADE_BIOMES = TagKey.create(Registries.BIOME, Mod.identifier("deers_escapade_biomes"));
 

@@ -12,30 +12,27 @@ import org.jspecify.annotations.NonNull;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class ModItalianLanguageProvider extends ModLanguageProviderBase
-{
-    protected ModItalianLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
-    {
-        super(output,"it_it", registriesFuture);
+public class ModItalianLanguageProvider extends ModLanguageProviderBase {
+    protected ModItalianLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(output, "it_it", registriesFuture);
     }
 
     @Override
-    public void generateTranslations(HolderLookup.@NonNull Provider registries, TranslationBuilder translationBuilder)
-    {
-        translationBuilder.add(ModItems.ANTLERS.get(), "Corna");
-        translationBuilder.add(ModItems.COOKED_VENISON.get(), "Carne di cervo cotta");
-        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get(), "Motivo con cervo");
-        translationBuilder.add(ModItems.DEER_CRACKERS.get(), "Biscotto per cervi");
-        translationBuilder.add(ModItems.DEER_CRACKERS_ON_A_STICK.get(), "Bastone e biscotto per cervi");
-        translationBuilder.add(ModItems.DEER_SPAWN_EGG.get(), "Uovo generatore di cervo");
-        translationBuilder.add(ModItems.VENISON.get(), "Carne di cervo cruda");
+    public void generateTranslations(HolderLookup.@NonNull Provider registries, TranslationBuilder builder) {
+        builder.add(ModItems.ANTLERS.get(), "Corna");
+        builder.add(ModItems.COOKED_VENISON.get(), "Carne di cervo cotta");
+        builder.add(ModItems.DEER_BANNER_PATTERN.get(), "Motivo con cervo");
+        builder.add(ModItems.DEER_CRACKERS.get(), "Biscotto per cervi");
+        builder.add(ModItems.DEER_CRACKERS_ON_A_STICK.get(), "Bastone e biscotto per cervi");
+        builder.add(ModItems.DEER_SPAWN_EGG.get(), "Uovo generatore di cervo");
+        builder.add(ModItems.VENISON.get(), "Carne di cervo cruda");
 
-        translationBuilder.add(ModTags.DEER_FOOD, "Cibo per cervi");
+        builder.add(ModTags.DEER_FOOD, "Cibo per cervi");
 
-        translationBuilder.add(ModEntities.DEER.get(), "Cervo");
+        builder.add(ModEntities.DEER.get(), "Cervo");
 
-        translationBuilder.add("painting.deermod.luvdeer.author", "Arisuwu Mei");
-        translationBuilder.add("painting.deermod.luvdeer.title", "LUVDEER");
+        builder.add("painting.deermod.luvdeer.author", "Arisuwu Mei");
+        builder.add("painting.deermod.luvdeer.title", "LUVDEER");
 
         var map = Map.ofEntries(
             Map.entry(DyeColor.BLACK, "nero"),
@@ -56,12 +53,11 @@ public class ModItalianLanguageProvider extends ModLanguageProviderBase
             Map.entry(DyeColor.YELLOW, "giallo")
         );
 
-        translateBanner(ModBannerPatterns.DEER, color -> "Cervo " + color, registries, translationBuilder);
+        translateBanner(ModBannerPatterns.DEER, this::translateDyeColor, "Cervo %s", registries, builder);
     }
 
     @Override
-    protected String translateDyeColor(DyeColor dyeColor)
-    {
+    protected String translateDyeColor(DyeColor dyeColor) {
         return switch (dyeColor) {
             case BLACK -> "nero";
             case BLUE -> "blu";

@@ -8,11 +8,9 @@ import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 
 
-public class ModDataGeneratorEntrypoint implements DataGeneratorEntrypoint
-{
+public class ModDataGeneratorEntrypoint implements DataGeneratorEntrypoint {
     @Override
-    public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator)
-    {
+    public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         var pack = fabricDataGenerator.createPack();
 
         pack.addProvider(ModModelProvider::new);
@@ -35,8 +33,7 @@ public class ModDataGeneratorEntrypoint implements DataGeneratorEntrypoint
     }
 
     @Override
-    public void buildRegistry(RegistrySetBuilder registryBuilder)
-    {
+    public void buildRegistry(RegistrySetBuilder registryBuilder) {
         registryBuilder.add(Registries.PAINTING_VARIANT, ModPaintingVariants::bootstrap);
         registryBuilder.add(Registries.BANNER_PATTERN, ModBannerPatterns::bootstrap);
     }

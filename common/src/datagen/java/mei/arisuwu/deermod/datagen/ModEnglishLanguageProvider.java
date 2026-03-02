@@ -11,16 +11,13 @@ import org.jspecify.annotations.NonNull;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
-public class ModEnglishLanguageProvider extends ModLanguageProviderBase
-{
-    protected ModEnglishLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
-    {
+public class ModEnglishLanguageProvider extends ModLanguageProviderBase {
+    protected ModEnglishLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, "en_us", registriesFuture);
     }
 
     @Override
-    public void generateTranslations(HolderLookup.@NonNull Provider registries, TranslationBuilder builder)
-    {
+    public void generateTranslations(HolderLookup.@NonNull Provider registries, TranslationBuilder builder) {
         builder.add(ModItems.ANTLERS.get(), "Antlers");
         builder.add(ModItems.COOKED_VENISON.get(), "Cooked Venison");
         builder.add(ModItems.DEER_BANNER_PATTERN.get(), "Deer Banner Pattern");
@@ -39,8 +36,7 @@ public class ModEnglishLanguageProvider extends ModLanguageProviderBase
     }
 
     @Override
-    protected String translateDyeColor(DyeColor dyeColor)
-    {
+    protected String translateDyeColor(DyeColor dyeColor) {
         return UCharacter.toTitleCase(
             dyeColor.getName().replace('_', ' '),
             BreakIterator.getWordInstance(Locale.ENGLISH)

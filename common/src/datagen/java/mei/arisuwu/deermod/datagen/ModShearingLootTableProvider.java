@@ -14,16 +14,13 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-public class ModShearingLootTableProvider extends SimpleFabricLootTableSubProvider
-{
-    public ModShearingLootTableProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
-    {
+public class ModShearingLootTableProvider extends SimpleFabricLootTableSubProvider {
+    public ModShearingLootTableProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture, LootContextParamSets.SHEARING);
     }
 
     @Override
-    public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output)
-    {
+    public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
         output.accept(ModLootTables.DEER_SHEARING, new LootTable.Builder()
             .withPool(new LootPool.Builder().add(LootItem.lootTableItem(ModItems.ANTLERS.get())))
             .setParamSet(LootContextParamSets.SHEARING)
