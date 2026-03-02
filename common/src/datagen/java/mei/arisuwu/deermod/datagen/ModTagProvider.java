@@ -41,6 +41,9 @@ public class ModTagProvider
             valueLookupBuilder(ItemTags.MEAT)
                 .add(ModItems.COOKED_VENISON.get())
                 .add(ModItems.VENISON.get());
+
+            valueLookupBuilder(ItemTags.LOOM_PATTERNS)
+                .add(ModItems.DEER_BANNER_PATTERN.get());
         }
     }
 
