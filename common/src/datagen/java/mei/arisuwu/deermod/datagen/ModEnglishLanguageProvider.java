@@ -30,12 +30,11 @@ public class ModEnglishLanguageProvider extends ModLanguageProviderBase {
 
         builder.add(ModEntities.DEER.get(), "Deer");
 
-        translateBanner(ModBannerPatterns.DEER, color -> color + " Deer", registries, builder);
+        translateBanner(ModBannerPatterns.DEER, this::translateDyeColor, "%s Deer", registries, builder);
 
         translatePaintingVariant(ModPaintingVariants.LUVDEER, "LUVDEER", "Arisuwu Mei", registries, builder);
     }
 
-    @Override
     protected String translateDyeColor(DyeColor dyeColor) {
         return UCharacter.toTitleCase(
             dyeColor.getName().replace('_', ' '),

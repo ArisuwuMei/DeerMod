@@ -56,7 +56,6 @@ public class ModItalianLanguageProvider extends ModLanguageProviderBase {
         translateBanner(ModBannerPatterns.DEER, this::translateDyeColor, "Cervo %s", registries, builder);
     }
 
-    @Override
     protected String translateDyeColor(DyeColor dyeColor) {
         return switch (dyeColor) {
             case BLACK -> "nero";
