@@ -4,8 +4,7 @@ import mei.arisuwu.deermod.ModBannerPatterns;
 import mei.arisuwu.deermod.ModEntities;
 import mei.arisuwu.deermod.ModItems;
 import mei.arisuwu.deermod.ModTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.DyeColor;
 
@@ -14,13 +13,13 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModItalianLanguageProvider extends ModLanguageProviderBase
 {
-    protected ModItalianLanguageProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup)
+    protected ModItalianLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
     {
-        super(dataOutput,"it_it", registryLookup);
+        super(output,"it_it", registriesFuture);
     }
 
     @Override
-    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder)
+    public void generateTranslations(HolderLookup.Provider registries, TranslationBuilder translationBuilder)
     {
         translationBuilder.add(ModItems.ANTLERS.get(), "Corna");
         translationBuilder.add(ModItems.COOKED_VENISON.get(), "Carne di cervo cotta");
@@ -56,7 +55,7 @@ public class ModItalianLanguageProvider extends ModLanguageProviderBase
             Map.entry(DyeColor.YELLOW, "giallo")
         );
 
-        translateBanner(ModBannerPatterns.DEER, color -> "Cervo " + color, registryLookup, translationBuilder);
+        translateBanner(ModBannerPatterns.DEER, color -> "Cervo " + color, registries, translationBuilder);
     }
 
     @Override

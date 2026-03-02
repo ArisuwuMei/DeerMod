@@ -1,7 +1,7 @@
 package mei.arisuwu.deermod.neoforge;
 
 import mei.arisuwu.deermod.ModItems;
-import mei.arisuwu.deermod.ModResourceLocation;
+import mei.arisuwu.deermod.Mod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
@@ -26,7 +26,7 @@ public class NeoforgeModItems extends ModItems
     @Override
     protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Supplier<Item.Properties> settings)
     {
-        var registryKey = ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name));
+        var registryKey = ResourceKey.create(Registries.ITEM, Mod.identifier(name));
         return ITEMS.register(name, () -> factory.apply(settings.get().setId(registryKey)));
     }
 }

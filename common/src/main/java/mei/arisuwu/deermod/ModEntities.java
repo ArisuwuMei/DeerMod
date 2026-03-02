@@ -22,8 +22,8 @@ public class ModEntities
     public <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, EntityType.Builder<T> builder)
     {
         var entityType = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE, ModResourceLocation.of(name),
-            builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ModResourceLocation.of(name)))
+            BuiltInRegistries.ENTITY_TYPE, Mod.identifier(name),
+            builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Mod.identifier(name)))
         );
         return () -> entityType;
     }

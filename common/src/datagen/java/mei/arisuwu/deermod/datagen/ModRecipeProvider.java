@@ -1,7 +1,7 @@
 package mei.arisuwu.deermod.datagen;
 
 import mei.arisuwu.deermod.ModItems;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.*;
@@ -13,15 +13,15 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider
 {
-    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
+    public ModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
     {
         super(output, registriesFuture);
     }
 
     @Override
-    protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput)
+    protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput recipeOutput)
     {
-        return new RecipeProvider(provider, recipeOutput) {
+        return new RecipeProvider(registries, recipeOutput) {
 
             @Override
             public void buildRecipes()
@@ -29,13 +29,14 @@ public class ModRecipeProvider extends FabricRecipeProvider
                 SimpleCookingRecipeBuilder.smelting(
                     Ingredient.of(ModItems.VENISON.get()),
                     RecipeCategory.FOOD,
+                    CookingBookCategory.FOOD,
                     ModItems.COOKED_VENISON.get(), 0.35f, 200
                 )
                     .unlockedBy("has_venison", has(ModItems.VENISON.get()))
                     .save(recipeOutput);
 
-                cookRecipes("smoking", RecipeSerializer.SMOKING_RECIPE, SmokingRecipe::new, 100);
-                cookRecipes("campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING_RECIPE, CampfireCookingRecipe::new, 600);
+                cookRecipes("smoking", SmokingRecipe::new, 100);
+                cookRecipes("campfire_cooking", CampfireCookingRecipe::new, 600);
 
                 shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 3)
                     .group("bonemeal")
@@ -77,9 +78,9 @@ public class ModRecipeProvider extends FabricRecipeProvider
             }
 
             @Override
-            public <T extends AbstractCookingRecipe> void cookRecipes(String cookingMethod, RecipeSerializer<T> recipeSerializer, AbstractCookingRecipe.Factory<T> factory, int cookingTime)
+            public <T extends AbstractCookingRecipe> void cookRecipes(String cookingMethod, AbstractCookingRecipe.Factory<T> factory, int cookingTime)
             {
-                simpleCookingRecipe(cookingMethod, recipeSerializer, factory, cookingTime, ModItems.VENISON.get(), ModItems.COOKED_VENISON.get(), 0.35F);
+                simpleCookingRecipe(cookingMethod, factory, cookingTime, ModItems.VENISON.get(), ModItems.COOKED_VENISON.get(), 0.35F);
             }
         };
     }

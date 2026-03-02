@@ -1,7 +1,7 @@
 package mei.arisuwu.deermod.datagen;
 
 import mei.arisuwu.deermod.ModPaintingVariants;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModPaintingVariantProvider extends FabricDynamicRegistryProvider
 {
-    public ModPaintingVariantProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
+    public ModPaintingVariantProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
     {
         super(output, registriesFuture);
     }
@@ -19,8 +19,7 @@ public class ModPaintingVariantProvider extends FabricDynamicRegistryProvider
     @Override
     protected void configure(HolderLookup.Provider registries, Entries entries)
     {
-        var registryLookup = registries.lookupOrThrow(Registries.PAINTING_VARIANT);
-        entries.add(registryLookup, ModPaintingVariants.LUVDEER);
+        entries.add(registries.lookupOrThrow(Registries.PAINTING_VARIANT), ModPaintingVariants.LUVDEER);
     }
 
     @Override

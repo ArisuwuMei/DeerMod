@@ -1,6 +1,6 @@
 package mei.arisuwu.deermod;
 
-import static mei.arisuwu.deermod.ItemGroupEntry.*;
+import static mei.arisuwu.deermod.CreativeTabsEntry.*;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
@@ -13,7 +13,7 @@ import java.util.Set;
 
 public abstract class ModCreativeTabs
 {
-    protected final Map<ResourceKey<CreativeModeTab>, Set<ItemGroupEntry>> entriesMap = new HashMap<>();
+    protected final Map<ResourceKey<CreativeModeTab>, Set<CreativeTabsEntry>> entriesMap = new HashMap<>();
 
     protected ModCreativeTabs()
     {

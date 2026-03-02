@@ -5,16 +5,16 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 
-public class DeerEntitySaddledComponent
+public class DeerItemSteering
 {
-    private final SynchedEntityData dataTracker;
+    private final SynchedEntityData entityData;
     private final EntityDataAccessor<Integer> boostTime;
     private boolean boosted;
     private int boostedTime;
 
-    public DeerEntitySaddledComponent(SynchedEntityData dataTracker, EntityDataAccessor<Integer> boostTime)
+    public DeerItemSteering(SynchedEntityData entityData, EntityDataAccessor<Integer> boostTime)
     {
-        this.dataTracker = dataTracker;
+        this.entityData = entityData;
         this.boostTime = boostTime;
     }
 
@@ -30,7 +30,7 @@ public class DeerEntitySaddledComponent
 
         boosted = true;
         boostedTime = 0;
-        dataTracker.set(boostTime, random.nextInt(841) + 140);
+        entityData.set(boostTime, random.nextInt(841) + 140);
         return true;
     }
 
@@ -48,6 +48,6 @@ public class DeerEntitySaddledComponent
 
     public int getBoostTime()
     {
-        return dataTracker.get(boostTime);
+        return entityData.get(boostTime);
     }
 }

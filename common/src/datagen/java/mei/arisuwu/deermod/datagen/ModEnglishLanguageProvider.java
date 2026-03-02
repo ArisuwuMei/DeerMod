@@ -3,7 +3,7 @@ package mei.arisuwu.deermod.datagen;
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.text.BreakIterator;
 import mei.arisuwu.deermod.*;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.DyeColor;
 
@@ -12,29 +12,29 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModEnglishLanguageProvider extends ModLanguageProviderBase
 {
-    protected ModEnglishLanguageProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup)
+    protected ModEnglishLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
     {
-        super(dataOutput, "en_us", registryLookup);
+        super(output, "en_us", registriesFuture);
     }
 
     @Override
-    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder)
+    public void generateTranslations(HolderLookup.Provider registries, TranslationBuilder builder)
     {
-        translationBuilder.add(ModItems.ANTLERS.get(), "Antlers");
-        translationBuilder.add(ModItems.COOKED_VENISON.get(), "Cooked Venison");
-        translationBuilder.add(ModItems.DEER_BANNER_PATTERN.get(), "Deer Banner Pattern");
-        translationBuilder.add(ModItems.DEER_CRACKERS.get(), "Deer Crackers");
-        translationBuilder.add(ModItems.DEER_CRACKERS_ON_A_STICK.get(), "Deer Crackers on a Stick");
-        translationBuilder.add(ModItems.DEER_SPAWN_EGG.get(), "Deer Spawn Egg");
-        translationBuilder.add(ModItems.VENISON.get(), "Venison");
+        builder.add(ModItems.ANTLERS.get(), "Antlers");
+        builder.add(ModItems.COOKED_VENISON.get(), "Cooked Venison");
+        builder.add(ModItems.DEER_BANNER_PATTERN.get(), "Deer Banner Pattern");
+        builder.add(ModItems.DEER_CRACKERS.get(), "Deer Crackers");
+        builder.add(ModItems.DEER_CRACKERS_ON_A_STICK.get(), "Deer Crackers on a Stick");
+        builder.add(ModItems.DEER_SPAWN_EGG.get(), "Deer Spawn Egg");
+        builder.add(ModItems.VENISON.get(), "Venison");
 
-        translationBuilder.add(ModTags.DEER_FOOD, "Deer Food");
+        builder.add(ModTags.DEER_FOOD, "Deer Food");
 
-        translationBuilder.add(ModEntities.DEER.get(), "Deer");
+        builder.add(ModEntities.DEER.get(), "Deer");
 
-        translateBanner(ModBannerPatterns.DEER, color -> color + " Deer", registryLookup, translationBuilder);
+        translateBanner(ModBannerPatterns.DEER, color -> color + " Deer", registries, builder);
 
-        translatePaintingVariant(ModPaintingVariants.LUVDEER, "LUVDEER", "Arisuwu Mei", registryLookup, translationBuilder);
+        translatePaintingVariant(ModPaintingVariants.LUVDEER, "LUVDEER", "Arisuwu Mei", registries, builder);
     }
 
     @Override

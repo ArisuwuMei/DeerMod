@@ -2,8 +2,8 @@ package mei.arisuwu.deermod.datagen;
 
 import mei.arisuwu.deermod.ModItems;
 import mei.arisuwu.deermod.ModLootTables;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableSubProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -14,11 +14,11 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-public class ModShearingLootTableProvider extends SimpleFabricLootTableProvider
+public class ModShearingLootTableProvider extends SimpleFabricLootTableSubProvider
 {
-    public ModShearingLootTableProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup)
+    public ModShearingLootTableProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
     {
-        super(output, registryLookup, LootContextParamSets.SHEARING);
+        super(output, registriesFuture, LootContextParamSets.SHEARING);
     }
 
     @Override

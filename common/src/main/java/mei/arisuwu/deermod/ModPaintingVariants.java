@@ -5,7 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 
 import java.util.Optional;
 
@@ -20,9 +20,9 @@ public class ModPaintingVariants
             new PaintingVariant(
                 1,
                 1,
-                LUVDEER.location(),
-                Optional.of(Component.translatable(LUVDEER.location().toLanguageKey("painting", "title")).withStyle(ChatFormatting.YELLOW)),
-                Optional.of(Component.translatable(LUVDEER.location().toLanguageKey("painting", "author")).withStyle(ChatFormatting.GRAY))
+                LUVDEER.identifier(),
+                Optional.of(Component.translatable(LUVDEER.identifier().toLanguageKey("painting", "title")).withStyle(ChatFormatting.YELLOW)),
+                Optional.of(Component.translatable(LUVDEER.identifier().toLanguageKey("painting", "author")).withStyle(ChatFormatting.GRAY))
             )
         );
     }
@@ -30,6 +30,6 @@ public class ModPaintingVariants
 
     private static ResourceKey<PaintingVariant> create(String name)
     {
-        return ResourceKey.create(Registries.PAINTING_VARIANT, ModResourceLocation.of(name));
+        return ResourceKey.create(Registries.PAINTING_VARIANT, Mod.identifier(name));
     }
 }

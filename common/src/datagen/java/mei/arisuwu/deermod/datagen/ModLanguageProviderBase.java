@@ -1,15 +1,13 @@
 package mei.arisuwu.deermod.datagen;
 
-import com.ibm.icu.lang.UCharacter;
-import com.ibm.icu.text.BreakIterator;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import org.apache.commons.lang3.NotImplementedException;
@@ -21,14 +19,14 @@ import java.util.function.Function;
 
 public abstract class ModLanguageProviderBase extends FabricLanguageProvider
 {
-    protected ModLanguageProviderBase(FabricDataOutput dataOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup)
+    protected ModLanguageProviderBase(FabricPackOutput output, String languageCode, CompletableFuture<HolderLookup.Provider> registriesFuture)
     {
-        super(dataOutput, languageCode, registryLookup);
+        super(output, languageCode, registriesFuture);
     }
 
-    protected void translateBanner(ResourceKey<BannerPattern> bannerPatternKey, Function<String, String> combineColor, HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder)
+    protected void translateBanner(ResourceKey<BannerPattern> bannerPatternKey, Function<String, String> combineColor, HolderLookup.Provider registries, TranslationBuilder translationBuilder)
     {
-        var bannerPattern = registryLookup.lookupOrThrow(Registries.BANNER_PATTERN)
+        var bannerPattern = registries.lookupOrThrow(Registries.BANNER_PATTERN)
             .getOrThrow(bannerPatternKey).value();
 
         for (DyeColor dyeColor : DyeColor.values())
@@ -41,9 +39,9 @@ public abstract class ModLanguageProviderBase extends FabricLanguageProvider
 
     }
 
-    protected void translatePaintingVariant(ResourceKey<PaintingVariant> paintingVariantKey, String title, String author, HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder)
+    protected void translatePaintingVariant(ResourceKey<PaintingVariant> paintingVariantKey, String title, String author, HolderLookup.Provider registries, TranslationBuilder translationBuilder)
     {
-        var paintingVariant = registryLookup.lookupOrThrow(Registries.PAINTING_VARIANT)
+        var paintingVariant = registries.lookupOrThrow(Registries.PAINTING_VARIANT)
             .getOrThrow(paintingVariantKey)
             .value();
 

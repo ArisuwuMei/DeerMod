@@ -3,7 +3,6 @@ package mei.arisuwu.deermod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.level.block.entity.BannerPattern;
 
 @SuppressWarnings("unused")
@@ -18,7 +17,7 @@ public class ModBannerPatterns
 
     private static ResourceKey<BannerPattern> create(String name)
     {
-        return ResourceKey.create(Registries.BANNER_PATTERN, ModResourceLocation.of(name));
+        return ResourceKey.create(Registries.BANNER_PATTERN, Mod.identifier(name));
     }
 
     private static void register(BootstrapContext<BannerPattern> context, ResourceKey<BannerPattern> resourceKey)
@@ -26,8 +25,8 @@ public class ModBannerPatterns
         context.register(
             resourceKey,
             new BannerPattern(
-                resourceKey.location(),
-                "block.minecraft.banner." + resourceKey.location().getPath()
+                resourceKey.identifier(),
+                "block.minecraft.banner." + resourceKey.identifier().getPath()
             )
         );
     }

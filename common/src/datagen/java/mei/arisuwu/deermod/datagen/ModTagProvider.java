@@ -1,18 +1,16 @@
 package mei.arisuwu.deermod.datagen;
 
 import mei.arisuwu.deermod.*;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.PaintingVariantTags;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -22,15 +20,15 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModTagProvider
 {
-    public static class ModItemTagProvider extends FabricTagProvider.ItemTagProvider
+    public static class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider
     {
-        public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
+        public ModItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
         {
             super(output, registriesFuture);
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider wrapperLookup)
+        protected void addTags(HolderLookup.Provider registries)
         {
             valueLookupBuilder(ModTags.DEER_FOOD)
                 .add(Items.WHEAT)
@@ -47,15 +45,15 @@ public class ModTagProvider
         }
     }
 
-    public static class ModEntityTypeTagProvider extends FabricTagProvider.EntityTypeTagProvider
+    public static class ModEntityTypeTagProvider extends FabricTagsProvider.EntityTypeTagsProvider
     {
-        public ModEntityTypeTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
+        public ModEntityTypeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
         {
             super(output, registriesFuture);
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider wrapperLookup)
+        protected void addTags(HolderLookup.Provider registries)
         {
             valueLookupBuilder(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
                 .add(ModEntities.DEER.get());
@@ -65,15 +63,15 @@ public class ModTagProvider
         }
     }
 
-    public static class ModBiomeTagProvider extends FabricTagProvider<Biome>
+    public static class ModBiomeTagProvider extends FabricTagsProvider<Biome>
     {
-        protected ModBiomeTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
+        protected ModBiomeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
         {
             super(output, Registries.BIOME, registriesFuture);
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider wrapperLookup)
+        protected void addTags(HolderLookup.Provider registries)
         {
             //noinspection unchecked
             builder(ModTags.DEERS_ESCAPADE_BIOMES)
@@ -92,30 +90,30 @@ public class ModTagProvider
         }
     }
 
-    public static class ModPaintingVariantTagsProvider extends FabricTagProvider<PaintingVariant>
+    public static class ModPaintingVariantTagsProvider extends FabricTagsProvider<PaintingVariant>
     {
-        public ModPaintingVariantTagsProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
+        public ModPaintingVariantTagsProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
         {
             super(output, Registries.PAINTING_VARIANT, registriesFuture);
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider wrapperLookup)
+        protected void addTags(HolderLookup.Provider registries)
         {
             builder(PaintingVariantTags.PLACEABLE)
                 .add(ModPaintingVariants.LUVDEER);
         }
     }
 
-    public static class ModBannerPatternTagsProvider extends FabricTagProvider<BannerPattern>
+    public static class ModBannerPatternTagsProvider extends FabricTagsProvider<BannerPattern>
     {
-        public ModBannerPatternTagsProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
+        public ModBannerPatternTagsProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture)
         {
             super(output, Registries.BANNER_PATTERN, registriesFuture);
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider wrapperLookup)
+        protected void addTags(HolderLookup.Provider registries)
         {
             builder(ModTags.DEER_PATTERN_ITEM)
                 .add(ModBannerPatterns.DEER);

@@ -1,12 +1,15 @@
 package mei.arisuwu.deermod;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.FoodOnAStickItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 
 import java.util.function.Function;
@@ -25,7 +28,8 @@ public class ModItems
     public ModItems()
     {
         DEER_SPAWN_EGG = registerItem(
-            "deer_spawn_egg", SpawnEggItem::new, () -> new Item.Properties().spawnEgg(ModEntities.DEER.get())
+            "deer_spawn_egg", SpawnEggItem::new,
+            () -> new Item.Properties().spawnEgg(ModEntities.DEER.get())
         );
 
         ANTLERS = registerItem("antlers");
@@ -47,16 +51,20 @@ public class ModItems
         );
     }
 
-    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Supplier<Item.Properties> settings)
+    protected Supplier<Item> registerItem(String name, Function<Item.Properties, Item> factory, Supplier<Item.Properties> properties)
     {
-        var item = Items.registerItem(ResourceKey.create(Registries.ITEM, ModResourceLocation.of(name)), factory, settings.get());
+        var key = ResourceKey.create(Registries.ITEM, Mod.identifier(name));
+        var item = Registry.register(
+            BuiltInRegistries.ITEM,
+            key,
+            factory.apply(properties.get().setId(key))
+        );
         return () -> item;
     }
 
-
-    private Supplier<Item> registerFoodItem(String name, FoodProperties foodComponent)
+    private Supplier<Item> registerFoodItem(String name, FoodProperties foodProperties)
     {
-        return registerItem(name, () -> new Item.Properties().food(foodComponent));
+        return registerItem(name, () -> new Item.Properties().food(foodProperties));
     }
 
     private Supplier<Item> registerItem(@SuppressWarnings("SameParameterValue") String name, Function<Item.Properties, Item> factory)
@@ -64,9 +72,9 @@ public class ModItems
         return registerItem(name, factory, Item.Properties::new);
     }
 
-    private Supplier<Item> registerItem(String name, Supplier<Item.Properties> settings)
+    private Supplier<Item> registerItem(String name, Supplier<Item.Properties> properties)
     {
-        return registerItem(name, Item::new, settings);
+        return registerItem(name, Item::new, properties);
     }
 
     @SuppressWarnings("SameParameterValue")

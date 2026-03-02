@@ -26,7 +26,8 @@ subprojects {
                 'authors': mod_authors,
                 'description': mod_description,
                 'icon': mod_icon_path,
-                'minecraft_version': minecraft_version
+                'minecraft_version': minecraft_version,
+                'minecraft_lowest_version': minecraft_lowest_version
         ]
     }
 

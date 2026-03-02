@@ -3,8 +3,8 @@ package mei.arisuwu.deermod.neoforge;
 import mei.arisuwu.deermod.ModEntities;
 import mei.arisuwu.deermod.ModModelLayers;
 import mei.arisuwu.deermod.entity.deer.DeerEntity;
-import mei.arisuwu.deermod.entity.deer.DeerEntityModel;
-import mei.arisuwu.deermod.entity.deer.DeerEntityRenderer;
+import mei.arisuwu.deermod.entity.deer.DeerModel;
+import mei.arisuwu.deermod.entity.deer.DeerRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -36,7 +36,7 @@ public final class NeoforgeMod
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-            EntityRenderers.register(ModEntities.DEER.get(), DeerEntityRenderer::new);
+            EntityRenderers.register(ModEntities.DEER.get(), DeerRenderer::new);
         }
     }
 
@@ -46,7 +46,7 @@ public final class NeoforgeMod
         @SubscribeEvent
         public static void onRegisteringLayers(EntityRenderersEvent.RegisterLayerDefinitions event)
         {
-            event.registerLayerDefinition(ModModelLayers.DEER, DeerEntityModel::getTexturedModelData);
+            event.registerLayerDefinition(ModModelLayers.DEER, DeerModel::getTexturedModelData);
         }
 
         @SubscribeEvent

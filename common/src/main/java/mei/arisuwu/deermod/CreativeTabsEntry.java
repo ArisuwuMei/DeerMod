@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
-public class ItemGroupEntry
+public class CreativeTabsEntry
 {
     public enum Position
     {
@@ -17,7 +17,7 @@ public class ItemGroupEntry
     public final ItemLike existingItem;
     public final List<Supplier<? extends ItemLike>> newItems;
 
-    private ItemGroupEntry(Position position, ItemLike existingItem, List<Supplier<? extends ItemLike>> newItems)
+    private CreativeTabsEntry(Position position, ItemLike existingItem, List<Supplier<? extends ItemLike>> newItems)
     {
         this.position = position;
         this.existingItem = existingItem;
@@ -39,26 +39,26 @@ public class ItemGroupEntry
     }
 
     @SafeVarargs
-    static ItemGroupEntry head(Supplier<? extends ItemLike>... newItems)
+    static CreativeTabsEntry head(Supplier<? extends ItemLike>... newItems)
     {
-        return new ItemGroupEntry(Position.HEAD, null, List.of(newItems));
+        return new CreativeTabsEntry(Position.HEAD, null, List.of(newItems));
     }
 
     @SafeVarargs
-    static ItemGroupEntry before(ItemLike existingItem, Supplier<? extends ItemLike>... newItems)
+    static CreativeTabsEntry before(ItemLike existingItem, Supplier<? extends ItemLike>... newItems)
     {
-        return new ItemGroupEntry(Position.BEFORE, existingItem, List.of(newItems));
+        return new CreativeTabsEntry(Position.BEFORE, existingItem, List.of(newItems));
     }
 
     @SafeVarargs
-    static ItemGroupEntry after(ItemLike existingItem, Supplier<? extends ItemLike>... newItems)
+    static CreativeTabsEntry after(ItemLike existingItem, Supplier<? extends ItemLike>... newItems)
     {
-        return new ItemGroupEntry(Position.AFTER, existingItem, List.of(newItems));
+        return new CreativeTabsEntry(Position.AFTER, existingItem, List.of(newItems));
     }
 
     @SafeVarargs
-    static ItemGroupEntry tail(Supplier<? extends ItemLike>... newItems)
+    static CreativeTabsEntry tail(Supplier<? extends ItemLike>... newItems)
     {
-        return new ItemGroupEntry(Position.TAIL, null, List.of(newItems));
+        return new CreativeTabsEntry(Position.TAIL, null, List.of(newItems));
     }
 }

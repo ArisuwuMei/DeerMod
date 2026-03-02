@@ -1,8 +1,8 @@
 package mei.arisuwu.deermod.fabric;
 
-import mei.arisuwu.deermod.ItemGroupEntry;
+import mei.arisuwu.deermod.CreativeTabsEntry;
 import mei.arisuwu.deermod.ModCreativeTabs;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 
@@ -16,15 +16,15 @@ public class FabricModCreativeTabs extends ModCreativeTabs
         entriesMap.forEach(this::addEntries);
     }
 
-    public void addEntries(ResourceKey<CreativeModeTab> tab, Set<ItemGroupEntry> newEntries)
+    public void addEntries(ResourceKey<CreativeModeTab> tab, Set<CreativeTabsEntry> newEntries)
     {
-        ItemGroupEvents.modifyEntriesEvent(tab).register(entries -> {
+        CreativeModeTabEvents.modifyOutputEvent(tab).register(entries -> {
             newEntries.forEach(newEntry -> {
                 switch (newEntry.position)
                 {
                     case HEAD -> newEntry.newItems.reversed().forEach(newItem -> entries.prepend(newItem.get()));
-                    case BEFORE -> entries.addBefore(newEntry.existingItem, newEntry.getNewItemStacks());
-                    case AFTER -> entries.addAfter(newEntry.existingItem, newEntry.getNewItemStacks());
+                    case BEFORE -> entries.insertBefore(newEntry.existingItem, newEntry.getNewItemStacks());
+                    case AFTER -> entries.insertAfter(newEntry.existingItem, newEntry.getNewItemStacks());
                     case TAIL -> entries.acceptAll(newEntry.getNewItemStacks());
                 }
             });
