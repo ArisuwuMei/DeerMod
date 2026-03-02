@@ -18,7 +18,7 @@ public class FabricModCreativeTabs extends ModCreativeTabs
 
     public void addEntries(ResourceKey<CreativeModeTab> tab, Set<CreativeTabsEntry> newEntries)
     {
-        CreativeModeTabEvents.modifyOutputEvent(tab).register(entries -> {
+        CreativeModeTabEvents.modifyOutputEvent(tab).register(entries ->
             newEntries.forEach(newEntry -> {
                 switch (newEntry.position)
                 {
@@ -27,7 +27,7 @@ public class FabricModCreativeTabs extends ModCreativeTabs
                     case AFTER -> entries.insertAfter(newEntry.existingItem, newEntry.getNewItemStacks());
                     case TAIL -> entries.acceptAll(newEntry.getNewItemStacks());
                 }
-            });
-        });
+            })
+        );
     }
 }

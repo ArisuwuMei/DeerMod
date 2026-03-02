@@ -14,11 +14,9 @@ import net.minecraft.util.Mth;
 
 public class DeerModel extends EntityModel<DeerRenderState>
 {
-    private final ModelPart neck;
     private final ModelPart head;
     private final ModelPart redNose;
     private final ModelPart antlers;
-    private final ModelPart body;
     private final ModelPart rightFrontLeg;
     private final ModelPart leftFrontLeg;
     private final ModelPart rightHindLeg;
@@ -29,15 +27,15 @@ public class DeerModel extends EntityModel<DeerRenderState>
     public DeerModel(ModelPart root)
     {
         super(root);
-        this.neck = root.getChild("neck");
-        this.head = this.neck.getChild("head");
+        var neck = root.getChild("neck");
+        this.head = neck.getChild("head");
         this.redNose = this.head.getChild("red_nose");
         this.antlers = this.head.getChild("antlers");
-        this.body = root.getChild("body");
-        this.rightFrontLeg = this.body.getChild("right_front_leg");
-        this.leftFrontLeg = this.body.getChild("left_front_leg");
-        this.rightHindLeg = this.body.getChild("right_hind_leg");
-        this.leftHindLeg = this.body.getChild("left_hind_leg");
+        var body = root.getChild("body");
+        this.rightFrontLeg = body.getChild("right_front_leg");
+        this.leftFrontLeg = body.getChild("left_front_leg");
+        this.rightHindLeg = body.getChild("right_hind_leg");
+        this.leftHindLeg = body.getChild("left_hind_leg");
         this.saddle = root.getChild("saddle");
 
         this.eatGrassAnimation = EAT_GRASS.bake(root);

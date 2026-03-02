@@ -7,6 +7,7 @@ import mei.arisuwu.deermod.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.DyeColor;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,7 @@ public class ModItalianLanguageProvider extends ModLanguageProviderBase
     }
 
     @Override
-    public void generateTranslations(HolderLookup.Provider registries, TranslationBuilder translationBuilder)
+    public void generateTranslations(HolderLookup.@NonNull Provider registries, TranslationBuilder translationBuilder)
     {
         translationBuilder.add(ModItems.ANTLERS.get(), "Corna");
         translationBuilder.add(ModItems.COOKED_VENISON.get(), "Carne di cervo cotta");

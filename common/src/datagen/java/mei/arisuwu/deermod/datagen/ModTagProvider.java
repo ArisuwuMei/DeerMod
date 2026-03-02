@@ -15,6 +15,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.entity.BannerPattern;
+import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -28,7 +29,7 @@ public class ModTagProvider
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider registries)
+        protected void addTags(HolderLookup.@NonNull Provider registries)
         {
             valueLookupBuilder(ModTags.DEER_FOOD)
                 .add(Items.WHEAT)
@@ -53,7 +54,7 @@ public class ModTagProvider
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider registries)
+        protected void addTags(HolderLookup.@NonNull Provider registries)
         {
             valueLookupBuilder(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
                 .add(ModEntities.DEER.get());
@@ -71,9 +72,8 @@ public class ModTagProvider
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider registries)
+        protected void addTags(HolderLookup.@NonNull Provider registries)
         {
-            //noinspection unchecked
             builder(ModTags.DEERS_ESCAPADE_BIOMES)
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS)
@@ -81,7 +81,6 @@ public class ModTagProvider
                 .add(Biomes.SAVANNA)
                 .add(Biomes.SAVANNA_PLATEAU);
 
-            //noinspection unchecked
             builder(ModTags.DEERS_HABITAT_BIOMES)
                 .add(Biomes.CHERRY_GROVE)
                 .forceAddTag(BiomeTags.IS_TAIGA)
@@ -98,7 +97,7 @@ public class ModTagProvider
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider registries)
+        protected void addTags(HolderLookup.@NonNull Provider registries)
         {
             builder(PaintingVariantTags.PLACEABLE)
                 .add(ModPaintingVariants.LUVDEER);
@@ -113,7 +112,7 @@ public class ModTagProvider
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider registries)
+        protected void addTags(HolderLookup.@NonNull Provider registries)
         {
             builder(ModTags.DEER_PATTERN_ITEM)
                 .add(ModBannerPatterns.DEER);

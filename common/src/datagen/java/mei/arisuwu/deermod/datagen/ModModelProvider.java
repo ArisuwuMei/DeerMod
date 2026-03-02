@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.block.model.Material;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class ModModelProvider extends FabricModelProvider
     }
 
     @Override
-    public void generateBlockStateModels(BlockModelGenerators generators) { }
+    public void generateBlockStateModels(@NonNull BlockModelGenerators generators) { }
 
     @Override
     public void generateItemModels(ItemModelGenerators generators)

@@ -6,6 +6,7 @@ import mei.arisuwu.deermod.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.DyeColor;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
@@ -18,7 +19,7 @@ public class ModEnglishLanguageProvider extends ModLanguageProviderBase
     }
 
     @Override
-    public void generateTranslations(HolderLookup.Provider registries, TranslationBuilder builder)
+    public void generateTranslations(HolderLookup.@NonNull Provider registries, TranslationBuilder builder)
     {
         builder.add(ModItems.ANTLERS.get(), "Antlers");
         builder.add(ModItems.COOKED_VENISON.get(), "Cooked Venison");

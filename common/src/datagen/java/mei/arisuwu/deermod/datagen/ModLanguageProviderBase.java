@@ -12,9 +12,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import org.apache.commons.lang3.NotImplementedException;
 
-import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public abstract class ModLanguageProviderBase extends FabricLanguageProvider
